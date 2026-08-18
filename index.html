@@ -501,6 +501,24 @@ tr:hover td{background:#fafafa}
       <div style="font-size:9px;color:#888;margin-top:8px;line-height:1.5">⚠ Release type = 0% — only pass/fail in 3.5 data. With balancing, component reliability jumped to 2nd place (11%). Erle action item: add real DP/TP/GA values to unlock this signal.</div>
     </div>
   </div>
+
+  <div class="ap-sec">🔲 What's Wired In · What's Missing</div>
+  <div class="tbl-wrap" style="margin-bottom:18px"><table>
+    <thead><tr><th>Item</th><th>Status</th><th>Detail</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td style="color:#2e7d32;font-weight:600">AI Delivery Signal — all features</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>638 features scored: 70 🤖 (real slip history) + 568 ~🤖 (slip_count=0 imputed, capped 85%). Yuval.</td><td>Yuval</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">FPDoR RISK column — Legacy only</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>13/13 all-or-nothing (Erle). AI-First path shows — (uses QG1 label gate instead).</td><td>Erle / Yuval</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">Big Rock confidence rollup</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>Aha! OKR thresholds: 70%+ Confident · 40–70% Lagging · &lt;40% At Risk. All excluded features shown (no cap).</td><td>Yuval</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">Historical delivery rates</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>3.4 + 3.5 actuals by event (EA1/EA2/GA). Component throughput from John Graham's capacity-v2.</td><td>John / Yuval</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">Counterfactual fix lines</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>"→ Fix: complete [item] to raise confidence" for any in-plan feature below 80%.</td><td>Yuval</td></tr>
+      <tr><td style="font-weight:600;color:#e65100">Predictive forecasting — no target version</td><td><span style="background:#fff3e0;color:#e65100;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Next Phase</span></td><td>Sherard Griffin (Aug 10): predict release target for features with no TV set. Deferred — human-in-loop model first. Will use same RF+ROS trained on committed features once model stabilises. Requires 3.4+3.5+3.6 outcome data.</td><td>Sherard / Yuval</td></tr>
+      <tr><td style="font-weight:600;color:#e65100">3.4 training data</td><td><span style="background:#fff3e0;color:#e65100;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Pending</span></td><td>Erle to deliver <code>feature_labels seal --version 3.4</code>. Will double training set (n=115→~230) and cut AUC variance from ±16.7%.</td><td>Erle</td></tr>
+      <tr><td style="font-weight:600;color:#e65100">SHAP per-feature explanations</td><td><span style="background:#fff3e0;color:#e65100;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Pending</span></td><td>TreeSHAP values per feature for top-3 factor narrative in REASON column. Needs Python→JS bridge.</td><td>Yuval</td></tr>
+      <tr><td style="font-weight:600;color:#aaa">FPDoR rubric → Erle</td><td><span style="background:#f5f5f5;color:#888;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Pending</span></td><td>Send rubric doc to Erle for sign-off. Aug 13 action item.</td><td>Yuval</td></tr>
+      <tr><td style="font-weight:600;color:#aaa">Team capacity (hard ceiling)</td><td><span style="background:#f5f5f5;color:#888;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Future</span></td><td>Erle's capacity-dataset.json team footprint. Replaces component-first attribution with team velocity.</td><td>Erle</td></tr>
+      <tr><td style="font-weight:600;color:#aaa">Customer Support Insights</td><td><span style="background:#f5f5f5;color:#888;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Future</span></td><td>Rutuja Argade. Will add CS signal to priority scoring.</td><td>Rutuja</td></tr>
+    </tbody>
+  </table></div>
 </div>
 
 <script>
@@ -1376,6 +1394,7 @@ const ML_SCORES = {
   "RHAISTRAT-979":100.0 /* ~ */,
   "RHAISTRAT-989":100.0 /* ~ */
 };
+const ML_REAL_KEYS=new Set(["RHAISTRAT-1202","RHAISTRAT-1256","RHAISTRAT-1281","RHAISTRAT-130","RHAISTRAT-1309","RHAISTRAT-1370","RHAISTRAT-1472","RHAISTRAT-1486","RHAISTRAT-1509","RHAISTRAT-1556","RHAISTRAT-1569","RHAISTRAT-1570","RHAISTRAT-1577","RHAISTRAT-1606","RHAISTRAT-1607","RHAISTRAT-1634","RHAISTRAT-1681","RHAISTRAT-1716","RHAISTRAT-1736","RHAISTRAT-1762","RHAISTRAT-1792","RHAISTRAT-1797","RHAISTRAT-1814","RHAISTRAT-1843","RHAISTRAT-1846","RHAISTRAT-1848","RHAISTRAT-1918","RHAISTRAT-1923","RHAISTRAT-1928","RHAISTRAT-1948","RHAISTRAT-2027","RHAISTRAT-2058","RHAISTRAT-2071","RHAISTRAT-2113","RHAISTRAT-2137","RHAISTRAT-2141","RHAISTRAT-2144","RHAISTRAT-2149","RHAISTRAT-2150","RHAISTRAT-2151","RHAISTRAT-2161","RHAISTRAT-2170","RHAISTRAT-2172","RHAISTRAT-2174","RHAISTRAT-2175","RHAISTRAT-2176","RHAISTRAT-2188","RHAISTRAT-2199","RHAISTRAT-2206","RHAISTRAT-2210","RHAISTRAT-2241","RHAISTRAT-2245","RHAISTRAT-2273","RHAISTRAT-2304","RHAISTRAT-2305","RHAISTRAT-2319","RHAISTRAT-2322","RHAISTRAT-2323","RHAISTRAT-2329","RHAISTRAT-2353","RHAISTRAT-2360","RHAISTRAT-2363","RHAISTRAT-2364","RHAISTRAT-2366","RHAISTRAT-2379","RHAISTRAT-2380","RHAISTRAT-2413","RHAISTRAT-2426","RHAISTRAT-432","RHAISTRAT-978"]); // 70 features with real slip history
 
 function computeApproxMLScore(r){
   // RF+ROS approximation using CSV-available features only.
@@ -1682,9 +1701,11 @@ function schedule(rows){
     if(!r._place||r._place==='No') return;
     const mlScore=ML_SCORES[r['Key']];
     if(mlScore!==undefined){
-      r._conf=Math.round(mlScore);
-      r._reason=r._reason+' · 🤖 ML';
-      r._mlType='ml';
+      const isReal=ML_REAL_KEYS.has(r['Key']);
+      // CSV-imputed scores: slip_count=0 → model over-optimistic by ~15pts. Cap at 85.
+      r._conf=isReal?Math.round(mlScore):Math.min(85,Math.round(mlScore));
+      r._reason=r._reason+(isReal?' · 🤖 ML':' · ~ML');
+      r._mlType=isReal?'ml':'approx';
     } else {
       r._conf=computeApproxMLScore(r);
       r._reason=r._reason+' · ~ML';
