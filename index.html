@@ -1702,7 +1702,8 @@ function schedule(rows){
     if(mlScore!==undefined){
       const isReal=ML_REAL_KEYS.has(r['Key']);
       // CSV-imputed scores: slip_count=0 → model over-optimistic by ~15pts. Cap at 85.
-      r._conf=isReal?Math.round(mlScore):Math.min(85,Math.round(mlScore));
+      r._rawMlScore=Math.round(mlScore);
+      r._conf=isReal?r._rawMlScore:Math.min(85,r._rawMlScore);
       r._reason=r._reason+(isReal?' · 🤖 ML':' · ~ML');
       r._mlType=isReal?'ml':'approx';
     } else {
@@ -1858,7 +1859,8 @@ function renderTbl(rows){
     const conf=r._conf||0;
     const cCls=conf>=70?'hi':conf>=40?'mi':'lo';
     // Frequency framing — research shows "7 of 10" builds more calibrated trust than "68%"
-    const freqOf10=conf>=90?'9 of 10':conf>=80?'8 of 10':conf>=70?'7 of 10':conf>=60?'6 of 10':conf>=50?'5 of 10':conf>=40?'4 of 10':'3 of 10';
+    const freqBase=r._rawMlScore||conf;
+    const freqOf10=freqBase>=90?'9 of 10':freqBase>=80?'8 of 10':freqBase>=70?'7 of 10':freqBase>=60?'6 of 10':freqBase>=50?'5 of 10':freqBase>=40?'4 of 10':'3 of 10';
     const confBand=conf>=80?'High':conf>=55?'Medium':'Low';
     // Counterfactual — what the PM can do to improve placement (shown for Medium/Low only)
     const topFix=r._failedItems&&r._failedItems.length>0?r._failedItems[0]:null;
