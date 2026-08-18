@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-First Release Planner — RHAI</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f0f0;color:#1a1a1a;font-size:13px}
+
+/* Header */
+.hdr{background:#1a1a1a;padding:10px 24px;display:flex;align-items:center;justify-content:space-between}
+.hdr-title{font-size:15px;font-weight:700;color:#fff;letter-spacing:.02em}
+.hdr-right{display:flex;align-items:center;gap:12px;font-size:11px;color:#888}
+.hdr-right label{background:#cc0000;color:#fff;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:11px;font-weight:600}
+.hdr-right label:hover{background:#a80000}
+#csv-file{display:none}
+
+/* Pipeline banner */
+.pipe{background:#111;border-bottom:1px solid #222;padding:7px 24px;display:flex;align-items:center;gap:0;overflow-x:auto;white-space:nowrap}
+.ps{padding:3px 9px;font-size:11px;border-radius:3px;color:#555}
+.ps.on{background:#cc0000;color:#fff;font-weight:600}
+.arr{color:#333;margin:0 3px;font-size:11px}
+.zone-tag{font-size:9px;border:1px solid #222;padding:1px 5px;border-radius:2px;color:#444;margin:0 6px;text-transform:uppercase;letter-spacing:.05em}
+
+/* Tabs */
+.tabs{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 24px;display:flex}
+.tab{padding:10px 16px;cursor:pointer;color:#666;font-size:13px;border-bottom:2px solid transparent;white-space:nowrap}
+.tab.active{color:#cc0000;border-bottom-color:#cc0000;font-weight:600}
+.tab:hover:not(.active){background:#fafafa;color:#333}
+
+/* Tab panels */
+.panel{display:none;padding:20px 24px}
+.panel.active{display:block}
+
+/* ── Architecture tab ── */
+.arch-card{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:24px}
+.arch-card h2{font-size:16px;font-weight:700;margin-bottom:4px}
+.arch-card .sub{font-size:11px;color:#888;margin-bottom:20px}
+.pipeline-row{display:flex;align-items:stretch;gap:0}
+.pipeline-col{flex:1;border:1.5px solid #e0e0e0;border-radius:6px;padding:14px;position:relative}
+.pipeline-col+.pipeline-col{margin-left:16px}
+.col-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.col-human .col-label{color:#b8860b}
+.col-data  .col-label{color:#0066cc}
+.col-plan  .col-label{color:#6a1b9a}
+.col-out   .col-label{color:#1a7f37}
+.col-human{border-color:#ffe082;background:#fffde7}
+.col-data {border-color:#bbdefb;background:#e3f2fd}
+.col-plan {border-color:#e1bee7;background:#f3e5f5}
+.col-out  {border-color:#c8e6c9;background:#f1f8e9}
+.chip{background:#fff;border:1px solid #ddd;border-radius:4px;padding:4px 8px;font-size:11px;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.chip .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dot-gold{background:#b8860b} .dot-blue{background:#0066cc} .dot-purple{background:#6a1b9a} .dot-green{background:#1a7f37}
+.step-box{background:#fff;border:1.5px solid #ccc;border-radius:5px;padding:8px 10px;margin-bottom:7px;font-size:12px;font-weight:600}
+.step-box .snum{font-size:9px;color:#cc0000;font-weight:700;margin-bottom:2px}
+.step-box .ssub{font-size:10px;color:#888;font-weight:400;margin-top:1px;line-height:1.4}
+.step-box.now{border-color:#cc0000;background:#fff5f5}
+.step-box.loop-s{border-color:#6a1b9a}
+.pipe-arrow{display:flex;align-items:center;justify-content:center;padding:0 8px;font-size:22px;color:#bbb;flex-shrink:0}
+.rl-note{margin-top:14px;background:#fff5f5;border:1px dashed #ffcdd2;border-radius:4px;padding:7px 12px;font-size:11px;color:#c0392b}
+
+/* Workflow (8-step) */
+.wf-card{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:24px;margin-top:18px}
+.wf-card h2{font-size:15px;font-weight:700;margin-bottom:4px}
+.wf-card .sub{font-size:11px;color:#888;margin-bottom:18px}
+.wf-row{display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.wf-n{background:#fff;border:1.5px solid #888;border-radius:5px;padding:8px 12px;min-width:100px;flex-shrink:0}
+.wf-n.now{border-color:#cc0000;border-width:2px;background:#fff5f5}
+.wf-n.loop{border-color:#6a1b9a}
+.wf-n.freeze{border-color:#1565c0}
+.wf-n.approve{border-color:#1a7f37}
+.wf-num{font-size:9px;color:#cc0000;font-weight:700;margin-bottom:3px}
+.wf-title{font-size:12px;font-weight:600}
+.wf-sub{font-size:10px;color:#888;margin-top:2px;line-height:1.4}
+.wf-arr{color:#cc0000;font-size:16px;padding-top:10px;flex-shrink:0}
+.loop-box{border:2px dashed #cc0000;border-radius:7px;padding:14px;margin-bottom:14px}
+.loop-label{font-size:10px;font-weight:700;color:#cc0000;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+.wf-note{font-size:10px;color:#888;border-top:1px solid #eee;padding-top:8px;margin-top:8px}
+
+/* ── Features tab ── */
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.stat-row{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px}
+.btn{padding:5px 13px;border-radius:4px;font-size:12px;cursor:pointer;border:1px solid #ddd;background:#fff}
+.btn-red{background:#cc0000;color:#fff;border-color:#cc0000}
+.btn-red:hover{background:#a80000}
+.btn:hover{background:#f0f0f0}
+
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:12px 14px}
+.card-lbl{font-size:10px;color:#888;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.card-n{font-size:26px;font-weight:700;margin-top:3px}
+.card-s{font-size:10px;color:#888;margin-top:1px}
+.c1 .card-n{color:#1565c0} .c2 .card-n{color:#2e7d32} .c3 .card-n{color:#6a1b9a} .c4 .card-n{color:#757575}
+
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.filters select{border:1px solid #ddd;border-radius:4px;padding:4px 7px;font-size:12px;background:#fff;cursor:pointer;min-width:110px}
+
+.tbl-wrap{background:#fff;border:1px solid #e0e0e0;border-radius:6px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead{background:#f8f8f8;position:sticky;top:0;z-index:1}
+th{padding:8px 9px;text-align:left;font-weight:600;color:#555;font-size:11px;letter-spacing:.03em;border-bottom:1px solid #e0e0e0;white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{background:#f0f0f0}
+td{padding:7px 9px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafafa}
+
+.score{font-weight:700;font-size:14px}
+.rp{display:inline-block;padding:2px 6px;border-radius:9px;font-size:11px;font-weight:600;white-space:nowrap}
+.r-committed{background:#e8f5e9;color:#2e7d32}
+.r-high{background:#fff3e0;color:#e65100}
+.r-med{background:#fce4ec;color:#c62828}
+.r-low{background:#f3e5f5;color:#6a1b9a}
+
+.fpdor-cell{display:flex;flex-direction:column;gap:2px}
+.fpdor-w{font-size:11px;color:#666;margin-top:2px;font-weight:500}
+.fd-item{display:inline-block;font-size:10px;line-height:1.4;padding:2px 5px;border-radius:3px;white-space:nowrap;max-width:140px;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.fd-crit{color:#b71c1c;background:#ffebee;font-weight:600}
+.fd-high{color:#bf360c;background:#fff3e0}
+.fd-med{color:#5c4a00;background:#fffde7}
+.fd-soft{color:#777;background:#f5f5f5}
+
+.pp{display:inline-block;padding:2px 8px;border-radius:9px;font-size:11px;font-weight:600;white-space:nowrap}
+.p-ea1{background:#e3f2fd;color:#1565c0}
+.p-ea2{background:#e8f5e9;color:#2e7d32}
+.p-ga{background:#f3e5f5;color:#6a1b9a}
+.p-no{background:#f5f5f5;color:#757575}
+.rt-badge{display:inline-block;padding:2px 7px;border-radius:9px;font-size:10px;font-weight:700;white-space:nowrap}
+.rt-dp{background:#fff3e0;color:#e65100}
+.rt-tp{background:#e3f2fd;color:#1565c0}
+.rt-ga{background:#e8f5e9;color:#2e7d32}
+.rt-none{background:#f5f5f5;color:#bbb}
+.risk-badge{display:inline-block;padding:2px 7px;border-radius:9px;font-size:10px;font-weight:700;white-space:nowrap}
+.risk-low{background:#e8f5e9;color:#2e7d32}
+.risk-high{background:#ffebee;color:#c62828}
+.br-35match{display:inline-block;background:#e3f2fd;color:#1565c0;border-radius:3px;padding:1px 5px;font-size:9px;font-weight:700;margin-left:4px;vertical-align:middle}
+
+.path-badge{display:inline-block;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:600;white-space:nowrap}
+.path-ai{background:#e8f5e9;color:#1a7f37;border:1px solid #a5d6a7}
+.path-legacy{background:#fff8e1;color:#b8860b;border:1px solid #ffe082}
+.path-note{font-size:9px;color:#aaa;display:block;margin-top:1px}
+
+.cbar-wrap{display:flex;align-items:center;gap:4px}
+.cbar{height:4px;border-radius:2px;background:#e0e0e0;width:48px;overflow:hidden;flex-shrink:0}
+.cfill{height:100%;border-radius:2px}
+.cfill.hi{background:#43a047} .cfill.mi{background:#fb8c00} .cfill.lo{background:#e53935}
+.cnum{font-size:13px;font-weight:600;color:#444;min-width:28px}
+.reason{font-size:11px;color:#555;white-space:normal;line-height:1.4;max-width:220px}
+.klink{color:#0066cc;text-decoration:none;font-weight:500}
+.klink:hover{text-decoration:underline}
+.empty-row{text-align:center;padding:40px;color:#bbb}
+
+/* Big Rocks panel */
+.br-panel{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:12px 16px;margin-bottom:12px}
+.br-title{font-size:11px;font-weight:700;color:#444;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.br-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:7px}
+.br-item{border:1px solid #e0e0e0;border-radius:5px;padding:8px 10px}
+.br-item.br-ok{border-color:#c8e6c9;background:#f1f8e9}
+.br-item.br-warn{border-color:#ffe082;background:#fffde7}
+.br-item.br-miss{border-color:#ffcdd2;background:#fff5f5}
+.br-name{font-size:12px;font-weight:600;margin-bottom:2px}
+.br-stat{font-size:11px;color:#555}
+.br-risk{font-size:10px;color:#c0392b;margin-top:2px}
+.br-badge{display:inline-block;background:#1565c0;color:#fff;border-radius:3px;padding:1px 5px;font-size:9px;font-weight:700;white-space:nowrap;margin-right:4px;vertical-align:middle}
+.br-no-feat{font-size:10px;color:#888;padding:1px 0 0 2px;line-height:1.45}
+.br-clickable{cursor:pointer;transition:box-shadow .15s}
+.br-clickable:hover{box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.br-selected{outline:2px solid #cc0000;outline-offset:-2px}
+.br-filter-bar{background:#fff5f5;border:1px solid #ffcdd2;border-radius:4px;padding:5px 10px;font-size:12px;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+
+/* ── Appendix tab ── */
+.ap-sec{font-size:13px;font-weight:600;color:#444;margin:16px 0 8px}
+.ap-note{font-size:12px;color:#666;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-title">AI-First Release Planner · RHAI <span style="font-size:10px;font-weight:400;opacity:0.7">(RHOAI · RHELAI · RHAII)</span></div>
+  <div class="hdr-right">
+    <span id="data-status">Sample data (166 features) — drop feature-readiness-2026-08-11.csv for full 1,138</span>
+    <label for="csv-file">Load CSV</label>
+    <input type="file" id="csv-file" accept=".csv" onchange="loadCSV(event)">
+  </div>
+</div>
+
+<div class="pipe">
+  <span class="ps on">① Refresh</span><span class="arr">→</span>
+  <span class="ps on">② Rank 1–n</span><span class="arr">→</span>
+  <span class="ps on">③ Create Draft</span><span class="arr">→</span>
+  <span class="zone-tag">iterative loop</span>
+  <span class="ps">④ Review</span><span class="arr">↔</span>
+  <span class="ps">⑤ Soft Freeze</span><span class="arr">↔</span>
+  <span class="ps">⑥ What-if</span><span class="arr">→</span>
+  <span class="ps">⑦ Hard Freeze</span><span class="arr">→</span>
+  <span class="ps">⑧ Approve → Jira</span>
+</div>
+
+<div class="tabs">
+  <div class="tab" onclick="showTab('arch')">Architecture</div>
+  <div class="tab active" onclick="showTab('feat')">Features — In/Out</div>
+  <div class="tab" onclick="showTab('ap')">Data Appendix</div>
+</div>
+
+<!-- ═══ ARCHITECTURE ═══ -->
+<div id="tab-arch" class="panel">
+  <div class="arch-card">
+    <h2>AI-First Planning Pipeline</h2>
+    <div class="sub">Triggered when a Target Version is created · Reinforcement loop feeds corrections back into scoring</div>
+    <div class="pipeline-row">
+      <div class="pipeline-col col-human" style="max-width:210px">
+        <div class="col-label">Human Approved Inputs</div>
+        <div class="chip"><span class="dot dot-gold"></span>Engineering Capacity Metrics</div>
+        <div class="chip"><span class="dot dot-gold"></span>Big Rocks</div>
+        <div class="chip"><span class="dot dot-gold"></span>Component Dependency Mapping</div>
+        <div class="chip"><span class="dot dot-gold"></span>AI Product Strategy</div>
+        <div class="chip"><span class="dot dot-gold"></span>Product Marketing Strategy</div>
+        <div class="chip"><span class="dot dot-gold"></span>Customer Support Insights</div>
+        <div class="chip"><span class="dot dot-gold"></span>ProdSec Policies</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipeline-col col-data">
+        <div class="col-label">Data Engineering · Generative AI</div>
+        <div class="step-box now">
+          <div class="snum">NOW · Steps ②③</div>
+          Document Ingestion &amp; Processing
+          <div class="ssub">FPDoR readiness pre-filter → priority scoring → capacity normalization</div>
+        </div>
+        <div style="font-size:10px;color:#555;margin-top:6px">Priority = RICE(30%) + BigRock(30%) + TargetVersion(25%) + JiraPriority(15%)<br>Readiness gate runs first — below-threshold features never reach scheduler</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipeline-col col-plan">
+        <div class="col-label">Plan Generation · Predictive AI</div>
+        <div class="step-box">
+          <div class="snum">Steps ④–⑥</div>
+          Roadmap Generation
+          <div class="ssub">Phase 1: Committed (bypass capacity) · Phase 2: Big Rocks first, then fill by score · EA1/EA2/GA/No</div>
+        </div>
+        <div class="step-box loop-s" style="margin-top:6px">
+          <div class="snum">Iterative loop</div>
+          Roadmap Finalization
+          <div class="ssub">Review / red-pen → Soft Freeze → What-if side-by-side</div>
+        </div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipeline-col col-out">
+        <div class="col-label">Output + Reinforce</div>
+        <div class="step-box">
+          <div class="snum">Step ⑧</div>
+          Approve → Jira
+          <div class="ssub">Writes Target Version + Fix Version only · never touches readiness fields</div>
+        </div>
+        <div class="step-box" style="margin-top:6px">
+          <div class="snum">Future · RLHF</div>
+          AI First RFE / Strat Process
+          <div class="ssub">Human corrections improve scoring weights over time</div>
+        </div>
+      </div>
+    </div>
+    <div class="rl-note">↺ Reinforcement Loop — human plan corrections feed back into scoring weights, improving future runs automatically (future state)</div>
+  </div>
+
+  <div class="wf-card">
+    <h2>Draft Release Plans — Proposed Workflow</h2>
+    <div class="sub">Jira RHAISTRAT · EA1 → EA2 → GA · Soft capacity = warnings only · Pins override · Approve does not write readiness fields</div>
+
+    <div class="wf-row">
+      <div style="font-size:10px;color:#888;padding-top:10px">Jira<br>RHAISTRAT</div>
+      <div class="wf-arr">→</div>
+      <div class="wf-n now"><div class="wf-num">①</div><div class="wf-title">Refresh Features</div><div class="wf-sub">Hourly + on-demand<br>QG1 labels from agentic-ci</div></div>
+      <div class="wf-arr">→</div>
+      <div class="wf-n now"><div class="wf-num">②</div><div class="wf-title">Rank 1–n</div><div class="wf-sub">Priority · readiness · FPDoR<br><em>feature-store snapshot</em></div></div>
+      <div class="wf-arr">→</div>
+      <div class="wf-n now"><div class="wf-num">③</div><div class="wf-title">Create Draft</div><div class="wf-sub">Schedule into EA1/EA2/GA<br><em>ranked 1–n view</em></div></div>
+      <div class="wf-arr">→</div>
+      <div style="font-size:10px;color:#888;padding-top:10px">drafts/<br>combined/<br>{version}.json</div>
+    </div>
+
+    <div class="loop-box">
+      <div class="loop-label">Iterative Planning Loop · Review ↔ Soft Freeze ↔ What-if (repeat until ready)</div>
+      <div class="wf-row" style="margin-bottom:0">
+        <div class="wf-n loop"><div class="wf-num">④</div><div class="wf-title">Review / Red-pen</div><div class="wf-sub">PM · Delivery · Admin ACL<br>edits/.json → moves/descopes</div></div>
+        <div class="wf-arr" style="color:#6a1b9a">↔</div>
+        <div class="wf-n loop"><div class="wf-num">⑤</div><div class="wf-title">Soft Freeze</div><div class="wf-sub">PM agreed + Delivery agreed<br>pmAgreed/deliveryAgreed pins</div></div>
+        <div class="wf-arr" style="color:#6a1b9a">↔</div>
+        <div class="wf-n loop"><div class="wf-num">⑥</div><div class="wf-title">What-if</div><div class="wf-sub">Side-by-side · apply<br>pins preserved</div></div>
+      </div>
+      <div class="wf-note">iterate: re-edit · re-freeze · re-run what-if · last feature-store snapshot for what-if</div>
+    </div>
+
+    <div class="wf-row">
+      <div style="font-size:10px;color:#888;padding-top:10px">exit when<br>ready</div>
+      <div class="wf-arr">→</div>
+      <div class="wf-n freeze"><div class="wf-num">⑦</div><div class="wf-title">Hard Freeze</div><div class="wf-sub">Plan Admin lock<br>→ frozen draft</div></div>
+      <div class="wf-arr">→</div>
+      <div class="wf-n approve"><div class="wf-num">⑧</div><div class="wf-title">Approve → Jira</div><div class="wf-sub">Write TV + FV only<br>TV+FV write → refresh keys</div></div>
+      <div class="wf-arr" style="color:#1a7f37">→</div>
+      <div style="font-size:10px;color:#1a7f37;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:4px;padding:6px 10px">Jira updated ✓</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FEATURES ═══ -->
+<div id="tab-feat" class="panel active">
+
+  <!-- Executive summary strip -->
+  <div id="exec-strip" style="display:none;background:#1a1a2e;color:#fff;border-radius:8px;padding:14px 20px;margin-bottom:14px;display:flex;gap:0;align-items:stretch">
+    <div style="flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.15);padding:0 16px">
+      <div style="font-size:28px;font-weight:800;letter-spacing:-1px" id="ex-total">—</div>
+      <div style="font-size:11px;color:#aaa;margin-top:2px">Total Features</div>
+    </div>
+    <div style="flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.15);padding:0 16px">
+      <div style="font-size:28px;font-weight:800;letter-spacing:-1px;color:#4caf50" id="ex-inplan">—</div>
+      <div style="font-size:11px;color:#aaa;margin-top:2px">In-Plan Rate</div>
+    </div>
+    <div style="flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.15);padding:0 16px">
+      <div style="font-size:28px;font-weight:800;letter-spacing:-1px;color:#ff9800" id="ex-atrisk">—</div>
+      <div style="font-size:11px;color:#aaa;margin-top:2px">Need Action (No bucket)</div>
+    </div>
+    <div style="flex:1;text-align:center;padding:0 16px">
+      <div style="font-size:28px;font-weight:800;letter-spacing:-1px;color:#42a5f5" id="ex-avgconf">—</div>
+      <div style="font-size:11px;color:#aaa;margin-top:2px">Avg Confidence (in-plan)</div>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card c1"><div class="card-lbl">EA1</div><div class="card-n" id="cnt-ea1">—</div><div class="card-s">Highest confidence</div></div>
+    <div class="card c2"><div class="card-lbl">EA2</div><div class="card-n" id="cnt-ea2">—</div><div class="card-s">Early access 2</div></div>
+    <div class="card c3"><div class="card-lbl">GA</div><div class="card-n" id="cnt-ga">—</div><div class="card-s">General availability</div></div>
+    <div class="card c4"><div class="card-lbl">No</div><div class="card-n" id="cnt-no">—</div><div class="card-s">Fix inputs to requalify</div></div>
+  </div>
+
+  <div class="topbar">
+    <select id="f-rel" onchange="run()"><option value="">All Releases</option><option>3.5</option><option>3.6</option></select>
+    <div class="stat-row">
+      <span id="st-total" style="color:#666">— features</span>·
+      <span id="st-in" style="color:#1a7f37;font-weight:600">— in-plan</span>·
+      <span id="st-no" style="color:#c0392b;font-weight:600">— no</span>
+    </div>
+    <button class="btn btn-red" onclick="run()">↻ Refresh</button>
+    <button class="btn" onclick="doExport()">Export CSV</button>
+  </div>
+
+  <div id="br-panel" class="br-panel" style="display:none"></div>
+  <div class="filters">
+    <select id="f-read" onchange="run()"><option value="">All Readiness</option><option value="committed">Committed</option><option value="not-ready">Not Ready</option></select>
+    <select id="f-place" onchange="run()"><option value="">All Placements</option><option>EA1</option><option>EA2</option><option>GA</option><option>No</option></select>
+    <select id="f-outcome" onchange="run()"><option value="">All Outcomes</option></select>
+    <select id="f-tv" onchange="run()"><option value="">All Target Versions</option></select>
+    <select id="f-comp" onchange="run()"><option value="">All Components</option></select>
+    <select id="f-team" onchange="run()"><option value="">All Teams</option></select>
+    <select id="f-pri" onchange="run()"><option value="">All Priorities</option><option>Blocker</option><option>Critical</option><option>Major</option><option>Normal</option></select>
+    <label style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="f-bigrock" onchange="run()"> 🪨 Big Rocks only</label>
+    <select id="f-fail" onchange="run()">
+      <option value="">Any Failed FPDoR</option>
+      <option>Acceptance Criteria</option><option>RICE Score</option><option>UXD</option>
+      <option>Architectural Alignment</option><option>Requirements Clarity</option><option>Risks &amp; Assumptions</option>
+    </select>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th onclick="sort('Rank')"># ↕</th>
+        <th onclick="sort('Score')">SCORE ↕</th>
+        <th onclick="sort('FPDoR')">FPDOR ↕</th>
+        <th title="FPDoR checklist readiness — Erle Marion all-or-nothing logic (Aug 2026). 🟢 Ready: all 13/13 FPDoR items checked (zero failed). 🔴 Not Ready: even 1 item missing. No yellow — it's either complete or it isn't.">RISK ⓘ</th>
+        <th>PATH</th>
+        <th>LABELS</th>
+        <th>PLACEMENT</th>
+        <th title="Release Type: DP=Dev Preview (+8% confidence) · TP=Tech Preview (+5%) · GA=General Availability (0%) — from PR #1394 Release Type column">TYPE ⓘ</th>
+        <th title="AI Delivery Signal — how many of 10 similar features shipped on time in RHOAI 3.5.&#10;&#10;🤖 High (80%+): 8-9 of 10 similar features shipped as planned. 🤖 Medium (55–79%): 5-7 of 10 — watch the FPDoR gaps and slip history. Low (&lt;55%): 3-5 of 10 — needs data fixes before freeze.&#10;&#10;Trained on 115 RHOAI 3.5 committed features (104 shipped, 11 slipped). Key signals: prior slip record · FPDoR completeness · component delivery history · RICE priority. Shows counterfactual fix where confidence is below High.">CONFIDENCE ⓘ</th>
+        <th>REASON</th>
+        <th>KEY</th>
+        <th>TITLE</th>
+        <th>OUTCOME</th>
+        <th>TARGET VERSION</th>
+        <th>FIX VERSION</th>
+        <th>COMPONENTS</th>
+        <th>TEAM</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ APPENDIX ═══ -->
+<div id="tab-ap" class="panel">
+  <div class="ap-note">Component throughput from <strong>component-team-capacity-v2 (2026-08-12)</strong>. Source: <code>project in (RHAISTRAT,RHOAIENG,RHAIENG,INFERENG,AIPCC) AND status in ('Resolved','Closed')</code>. Values = <em>avg_when_active</em>: avg issues closed per planning cycle (EA1/EA2/GA) when the component was active. Tiers: ≥20 issues/cycle → +5% confidence, ≥8 → +3%, ≥3 → neutral, &lt;3 → −3%. Team-level capacity (Erle's <em>capacity-dataset.json</em>) is the next integration step — team footprint replaces component-first attribution.</div>
+
+  <div class="ap-sec">📊 Historical Delivery Rates — 3.4 &amp; 3.5</div>
+  <div style="margin-bottom:6px;font-size:11px;color:#555">Actual shipped vs. slipped counts by event. Used to calibrate confidence caps and ML training labels. <strong>3.4 = all features baseline. 3.5 = properly-committed-at-freeze features only</strong> (higher rates reflect stricter gate).</div>
+  <div class="tbl-wrap" style="margin-bottom:18px"><table>
+    <thead><tr>
+      <th>Release</th><th>Event</th><th>Committed</th><th>Shipped ✓</th><th>Slipped ✗</th><th>Delivery Rate</th><th>Note</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:600">3.4</td><td>EA1</td><td>10</td>
+        <td style="color:#2e7d32;font-weight:600">10</td><td style="color:#bbb">0</td>
+        <td><span style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:10px;font-weight:700;font-size:11px">100%</span></td>
+        <td style="font-size:10px;color:#888">All-features baseline · cap set to 75% (conservative)</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">3.4</td><td>EA2</td><td>14</td>
+        <td style="color:#f57c00;font-weight:600">9</td><td style="color:#c62828">5</td>
+        <td><span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:10px;font-weight:700;font-size:11px">64%</span></td>
+        <td style="font-size:10px;color:#888">All-features baseline · cap set to 60%</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">3.4</td><td>GA</td><td>78</td>
+        <td style="color:#c62828;font-weight:600">22</td><td style="color:#c62828">56</td>
+        <td><span style="background:#ffebee;color:#c62828;padding:2px 8px;border-radius:10px;font-weight:700;font-size:11px">28%</span></td>
+        <td style="font-size:10px;color:#888">All-features baseline · cap set to 40%</td>
+      </tr>
+      <tr style="border-top:2px solid #e3f2fd">
+        <td style="font-weight:600">3.5</td><td>EA2</td><td>18</td>
+        <td style="color:#2e7d32;font-weight:600">15</td><td style="color:#c62828">3</td>
+        <td><span style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:10px;font-weight:700;font-size:11px">83%</span></td>
+        <td style="font-size:10px;color:#888">Committed-at-freeze only · ML training data</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600">3.5</td><td>GA</td><td>96</td>
+        <td style="color:#2e7d32;font-weight:600">88</td><td style="color:#c62828">8</td>
+        <td><span style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:10px;font-weight:700;font-size:11px">92%</span></td>
+        <td style="font-size:10px;color:#888">Committed-at-freeze only · ML training data</td>
+      </tr>
+      <tr style="background:#f3e5f5;border-top:2px solid #ce93d8">
+        <td style="font-weight:600;color:#6a1b9a">3.5 Total</td><td style="color:#6a1b9a">All</td><td style="color:#6a1b9a">115</td>
+        <td style="color:#2e7d32;font-weight:600">104</td><td style="color:#c62828">11</td>
+        <td><span style="background:#f3e5f5;color:#6a1b9a;padding:2px 8px;border-radius:10px;font-weight:700;font-size:11px">90%</span></td>
+        <td style="font-size:10px;color:#6a1b9a">🤖 Used for RF+ROS training (11 slips → oversampled to 104)</td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <div class="ap-sec">Input Sources (per architecture)</div>
+  <div class="tbl-wrap" style="margin-bottom:18px"><table>
+    <thead><tr><th>Input</th><th>Source</th><th>Status</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td>Engineering Capacity Metrics</td><td>Org Pulse / historical features delivered</td><td>Approximated</td><td>Yuval</td></tr>
+      <tr><td>Big Rocks</td><td>RHAISTRAT Big Rocks page</td><td>Manual</td><td>Erle</td></tr>
+      <tr><td>Component Dependency Mapping</td><td>Feature children / Jira links</td><td>Partial</td><td>Team</td></tr>
+      <tr><td>FPDoR Readiness (QG1)</td><td>QG1 labels from agentic-ci + rubric score</td><td>Live</td><td>Eder</td></tr>
+      <tr><td>Priority Score</td><td>RICE + Big Rock + Target Version + Jira Priority</td><td>Live</td><td>Org Pulse</td></tr>
+      <tr><td style="font-weight:600;color:#2e7d32">Per-feature delivery labels (3.5)</td><td>fpdor-and-phase-labels — committedPhase/deliveredPhase/slips · 205 features · n=34 never-delivered</td><td style="color:#2e7d32;font-weight:600">Ready ✓</td><td>Erle</td></tr>
+      <tr><td style="font-weight:600;color:#2e7d32">FPDoR at planning freeze (3.5 + 3.6 EA1)</td><td>fpdor-dataset — all 205 3.5 features + 3.6 EA1 freeze baseline · FPDoR joined per row</td><td style="color:#2e7d32;font-weight:600">Ready ✓</td><td>Erle</td></tr>
+      <tr><td>Customer Support Insights</td><td>Rutuja Argade</td><td>Future</td><td>—</td></tr>
+      <tr><td>ProdSec Policies</td><td>Internal ProdSec</td><td>Future</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="ap-sec">Component Capacity</div>
+  <div class="tbl-wrap" style="margin-bottom:18px"><table>
+    <thead><tr><th>Component</th><th>EA1 Cap</th><th>EA2 Cap</th><th>GA Cap</th><th>EA1 Used</th><th>EA2 Used</th><th>GA Used</th><th>Status</th></tr></thead>
+    <tbody id="cap-body"></tbody>
+  </table></div>
+
+  <div class="ap-sec">Team — Features In-Plan (informational · no ceiling enforced yet)</div>
+  <div class="tbl-wrap" style="margin-bottom:18px"><table>
+    <thead><tr><th>Team</th><th>EA1</th><th>EA2</th><th>GA</th><th>Total In-Plan</th><th>Note</th></tr></thead>
+    <tbody id="team-cap-body"></tbody>
+  </table></div>
+
+  <div class="ap-sec">Exclusion Breakdown (No)</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Reason</th><th>Count</th><th>% of Total</th></tr></thead>
+    <tbody id="exc-body"></tbody>
+  </table></div>
+
+  <div class="ap-sec">🤖 ML Model — Training & Performance</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
+    <div style="background:#f3e5f5;border:1px solid #ce93d8;border-radius:6px;padding:14px">
+      <div style="font-size:11px;font-weight:700;color:#6a1b9a;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Model Summary — v2</div>
+      <table style="width:100%;font-size:11px;border-collapse:collapse">
+        <tr><td style="padding:3px 0;color:#555;width:45%">Algorithm</td><td style="font-weight:600;color:#222">Random Forest ★ (beats LR with balancing)</td></tr>
+        <tr><td style="padding:3px 0;color:#555">Balancing</td><td style="font-weight:600;color:#222">Random Oversampling — 11 → 104 negatives</td></tr>
+        <tr><td style="padding:3px 0;color:#555">Training set</td><td style="font-weight:600;color:#222">RHOAI 3.5 · 115 committed features</td></tr>
+        <tr><td style="padding:3px 0;color:#555">Label</td><td style="font-weight:600;color:#222">Shipped as planned vs. slipped</td></tr>
+        <tr><td style="padding:3px 0;color:#555">Class split</td><td style="font-weight:600;color:#222">104 shipped · 11 slipped → balanced 104/104</td></tr>
+        <tr><td style="padding:3px 0;color:#555">AUC-ROC (RF+ROS)</td><td style="font-weight:600;color:#2e7d32">91.9% ± 16.2% (5-fold CV)</td></tr>
+        <tr><td style="padding:3px 0;color:#555">AUC-ROC (LR baseline)</td><td style="font-weight:600;color:#888">90.5% ± 17.9% — RF wins ✓</td></tr>
+        <tr><td style="padding:3px 0;color:#555">Applied to</td><td style="font-weight:600;color:#7b1fa2">All in-plan features (🤖 pre-computed + ~🤖 approx)</td></tr>
+        <tr><td style="padding:3px 0;color:#555">🤖 Pre-computed</td><td style="font-weight:600;color:#7b1fa2">70 EA1-freeze features — includes slip history (52% of signal)</td></tr>
+        <tr><td style="padding:3px 0;color:#555">~🤖 Approx</td><td style="font-weight:600;color:#9c27b0">All other in-plan features — FPDoR+priority+RICE only (43% of signal, no slip history)</td></tr>
+        <tr><td style="padding:3px 0;color:#555">ML score range</td><td style="font-weight:600;color:#7b1fa2">34.7% – 100% (mean 93.3%, pre-computed)</td></tr>
+        <tr><td style="padding:3px 0;color:#888;font-style:italic">Next step</td><td style="color:#888;font-style:italic">Run inference on full Org Pulse JSONL → ~🤖 → 🤖 for all features</td></tr>
+      </table>
+    </div>
+    <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:6px;padding:14px">
+      <div style="font-size:11px;font-weight:700;color:#2e7d32;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Feature Importance (RF+ROS, balanced)</div>
+      <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span style="color:#333">Prior slip history</span><span style="font-weight:700;color:#c62828">52%</span></div><div style="height:6px;background:#ddd;border-radius:3px"><div style="height:100%;width:52%;background:#c62828;border-radius:3px"></div></div></div>
+      <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span style="color:#333">Component reliability</span><span style="font-weight:700;color:#1565c0">11%</span></div><div style="height:6px;background:#ddd;border-radius:3px"><div style="height:100%;width:11%;background:#1565c0;border-radius:3px"></div></div></div>
+      <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span style="color:#333">FPDoR pass rate</span><span style="font-weight:700;color:#1565c0">11%</span></div><div style="height:6px;background:#ddd;border-radius:3px"><div style="height:100%;width:11%;background:#1565c0;border-radius:3px"></div></div></div>
+      <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span style="color:#333">FPDoR items passed</span><span style="font-weight:700;color:#1565c0">8%</span></div><div style="height:6px;background:#ddd;border-radius:3px"><div style="height:100%;width:8%;background:#1565c0;border-radius:3px"></div></div></div>
+      <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span style="color:#333">RICE score</span><span style="font-weight:700;color:#1565c0">7%</span></div><div style="height:6px;background:#ddd;border-radius:3px"><div style="height:100%;width:7%;background:#1565c0;border-radius:3px"></div></div></div>
+      <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span style="color:#333">FPDoR criteria rate</span><span style="font-weight:700;color:#1565c0">6%</span></div><div style="height:6px;background:#ddd;border-radius:3px"><div style="height:100%;width:6%;background:#1565c0;border-radius:3px"></div></div></div>
+      <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span style="color:#333">Mandatory pass rate</span><span style="font-weight:700;color:#42a5f5">3%</span></div><div style="height:6px;background:#ddd;border-radius:3px"><div style="height:100%;width:3%;background:#42a5f5;border-radius:3px"></div></div></div>
+      <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span style="color:#333">Jira priority / Committed phase</span><span style="font-weight:700;color:#42a5f5">1% each</span></div><div style="height:6px;background:#ddd;border-radius:3px"><div style="height:100%;width:1%;background:#42a5f5;border-radius:3px"></div></div></div>
+      <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span style="color:#333">Release type (pass/fail)</span><span style="font-weight:700;color:#bbb">0%</span></div><div style="height:6px;background:#ddd;border-radius:3px"><div style="height:100%;width:0%;background:#bbb;border-radius:3px"></div></div></div>
+      <div style="font-size:9px;color:#888;margin-top:8px;line-height:1.5">⚠ Release type = 0% — only pass/fail in 3.5 data. With balancing, component reliability jumped to 2nd place (11%). Erle action item: add real DP/TP/GA values to unlock this signal.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── COMPONENT CAPACITY CEILINGS ───────────────────────────────────────────────
+// Source: draft-3.6 Release Cycle Plan.xlsx — Component Capacity List
+// Units: feature count (historical averages — advisory, not hard blocks)
+// Applied to ALL components on a feature (no primary-component rule)
+const CAP = {
+  'AI Core Dashboard':            {EA1:4,  EA2:1,  GA:14},
+  'AI Evaluations':               {EA1:2,  EA2:0,  GA:0},
+  'AI Core Platform':             {EA1:1,  EA2:1,  GA:3},
+  'llm-d':                        {EA1:0,  EA2:3,  GA:2},
+  'AI Safety':                    {EA1:1,  EA2:0,  GA:2},
+  'AgentOps':                     {EA1:1,  EA2:0,  GA:0},
+  'AI Navigator':                 {EA1:0,  EA2:0,  GA:0},
+  'AutoRAG':                      {EA1:1,  EA2:0,  GA:1},
+  'AutoML':                       {EA1:0,  EA2:0,  GA:1},
+  'KubeRay':                      {EA1:0,  EA2:1,  GA:0},
+  'Data Processing':              {EA1:1,  EA2:0,  GA:1},
+  'Inference Gateway':            {EA1:1,  EA2:0,  GA:1},
+  'Tooling Experience':           {EA1:1,  EA2:0,  GA:0},
+  'vLLM Runtime':                 {EA1:1,  EA2:0,  GA:1},
+  'AgentDev':                     {EA1:1,  EA2:0,  GA:2},
+  'AI Pipelines':                 {EA1:1,  EA2:0,  GA:1},
+  'Fine Tuning':                  {EA1:0,  EA2:0,  GA:1},
+  'Model and Agent Observability':{EA1:0,  EA2:0,  GA:1},
+  'Model as a Service':           {EA1:1,  EA2:1,  GA:1},
+  'AI Guardrails':                {EA1:0,  EA2:0,  GA:0},
+  'Inference-Time Techniques':    {EA1:0,  EA2:0,  GA:1},
+  'INFERENG Midstream':           {EA1:2,  EA2:0,  GA:2},
+  'Model Runtimes':               {EA1:1,  EA2:0,  GA:1},
+  'Serving Orchestration':        {EA1:0,  EA2:0,  GA:1},
+  'AI Hub':                       {EA1:1,  EA2:2,  GA:1},
+  'AI Safety Orchestration':      {EA1:0,  EA2:0,  GA:1},
+  'Notebooks Extensions':         {EA1:0,  EA2:0,  GA:1},
+  'AIPCC Ecosystems':             {EA1:1,  EA2:1,  GA:1},
+  'AIPCC Productization':         {EA1:1,  EA2:0,  GA:1},
+  'Feature Store':                {EA1:0,  EA2:0,  GA:2},
+  'Notebooks Images':             {EA1:1,  EA2:1,  GA:0},
+  'OGX Core':                     {EA1:2,  EA2:1,  GA:2},
+  'SDG':                          {EA1:1,  EA2:1,  GA:1},
+  'Training Kubeflow':            {EA1:0,  EA2:1,  GA:0},
+  'Agentic':                      {EA1:0,  EA2:0,  GA:1},
+  'AI Core Platform Security':    {EA1:0,  EA2:0,  GA:1},
+  'DevTestOps':                   {EA1:0,  EA2:0,  GA:1},
+  'IBM P':                        {EA1:0,  EA2:0,  GA:1},
+  'Kubeflow Unified SDK':         {EA1:1,  EA2:0,  GA:0},
+  'RAG':                          {EA1:0,  EA2:0,  GA:1},
+  'RAG + Vector DB':              {EA1:1,  EA2:0,  GA:0},
+};
+
+// Team capacity: not enforced as a hard constraint — no real team velocity data exists yet.
+// Team is used for filtering and grouping only. Plug in real Scrum/Kanban velocity when available.
+const TEAM_CAP = {};
+
+// 3.5→3.6 Big Rock similarity — John Graham, 2026-08-13 (br_3.5_vs_3.6_sim.html)
+// 78% overall similarity. 14 outcome JIRAs appear in both 3.5 and 3.6 by exact ID.
+// Workload projection: 3.6 substantially similar to 3.5 (~3,887 resolved in 3.5 despite only 609 linked to Big Rocks).
+const BR_35_MATCHES = new Set([
+  'RHAISTRAT-1680','RHAISTRAT-1979','RHAISTRAT-1981','RHAISTRAT-155','RHAISTRAT-1357',
+  'RHAISTRAT-1517','RHAISTRAT-1339','RHAISTRAT-1498','RHAISTRAT-898','RHAISTRAT-1471',
+  'RHAISTRAT-188','RHAISTRAT-1066','RHAISTRAT-1669','RHAISTRAT-1446'
+]);
+
+// Big Rocks — updated 2026-08-11 from John Graham's br_3.6_dependency_report.html (18 outcomes)
+// Keywords matched against Outcome column of Org Pulse CSV export.
+// outcomeKeys: actual RHAISTRAT Jira keys — enables live child fetch via org-pulse outcome-children-fetch.js
+//              JQL pattern: parent in (outcomeKeys) OR "Epic Link" in (outcomeKeys)
+// links: first-level Jira links from John's dependency report. <3 = "poorly defined."
+// newChildren: count of children with New/To Do status (not started = delivery risk).
+// externalDeps: dependencies on teams outside RHOAI — slippage is outside our control.
+// sharedDep: cross-outcome shared dependency — slippage risks multiple rocks.
+// projected: estimated descendant issue range from big-rocks-similarity-report.html.
+const BIG_ROCKS = [
+  { priority:1,  pillar:'Platform',  name:'Upgrade Support',
+    outcomeKeys:['RHAISTRAT-1480'],
+    keywords:['upgrade support'],
+    links:null, newChildren:0, externalDeps:[], projected:'~50–80' },
+
+  { priority:2,  pillar:'Inference', name:'MaaS',
+    outcomeKeys:['RHAISTRAT-1680'],
+    keywords:['maas'],
+    links:20, newChildren:1, externalDeps:['HPSTRAT-210 (HP K8s team — layered product support)'],
+    projected:'100–200' },
+
+  { priority:3,  pillar:'Agents',    name:'Gen AI Studio',
+    outcomeKeys:['RHAISTRAT-1312'],
+    keywords:['gen ai studio','prompt lab','vllm multimodal'],
+    links:2, newChildren:1, externalDeps:[], projected:'100–200' },
+
+  { priority:4,  pillar:'Agents',    name:'Bring Your Own Agent',
+    outcomeKeys:['RHAISTRAT-155'],
+    keywords:['bring your own agent','agentops','byoa','open agent core','openShell'],
+    links:10, newChildren:2, externalDeps:['KATA-4728 (Agent Sandbox Operator — OpenShift Sandboxed Containers team)'],
+    projected:'100–150', sharedDep:'MCP Connectivity (RHAISTRAT-932) — shared with AI Hub' },
+
+  { priority:5,  pillar:'Agents',    name:'Tool Calling',
+    outcomeKeys:['RHAISTRAT-1357','RHAISTRAT-1971'],
+    keywords:['tool calling'],
+    links:3, newChildren:0, externalDeps:[], projected:'~80' },
+
+  { priority:6,  pillar:'Inference', name:'llm-d Platform',
+    outcomeKeys:['RHAISTRAT-1979','RHAISTRAT-1981'],
+    keywords:['llm-d platform experience'],
+    links:14, newChildren:2, externalDeps:[], projected:'~80–120' },
+
+  { priority:7,  pillar:'Inference', name:'Unified RHAII on xKS',
+    outcomeKeys:['RHAISTRAT-1680','RHAISTRAT-2041'],
+    keywords:['llm-d on xks','inference on xks'],
+    links:20, newChildren:1, externalDeps:['HPSTRAT-210 (HP K8s team)'],
+    projected:'400–600' },
+
+  { priority:8,  pillar:'Data',      name:'Eval Hub',
+    outcomeKeys:['RHAISTRAT-1498'],
+    keywords:['eval hub'],
+    links:7, newChildren:0, externalDeps:[], projected:'40–80' },
+
+  { priority:9,  pillar:'Platform',  name:'AI Hub incl MCP',
+    outcomeKeys:['RHAISTRAT-1339'],
+    keywords:['ai hub'],
+    links:18, newChildren:2, externalDeps:[],
+    projected:'80–120', sharedDep:'MCP Connectivity (RHAISTRAT-932) — shared with BYOA' },
+
+  { priority:10, pillar:'Platform',  name:'Observability',
+    outcomeKeys:['RHAISTRAT-1855','RHAISTRAT-2016','RHAISTRAT-1517'],
+    keywords:['observability'],
+    links:12, newChildren:3, externalDeps:[], projected:'100–200' },
+
+  { priority:11, pillar:'Platform',  name:'Multitenancy',
+    outcomeKeys:['RHAISTRAT-1471','RHAISTRAT-898'],
+    keywords:['multitenancy'],
+    links:11, newChildren:6, externalDeps:[], projected:'80–120' },
+
+  { priority:12, pillar:'Data',      name:'AutoRAG',
+    outcomeKeys:['RHAISTRAT-188'],
+    keywords:['autorag'],
+    links:6, newChildren:0, externalDeps:[],
+    projected:'80–120', sharedDep:'Mutual clone with AutoML (RHAISTRAT-1066) — shared architecture' },
+
+  { priority:13, pillar:'Platform',  name:'AI Safety x Model Validation',
+    outcomeKeys:['RHAISTRAT-1339'],
+    keywords:['ai safety','ai safety x model'],
+    links:null, newChildren:0, externalDeps:[], projected:'~60' },
+
+  { priority:14, pillar:'Data',      name:'AutoML',
+    outcomeKeys:['RHAISTRAT-1066'],
+    keywords:['automl','auto ml'],
+    links:4, newChildren:0, externalDeps:[],
+    projected:'100–150', sharedDep:'Mutual clone with AutoRAG (RHAISTRAT-188) — shared architecture' },
+
+  { priority:15, pillar:'Inference', name:'NVIDIA Rubin Day 0',
+    outcomeKeys:['RHAISTRAT-1669'],
+    keywords:['nvidia rubin','red hat ai factory','red hat al factory'],
+    links:2, newChildren:1, externalDeps:['AIPCC-14312 (AI Platform Customer Co-Eng)'],
+    projected:'30–60' },
+
+  { priority:16, pillar:'Platform',  name:'GPUaaS',
+    outcomeKeys:['RHAISTRAT-1446'],
+    keywords:['gpuaas'],
+    links:1, newChildren:1, externalDeps:[], projected:'40–80' },
+
+  { priority:17, pillar:'Agents',    name:'Inference Server for Agents',
+    outcomeKeys:['RHAISTRAT-1357'],
+    keywords:['inference server','make red hat inference'],
+    links:3, newChildren:0, externalDeps:[], projected:'~80' },
+
+  { priority:18, pillar:'Platform',  name:'RBAC',
+    outcomeKeys:['RHAISTRAT-898'],
+    keywords:['rbac','role based access'],
+    links:14, newChildren:3, externalDeps:[], projected:'80–120' },
+];
+
+// FPDoR weighted penalty per failed item — from Erle's ranked list (2026-08-07)
+// Critical (25 pts each): Components, Child Epics, Target Version, Assignee
+// High (10 pts each): Release Type, Priority, RICE Score, Documentation
+// Medium (5 pts each): Cross-team deps, PM, Sign-off, Requirements, AC, Risks, Architecture, Scope
+// Soft (2 pts each): UXD, Source RFE
+// Weighted FPDoR score = 100 - sum of penalties for failed items (floored at 0)
+// Thresholds: ≥85 → High readiness (EA1 eligible), ≥60 → Moderate (EA2/GA), <60 → No
+const FPDOR_WEIGHTS = {
+  'Components':                   25,
+  'Child Epics':                  25,
+  'Target Version':               25,
+  'Assignee':                     25,
+  'Release Type':                 10,
+  'Priority':                     10,
+  'RICE Score':                   10,
+  'Documentation':                10,
+  'Cross-functional Engineering':  5,
+  'PM Assigned':                   5,
+  'Feature human sign-off':        5,
+  'Requirements Clarity':          5,
+  'Acceptance Criteria':           5,
+  'Risks & Assumptions':           5,
+  'Architectural Alignment':       5,
+  'Scope Defined':                 5,
+  'UXD':                           2,
+  'Source RFE':                    2,
+};
+
+// Mandatory hard-fail — still gate on Release Type as before
+const FPDOR_MANDATORY_HARD = ['Release Type'];
+
+// Tier groupings used for the FPDoR breakdown column in the table
+const FPDOR_TIERS_DISPLAY = [
+  { label:'Critical', cls:'fd-crit', items:['Components','Child Epics','Target Version','Assignee'] },
+  { label:'High',     cls:'fd-high', items:['Release Type','Priority','RICE Score','Documentation'] },
+  { label:'Medium',   cls:'fd-med',  items:['Cross-functional Engineering','PM Assigned','Feature human sign-off','Requirements Clarity','Acceptance Criteria','Risks & Assumptions','Architectural Alignment','Scope Defined'] },
+  { label:'Soft',     cls:'fd-soft', items:['UXD','Source RFE'] },
+];
+
+// ── CSV PARSER ─────────────────────────────────────────────────────────────────
+function parseCSV(txt){
+  const lines = txt.trim().split('\n');
+  const hdr = parseLine(lines[0]);
+  return lines.slice(1).filter(l=>l.trim()).map(l=>{
+    const v = parseLine(l);
+    const o={};
+    hdr.forEach((h,i)=>o[h.trim()]=(v[i]||'').trim());
+    return o;
+  });
+}
+function parseLine(l){
+  const r=[]; let c='',q=false;
+  for(let i=0;i<l.length;i++){
+    if(l[i]==='"'){q=!q;continue}
+    if(l[i]===','&&!q){r.push(c);c='';continue}
+    c+=l[i];
+  }
+  r.push(c); return r;
+}
+
+// ML_SCORES v2 — Random Forest + Random Oversampling (AUC=91.9%, best strategy)
+// Balancing applied: 11 negatives → oversampled to 104 for balanced training.
+// Mean 93.3% | range 34.7%–100% | RHAISTRAT-2241 flagged at 34.7% (high slip risk)
+const ML_SCORES = {
+  "RHAISTRAT-1486":90.7,"RHAISTRAT-1928":97.3,"RHAISTRAT-2141":78.3,
+  "RHAISTRAT-2149":84.3,"RHAISTRAT-2151":84.3,"RHAISTRAT-2161":78.3,
+  "RHAISTRAT-1202":100.0,"RHAISTRAT-1256":97.3,"RHAISTRAT-1281":100.0,
+  "RHAISTRAT-130":88.3,"RHAISTRAT-1309":98.3,"RHAISTRAT-1370":99.7,
+  "RHAISTRAT-1472":93.3,"RHAISTRAT-1509":89.7,"RHAISTRAT-1556":100.0,
+  "RHAISTRAT-1569":99.7,"RHAISTRAT-1570":99.7,"RHAISTRAT-1577":99.3,
+  "RHAISTRAT-1606":99.7,"RHAISTRAT-1607":99.7,"RHAISTRAT-1634":100.0,
+  "RHAISTRAT-1681":100.0,"RHAISTRAT-1716":96.3,"RHAISTRAT-1736":99.7,
+  "RHAISTRAT-1762":99.7,"RHAISTRAT-1792":99.7,"RHAISTRAT-1797":99.0,
+  "RHAISTRAT-1814":99.7,"RHAISTRAT-1843":99.0,"RHAISTRAT-1846":99.7,
+  "RHAISTRAT-1848":100.0,"RHAISTRAT-1918":99.7,"RHAISTRAT-1923":99.7,
+  "RHAISTRAT-1948":99.3,"RHAISTRAT-2027":99.7,"RHAISTRAT-2058":100.0,
+  "RHAISTRAT-2071":96.0,"RHAISTRAT-2113":93.3,"RHAISTRAT-2137":94.3,
+  "RHAISTRAT-2144":88.3,"RHAISTRAT-2150":78.3,"RHAISTRAT-2170":78.3,
+  "RHAISTRAT-2172":84.3,"RHAISTRAT-2174":69.7,"RHAISTRAT-2175":77.7,
+  "RHAISTRAT-2176":99.7,"RHAISTRAT-2188":97.7,"RHAISTRAT-2199":100.0,
+  "RHAISTRAT-2206":99.7,"RHAISTRAT-2210":88.3,"RHAISTRAT-2241":34.7,
+  "RHAISTRAT-2245":99.7,"RHAISTRAT-2273":100.0,"RHAISTRAT-2304":99.3,
+  "RHAISTRAT-2305":91.7,"RHAISTRAT-2319":100.0,"RHAISTRAT-2322":99.7,
+  "RHAISTRAT-2323":100.0,"RHAISTRAT-2329":93.3,"RHAISTRAT-2353":92.3,
+  "RHAISTRAT-2360":85.7,"RHAISTRAT-2363":99.7,"RHAISTRAT-2364":99.7,
+  "RHAISTRAT-2366":78.3,"RHAISTRAT-2379":82.0,"RHAISTRAT-2380":85.0,
+  "RHAISTRAT-2413":75.7,"RHAISTRAT-2426":99.3,"RHAISTRAT-432":99.7,
+  "RHAISTRAT-978":99.7
+};
+
+function computeApproxMLScore(r){
+  // RF+ROS approximation using CSV-available features only.
+  // Slip history (51.6% of model signal per feature_importance_v2) is unknown → defaults to 0.
+  // Uses: FPDoR pass rate/count/failures (27%), RICE+priority (8%), label boosts (8%) = ~43% of weight.
+  const mandatoryList=['Release Type','Target Version','Components','PM','Delivery Owner','Priority','RICE','Docs impact'];
+  const mFailed=(r._failedItems||[]).filter(i=>mandatoryList.includes(i)).length;
+  const cFailed=Math.max(0,(r._failedItems||[]).length-mFailed);
+  const passRate=(r._fNum||0)/13; // 0.846 = 11/13 ≈ training mean
+  let pct=87; // base: 90% delivery rate adjusted down for unknown slip history
+  pct+=(passRate-0.846)*45;
+  pct-=mFailed*5;
+  pct-=cFailed*1.5;
+  pct+=(r._riceBoost||0)*1.5;
+  pct+=(r._priorityBoost||0)*1.2;
+  pct+=(r._labelBoost||0)*0.8;
+  return Math.max(15,Math.min(98,Math.round(pct*10)/10));
+}
+
+// ── TWO-PHASE CLASSIFIER ──────────────────────────────────────────────────────
+// Phase 1: Committed features bypass capacity (engineering already agreed)
+// Phase 2: Big Rocks scheduled first (global leadership priority), then remaining by score desc
+// Within each tier, preferred event attempted first; cascades EA2→GA if capacity exceeded
+// Capacity tracks per-component AND per-team per-event usage; soft ceiling violations flagged
+function schedule(rows){
+  // Usage counters — per-component and per-team
+  const usedComp={EA1:{},EA2:{},GA:{}};
+  const usedTeam={EA1:{},EA2:{},GA:{}};
+
+  function addUsage(comps,team,evt){
+    comps.forEach(c=>{ usedComp[evt][c]=(usedComp[evt][c]||0)+1; });
+    if(team) usedTeam[evt][team]=(usedTeam[evt][team]||0)+1;
+  }
+
+  // Components that shipped in every release 3.3→3.5 (from opendatahub-io releases).
+  // ODH names mapped to Jira component names from the Org Pulse CSV.
+  // Dashboard→AI Core Dashboard, Ray→KubeRay, Datasciencepipelines→AI Pipelines,
+  // Kserve→vLLM Runtime, Trustyai→AI Safety, Trainingoperator→Training Kubeflow,
+  // Mlflowoperator→MLflow, Feastoperator→Feature Store, Workbenchesnotebooks→Notebooks Images,
+  // Modelregistry→Model Runtimes, Modelcontroller→Serving Orchestration
+  // New in 3.5 only (no bonus): llm-d, OGX Core, Batch gateway
+  // Feature → team lookup: Erle Marion capacity-dataset.json (2026-08-11)
+  // Source: RHAISTRAT byFeature, Jira Team field only, noise boards filtered.
+  // 323 resolved features with team attribution — enriches matching CSV rows.
+  const FEATURE_TEAM_LOOKUP = {"RHAISTRAT-2114":["AgentOps (RAG + Vector DB) Scrum Board","RAG","RHAI AgentOps"],"RHAISTRAT-2057":["Docs Team","evalhub"],"RHAISTRAT-2051":["RHAI Agentic API","RHAI Training Kanban Board"],"RHAISTRAT-2028":["RHOAI AI Hub"],"RHAISTRAT-2024":["AIP Training Ray"],"RHAISTRAT-2022":["AIP Training Ray"],"RHAISTRAT-2015":["RHAI INFERENG Runtime"],"RHAISTRAT-1969":["AI Innovation team","RHAI SDG Kanban Board","SDG-Hub"],"RHAISTRAT-1920":["AIP MLflow"],"RHAISTRAT-1915":["RHOAI Trusty AI"],"RHAISTRAT-1879":["evalhub"],"RHAISTRAT-1877":["RHAI INFERENG Runtime"],"RHAISTRAT-1868":["Docs Team","RHAI Model Runtimes"],"RHAISTRAT-1859":["RHAI Green"],"RHAISTRAT-1856":["AI Safety / Model Eval Planning","All EvalHub","RHOAI Trusty AI","TrustyAI Board"],"RHAISTRAT-1854":["Docs Team","RHAI AgentDev"],"RHAISTRAT-1850":["RHAI Notebooks"],"RHAISTRAT-1835":["RHAI Green"],"RHAISTRAT-1834":["AI Safety / Model Eval Planning","All EvalHub","RHOAI Trusty AI","TrustyAI Board"],"RHAISTRAT-1828":["AI Safety / Model Eval Planning","All EvalHub","TrustyAI Board","evalhub"],"RHAISTRAT-1824":["AI Innovation team","RHAI SDG Kanban Board","SDG-Hub"],"RHAISTRAT-1823":["AutoRAG","AutoX (AutoML & AutoRAG)","RHAI Purple"],"RHAISTRAT-1822":["AutoX (AutoML & AutoRAG)","RHAI Purple"],"RHAISTRAT-1817":["RHOAI AI Hub"],"RHAISTRAT-1816":["RHOAI AI Hub"],"RHAISTRAT-1815":["RHAI Tooling Experience"],"RHAISTRAT-1806":["AI Core Platform"],"RHAISTRAT-1789":["Docs Team","RHAI Serving Orchestration"],"RHAISTRAT-1765":["INFERENG Midstream"],"RHAISTRAT-1758":["RHAI Razzmatazz"],"RHAISTRAT-1757":["RHAI Tangerine","RHOAIUX Sprint Board"],"RHAISTRAT-1750":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-1744":["RHAI Purple"],"RHAISTRAT-1740":["RHAI Green","RHOAI AI Hub"],"RHAISTRAT-1737":["RHAI Zaffre","Zaffre Planning (Dashboard)"],"RHAISTRAT-1733":["AgentDev Scrum Board","RHAI AgentDev"],"RHAISTRAT-1727":["AIP MLflow","RHAI Razzmatazz"],"RHAISTRAT-1726":["INFERENG llm-d","INFERENG llm-d Abba","INFERENG llm-d Paxos","INFERENG llm-d Raft","INFERENG llm-d backlog","RHAI Serving Orchestration"],"RHAISTRAT-1725":["INFERENG llm-d"],"RHAISTRAT-1722":["RHAI Pewter","RHAI Pewter Planning"],"RHAISTRAT-1721":["AI Safety / Model Eval Planning","AgentDev Scrum Board","AgentOps (RAG + Vector DB) Scrum Board","Agentic API Team Scrum Board","TrustyAI Board"],"RHAISTRAT-1719":["RHAI Serving Orchestration"],"RHAISTRAT-1717":["RHAI Serving Orchestration"],"RHAISTRAT-1714":["RHAI Green","RHOAI AI Hub"],"RHAISTRAT-1712":["RHAI Notebooks"],"RHAISTRAT-1704":["AutoRAG","AutoX (AutoML & AutoRAG)","Docs Team","RHAI Purple"],"RHAISTRAT-1703":["RHOAI Trusty AI"],"RHAISTRAT-1701":["RHOAI Trusty AI"],"RHAISTRAT-1700":["RHAI Agentic API"],"RHAISTRAT-1699":["Docs Team","RHAI Razzmatazz"],"RHAISTRAT-1698":["AI Safety / Model Eval Planning","All EvalHub","Docs Team","RHOAI Trusty AI","TrustyAI Board"],"RHAISTRAT-1694":["RHAI AgentDev"],"RHAISTRAT-1693":["AIP Kubeflow-DevX"],"RHAISTRAT-1686":["evalhub"],"RHAISTRAT-1685":["INFERENG llm-d"],"RHAISTRAT-1673":["AutoRAG","AutoX (AutoML & AutoRAG)","RHAI Purple"],"RHAISTRAT-1671":["RHAI INFERENG Runtime"],"RHAISTRAT-1662":["RHAI Notebooks"],"RHAISTRAT-1643":["INFERENG llm-d"],"RHAISTRAT-1641":["INFERENG llm-d"],"RHAISTRAT-1635":["AI Safety / Model Eval Planning","All EvalHub","RHOAI Trusty AI","TrustyAI Board","evalhub"],"RHAISTRAT-1615":["INFERENG llm-d"],"RHAISTRAT-1603":["evalhub"],"RHAISTRAT-1589":["RHOAI Trusty AI"],"RHAISTRAT-1567":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-1566":["Crimson Planning (Dashboard)","RHAI Crimson","RHOAI Dashboard"],"RHAISTRAT-1565":["Crimson Planning (Dashboard)","Docs Team","RHAI Crimson","RHOAI Dashboard"],"RHAISTRAT-1555":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-1550":["Onyx Planning Dashboard","RHAI Onyx"],"RHAISTRAT-1547":["Onyx Planning Dashboard","RHAI Onyx"],"RHAISTRAT-1540":["RHAI Serving Orchestration"],"RHAISTRAT-1538":["AutoML","AutoX (AutoML & AutoRAG)","Docs Team","RHAI Model Runtimes"],"RHAISTRAT-1536":["RHAI Razzmatazz"],"RHAISTRAT-1534":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-1530":["RHOAI Trusty AI"],"RHAISTRAT-1528":["Crimson Planning (Dashboard)","Docs Team","RHAI Crimson"],"RHAISTRAT-1527":["Crimson Planning (Dashboard)","Docs Team","RHAI Crimson"],"RHAISTRAT-1526":["Crimson Planning (Dashboard)","RHAI Crimson","RHAI Green","RHOAI AI Hub"],"RHAISTRAT-1524":["RHAI Green","RHOAI AI Hub"],"RHAISTRAT-1523":["RHOAI AI Hub"],"RHAISTRAT-1521":["Docs Team","RHAI Teal","RHOAI IDE","RHOAIENG Teal Board"],"RHAISTRAT-1519":["AI Core Platform","AIP MLflow","AIP Training Kubeflow","AIP Training Ray","Fine Tuning","RHAI Data Processing","RHAI Indigo","RHAI Notebooks","RHAI Training Kanban Board","RHOAI AI Hub","Training Ray"],"RHAISTRAT-1507":["evalhub"],"RHAISTRAT-1506":["evalhub"],"RHAISTRAT-1505":["AI Safety / Model Eval Planning","All EvalHub","RHOAI Trusty AI","TrustyAI Board","evalhub"],"RHAISTRAT-1504":["RHOAI Trusty AI","evalhub"],"RHAISTRAT-1492":["AutoML","AutoX (AutoML & AutoRAG)","Docs Team","RHAI Purple"],"RHAISTRAT-1491":["AutoML","AutoX (AutoML & AutoRAG)","Docs Team","RHAI Purple"],"RHAISTRAT-1490":["AI Innovation team","RHAI SDG Kanban Board","SDG-Hub"],"RHAISTRAT-1483":["RHAI Agentic API"],"RHAISTRAT-1481":["RHOAI AI Hub"],"RHAISTRAT-1477":["AI Core Platform","RHAI Data Processing"],"RHAISTRAT-1476":["RHAI Agentic API"],"RHAISTRAT-1474":["RHOAI Dashboard","RHOAIUX Sprint Board"],"RHAISTRAT-1473":["Docs Team","RHAI Green","RHOAI AI Hub"],"RHAISTRAT-1469":["INFERENG llm-d"],"RHAISTRAT-1468":["RHAI Serving Orchestration"],"RHAISTRAT-1453":["RHAI INFERENG Runtime"],"RHAISTRAT-1441":["AI Safety / Model Eval Planning","All EvalHub","RHOAI Trusty AI","TrustyAI Board"],"RHAISTRAT-1439":["RHAI Agentic API"],"RHAISTRAT-1437":["evalhub"],"RHAISTRAT-1433":["RHAI AI Pipelines","RHAI Razzmatazz","RHOAI IDE+Docs (standup-optimized)"],"RHAISTRAT-1431":["RHAI Onyx","RHOAIUX Sprint Board"],"RHAISTRAT-1425":["AutoRAG","AutoX (AutoML & AutoRAG)","RHAI Purple"],"RHAISTRAT-1422":["Docs Team","RHAI Teal","RHOAIENG Teal Board"],"RHAISTRAT-1418":["RHAI Agentic API"],"RHAISTRAT-1416":["RHAI Agentic API"],"RHAISTRAT-1414":["AIP Kubeflow-DevX","Docs Team"],"RHAISTRAT-1412":["Docs Team","RHAI Serving Orchestration"],"RHAISTRAT-1410":["RHAI Data Processing"],"RHAISTRAT-1409":["RHAI Data Processing"],"RHAISTRAT-1408":["RHAI Data Processing"],"RHAISTRAT-1381":["ACS Automation"],"RHAISTRAT-1376":["RHAI Tooling Experience"],"RHAISTRAT-1374":["AI Safety / Model Eval Planning","AgentDev Scrum Board","AgentOps (RAG + Vector DB) Scrum Board","Agentic API Team Scrum Board","RHAI Agentic API","TrustyAI Board"],"RHAISTRAT-1373":["AI Core Platform","Agentic API Team Scrum Board","RHAI Agentic API","RHAI Tooling Experience","RHOAI DevTestOps"],"RHAISTRAT-1368":["Docs Team","RHAI Serving Orchestration"],"RHAISTRAT-1364":["RHAI Tooling Experience"],"RHAISTRAT-1362":["RHAI Agentic API"],"RHAISTRAT-1361":["RHAI Agentic API"],"RHAISTRAT-1329":["RHAI Agentic API"],"RHAISTRAT-1325":["INFERENG llm-d","INFERENG llm-d Raft"],"RHAISTRAT-1321":["Agentic API Team Scrum Board","Data Processing Scrum Board","RHAI Agentic API","RHAI Training Kanban Board"],"RHAISTRAT-1299":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-1295":["RHOAI Inference Extensions"],"RHAISTRAT-1291":["RHAI Notebooks"],"RHAISTRAT-1290":["RHAI Tooling Experience"],"RHAISTRAT-1289":["All EvalHub","RHOAI Trusty AI"],"RHAISTRAT-1286":["RHAI Data Processing"],"RHAISTRAT-1284":["RHAI Razzmatazz"],"RHAISTRAT-1280":["Docs Team","RHAI Serving Orchestration"],"RHAISTRAT-1279":["RAG","RHAI AgentOps"],"RHAISTRAT-1276":["INFERENG llm-d","RHAI Serving Orchestration"],"RHAISTRAT-1267":["RHAI Monarch"],"RHAISTRAT-1266":["RHAI Model Runtimes"],"RHAISTRAT-1252":["RHOAI Trusty AI","evalhub"],"RHAISTRAT-1250":["RHAI Serving Orchestration"],"RHAISTRAT-1246":["RHAI Agentic API"],"RHAISTRAT-1245":["RHAI Agentic API"],"RHAISTRAT-1244":["Docs Team","RHOAI AI Hub"],"RHAISTRAT-1243":["RHOAI AI Hub"],"RHAISTRAT-1240":["INFERENG Midstream"],"RHAISTRAT-1235":["RHOAI Dashboard","RHOAI Inference Extensions","Zaffre Planning (Dashboard)"],"RHAISTRAT-1233":["RHOAI Trusty AI"],"RHAISTRAT-1231":["RHAI AgentDev","RHAI Agentic API"],"RHAISTRAT-1228":["RHAI Agentic API"],"RHAISTRAT-1218":["Project Navigator"],"RHAISTRAT-1217":["RHAI AgentDev","RHAI Agentic API"],"RHAISTRAT-1209":["Docs Team","INFERENG llm-d","InferEng Prio","llm-d Paxos Doing"],"RHAISTRAT-1208":["AI Core Platform","INFERENG llm-d"],"RHAISTRAT-1204":["AutoX (AutoML & AutoRAG)","RHAI Purple","RHOAI Dashboard"],"RHAISTRAT-1201":["RHOAI Dashboard","RHOAI Inference Extensions","Zaffre Planning (Dashboard)"],"RHAISTRAT-1199":["Docs Team","INFERENG llm-d"],"RHAISTRAT-1196":["RHAI Agentic API"],"RHAISTRAT-1193":["RHAI Notebooks"],"RHAISTRAT-1191":["AutoML","AutoX (AutoML & AutoRAG)","RHOAI Dashboard"],"RHAISTRAT-1186":["RHAI Serving Orchestration"],"RHAISTRAT-1185":["RHAI Serving Orchestration"],"RHAISTRAT-1176":["AutoML","AutoRAG","AutoX (AutoML & AutoRAG)","RHOAI Dashboard"],"RHAISTRAT-1167":["RHAI Serving Orchestration","RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-1161":["RHAI Indigo","RHAI Notebooks","RHAI Razzmatazz","RHOAI IDE+Docs (standup-optimized)"],"RHAISTRAT-1159":["INFERENG Midstream"],"RHAISTRAT-1155":["RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-1151":["AgentOps (RAG + Vector DB) Scrum Board","RHAI Model Runtimes"],"RHAISTRAT-1150":["AutoX (AutoML & AutoRAG)","RHAI Purple","RHOAI Dashboard"],"RHAISTRAT-1149":["RHAI AgentDev"],"RHAISTRAT-1148":["RHAI Agentic API"],"RHAISTRAT-1142":["RHAI Agentic API"],"RHAISTRAT-1138":["RHAI Notebooks"],"RHAISTRAT-1137":["RHAI Notebooks"],"RHAISTRAT-1135":["RHAI Notebooks"],"RHAISTRAT-1134":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-1131":["AI Core Platform","AIP Feature Store","AgentOps (RAG + Vector DB) Scrum Board"],"RHAISTRAT-1129":["AIP Feature Store","AgentOps (RAG + Vector DB) Scrum Board"],"RHAISTRAT-1120":["RHOAI Inference Extensions"],"RHAISTRAT-1115":["AIP Feature Store","Docs Team","RHAI Tangerine"],"RHAISTRAT-1114":["RHAI Notebooks"],"RHAISTRAT-1113":["RHAI Notebooks"],"RHAISTRAT-1112":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-1111":["RHAI Agentic API"],"RHAISTRAT-1106":["RHAI Agentic API"],"RHAISTRAT-1103":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-1088":["AIP Training Kubeflow"],"RHAISTRAT-1084":["RHOAI AI Hub","RHOAI Dashboard"],"RHAISTRAT-1081":["AI Core Platform","RHAI Razzmatazz","RHOAI Dashboard"],"RHAISTRAT-1076":["RHAI Agentic API"],"RHAISTRAT-1074":["RHOAI AI Hub"],"RHAISTRAT-1062":["AI Innovation team"],"RHAISTRAT-1061":["RHAI Agentic API","RHAI Training Kanban Board"],"RHAISTRAT-1060":["INFERENG Midstream"],"RHAISTRAT-1057":["INFERENG Midstream"],"RHAISTRAT-1054":["RHAI AgentDev"],"RHAISTRAT-1051":["All EvalHub","RHOAI Trusty AI"],"RHAISTRAT-1047":["RHAI Serving Orchestration","RHAI Zaffre","Zaffre Planning (Dashboard)"],"RHAISTRAT-1041":["RHAI Model Runtimes"],"RHAISTRAT-1016":["INFERENG Midstream"],"RHAISTRAT-990":["INFERENG Midstream"],"RHAISTRAT-989":["RHAI Agentic API"],"RHAISTRAT-971":["INFERENG Midstream","RHAI Klara's Team"],"RHAISTRAT-963":["INFERENG llm-d","RHAI Serving Orchestration"],"RHAISTRAT-962":["INFERENG Midstream"],"RHAISTRAT-958":["INFERENG Midstream"],"RHAISTRAT-956":["INFERENG Midstream"],"RHAISTRAT-954":["RHAI Agentic API"],"RHAISTRAT-949":["AI Core Platform"],"RHAISTRAT-945":["RHAI Agentic API"],"RHAISTRAT-944":["RHAI Agentic API"],"RHAISTRAT-942":["AIP Training Ray"],"RHAISTRAT-935":["AIP Feature Store"],"RHAISTRAT-864":["Crimson Planning (Dashboard)","RHAI Crimson","RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-863":["RHAI Agentic API"],"RHAISTRAT-861":["RHAI Razzmatazz"],"RHAISTRAT-853":["RHAI Serving Orchestration"],"RHAISTRAT-844":["RHAI Indigo","RHOAI IDE","RHOAI IDE+Docs (standup-optimized)"],"RHAISTRAT-838":["RHAI AgentOps"],"RHAISTRAT-827":["AI Core Platform","RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-813":["RHOAI AI Hub","RHOAI Dashboard"],"RHAISTRAT-809":["AI Core Platform","RHAI Klara's Team"],"RHAISTRAT-803":["AI Core Platform","RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-801":["RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-799":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-798":["RHAI Agentic API"],"RHAISTRAT-797":["RHOAI AI Hub","RHOAI Dashboard"],"RHAISTRAT-795":["RHAI Serving Orchestration"],"RHAISTRAT-791":["RHAI AgentOps","Workload Orchestration"],"RHAISTRAT-780":["RHAI Agentic API"],"RHAISTRAT-777":["RHOAI Dashboard"],"RHAISTRAT-758":["RHOAI Dashboard"],"RHAISTRAT-743":["AI Core Platform","RHAI Razzmatazz","RHOAI IDE+Docs (standup-optimized)"],"RHAISTRAT-731":["RHOAI AI Hub","RHOAI Dashboard"],"RHAISTRAT-712":["AgentOps (RAG + Vector DB) Scrum Board","RHAI Razzmatazz","RHOAI Dashboard"],"RHAISTRAT-705":["RHAI AgentDev"],"RHAISTRAT-683":["RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-670":["INFERENG llm-d","INFERENG llm-d Raft","RHAI Serving Orchestration","Zaffre Planning (Dashboard)"],"RHAISTRAT-667":["AI Core Platform","AIP Training Kubeflow","AIP Training Ray","RHAI Razzmatazz","RHAI Serving Orchestration","RHOAI IDE","RHOAI Workload Orchestration"],"RHAISTRAT-658":["AI Core Platform"],"RHAISTRAT-657":["RHOAI Trusty AI"],"RHAISTRAT-643":["RHOAI Trusty AI"],"RHAISTRAT-638":["AIP Training Ray"],"RHAISTRAT-634":["RHAI AI Pipelines","RHAI Razzmatazz","RHOAI IDE","RHOAI IDE+Docs (standup-optimized)"],"RHAISTRAT-629":["RHOAI AI Hub"],"RHAISTRAT-621":["AIP Feature Store"],"RHAISTRAT-620":["AI Core Platform","RHAI Serving Orchestration"],"RHAISTRAT-592":["Crimson Planning (Dashboard)","RHAI Crimson","RHOAI Dashboard"],"RHAISTRAT-589":["AIP Feature Store","Feature Store"],"RHAISTRAT-581":["RHOAI AI Hub","RHOAI Dashboard"],"RHAISTRAT-568":["RHOAI Trusty AI"],"RHAISTRAT-554":["AI Core Platform"],"RHAISTRAT-553":["RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-545":["Crimson Planning (Dashboard)","Docs Team","RHAI Crimson","RHAI Training Kanban Board"],"RHAISTRAT-543":["AIP Feature Store"],"RHAISTRAT-532":["RHAI AgentOps"],"RHAISTRAT-530":["RHAI AgentOps","RHAI Agentic API"],"RHAISTRAT-527":["AIP Feature Store","RHAI Notebooks"],"RHAISTRAT-525":["AIP Training Kubeflow"],"RHAISTRAT-517":["RHAI Serving Orchestration"],"RHAISTRAT-507":["RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-500":["Crimson Planning (Dashboard)","RHAI AgentOps","RHAI Crimson","RHOAI Dashboard"],"RHAISTRAT-497":["Docs Team","RHAI Tangerine","RHOAI Dashboard"],"RHAISTRAT-491":["RHAI Model Runtimes"],"RHAISTRAT-486":["AI Core Platform"],"RHAISTRAT-479":["RHOAI Dashboard"],"RHAISTRAT-456":["RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-454":["RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-446":["RHOAI AI Hub","RHOAI Dashboard"],"RHAISTRAT-424":["RHAI Notebooks","RHOAI IDE"],"RHAISTRAT-409":["RHAI Serving Orchestration"],"RHAISTRAT-400":["AI Core Platform","RHOAI Customer Quality"],"RHAISTRAT-396":["AI Core Platform"],"RHAISTRAT-391":["RHAI Serving Orchestration"],"RHAISTRAT-389":["RHAI Notebooks","RHOAI IDE"],"RHAISTRAT-386":["RHOAI Dashboard"],"RHAISTRAT-383":["RHAI Serving Orchestration"],"RHAISTRAT-363":["RHOAI Dashboard"],"RHAISTRAT-349":["RHOAI AI Hub","RHOAI Dashboard"],"RHAISTRAT-347":["RHOAI DevTestOps"],"RHAISTRAT-342":["AIP Kubeflow-DevX"],"RHAISTRAT-324":["AIP Training Ray","RHOAI Workload Orchestration"],"RHAISTRAT-323":["AIP Training Ray"],"RHAISTRAT-313":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-312":["AIP Feature Store","AIPCC Package Update Requests","Frank's Team","RHAI Tangerine","RHOAI IDE"],"RHAISTRAT-309":["AIP Training Kubeflow"],"RHAISTRAT-308":["AI Core Platform","AIP Kubeflow-DevX","AIP Training Kubeflow"],"RHAISTRAT-290":["INFERENG Midstream"],"RHAISTRAT-270":["INFERENG Midstream"],"RHAISTRAT-255":["INFERENG Midstream"],"RHAISTRAT-250":["INFERENG Midstream"],"RHAISTRAT-245":["INFERENG Midstream"],"RHAISTRAT-244":["INFERENG Midstream"],"RHAISTRAT-243":["INFERENG Midstream"],"RHAISTRAT-241":["INFERENG Midstream"],"RHAISTRAT-228":["INFERENG Midstream"],"RHAISTRAT-225":["INFERENG Midstream"],"RHAISTRAT-220":["INFERENG Midstream"],"RHAISTRAT-218":["INFERENG Midstream"],"RHAISTRAT-217":["INFERENG Midstream"],"RHAISTRAT-216":["INFERENG MLR","INFERENG Model Optimizations"],"RHAISTRAT-206":["RHAI Agentic API"],"RHAISTRAT-196":["RHAI Agentic API"],"RHAISTRAT-193":["AIP Training Ray","RHOAI Dashboard"],"RHAISTRAT-189":["RHAI AgentOps"],"RHAISTRAT-180":["AIP Feature Store"],"RHAISTRAT-174":["Crimson Planning (Dashboard)","RHAI Crimson","RHAI Serving Orchestration","RHOAI Dashboard","Zaffre Planning (Dashboard)"],"RHAISTRAT-172":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-163":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-162":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-150":["RHAI Razzmatazz","RHOAI Dashboard"],"RHAISTRAT-149":["AI Core Platform","AIP Kubeflow-DevX","AIP Training Kubeflow","RHOAI Dashboard"],"RHAISTRAT-148":["AIP Kubeflow-DevX","AIP Training Kubeflow"],"RHAISTRAT-146":["INFERENG Midstream"],"RHAISTRAT-143":["INFERENG Midstream"],"RHAISTRAT-134":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-133":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-132":["Crimson Planning (Dashboard)","RHAI Crimson"],"RHAISTRAT-113":["RHOAI Dashboard"],"RHAISTRAT-100":["RHAI AgentOps"],"RHAISTRAT-97":["RHAI Agentic API"],"RHAISTRAT-92":["RHAI Agentic API"],"RHAISTRAT-82":["RHOAI Trusty AI"],"RHAISTRAT-62":["RHAI Tooling Experience"],"RHAISTRAT-24":["RHAI AgentDev"],"RHAISTRAT-20":["RHAI AgentDev"],"RHAISTRAT-13":["RHAI AgentOps"]};
+
+  // Component throughput: John Graham component-team-capacity-v2.html (2026-08-12)
+  // Source: project in (RHAISTRAT,RHOAIENG,RHAIENG,INFERENG,AIPCC) AND status in ('Resolved','Closed')
+  // avg_when_active = avg issues closed per planning cycle (EA1/EA2/GA) when component was active.
+  // Tier: ≥20 → +5, ≥8 → +3, ≥3 → 0, <3 → −3, unknown → 0.
+  const COMP_AVG_ACTIVE = {
+    'Notebooks Images':           80.5,
+    'TestOps':                    50.8,
+    'AI Core Dashboard':          35.8,
+    'Gen AI Studio':              25.2,
+    'AI Evaluations':             21.3,
+    'Training Kubeflow':          18.6,
+    'AI Safety':                  18.0,
+    'Model as a Service':         14.2,
+    'AutoML':                     14.0,
+    'AI Pipelines':               12.6,
+    'AutoRAG':                    12.2,
+    'Documentation':              12.0,
+    'Serving Orchestration':      11.0,
+    'Model Runtimes':             10.2,
+    'Data Processing':             9.5,
+    'DevOps':                      9.2,
+    'OGX Core':                    9.0,
+    'AI Core Platform':            7.6,
+    'AI Hub':                      7.3,
+    'Notebooks Server':            7.2,
+    'Feature Store':               7.1,
+    'IBM P':                       6.7,
+    'AI Safety Orchestration':     6.0,
+    'llm-d':                       5.8,
+    'MLflow':                      5.1,
+    'AgentOps':                    5.0,
+    'KubeRay':                     4.4,
+    'Fine Tuning':                 3.3,
+    'Security':                    3.0,
+    'AI Core Platform Security':   3.0,
+    'UXD':                         3.0,
+    'Inference Gateway':           3.0,
+    'OCPMCPLO':                    3.0,
+    'Kubeflow Spark Operator':     2.0,
+    'Build and Release':           2.0,
+    'AI Guardrails':               2.0,
+    'IBM Z':                       2.0,
+    'Workload Orchestration':      2.0,
+    'Notebooks Extensions':        1.5,
+    'OpenShift AI Productization': 1.0,
+    'PXE':                         1.0,
+  };
+
+  function capacityPenalty(comps, evt){
+    const over = comps.filter(c=>{
+      const cap=(CAP[c]||{})[evt];
+      return cap>0 && (usedComp[evt][c]||0)>=cap;
+    });
+    return {
+      penalty: over.length * 10,
+      warn: over.length ? ` ⚠ over ceiling: ${over.join(', ')}` : ''
+    };
+  }
+
+  function compTier(avg){
+    if(avg === undefined || avg === null) return 0;
+    if(avg >= 20) return 5;
+    if(avg >= 8)  return 3;
+    if(avg >= 3)  return 0;
+    return -3;
+  }
+
+  function componentBoost(comps){
+    if(!comps.length) return {boost:0, signal:''};
+    const entries = comps.map(c=>({c, d:COMP_AVG_ACTIVE[c]}));
+    const best = entries.reduce((a,b)=>compTier(a.d)>=compTier(b.d)?a:b);
+    const tier = compTier(best.d);
+    const label = best.d !== undefined
+      ? `~${best.d} issues/cycle`
+      : 'no data';
+    const signal = tier !== 0 ? ` · ${best.c} ${label}` : '';
+    return {boost: tier, signal};
+  }
+
+  // ── Pre-filter: hard gates → No ──
+  rows.forEach(r=>{
+    r._comps = (r['Components']||'').split(';').map(x=>x.trim()).filter(Boolean);
+    r._team  = (r['Team']||'').trim();
+    r._teams = FEATURE_TEAM_LOOKUP[r['Key']] || null; // Erle's capacity-dataset: Jira Team field teams
+    r._fNum  = parseInt((r['FPDoR']||'0').split('/')[0])||0;
+    r._score = parseInt(r['Score'])||0;
+    r._committed = (r['Confidence']||'').toLowerCase()==='committed';
+    r._tv = (r['Target Versions']||'').trim();
+    r._fv = (r['Fix Version']||'').trim();
+    r._failedItems = (r['Failed FPDoR Items']||'').split(';').map(x=>x.trim()).filter(Boolean);
+    r._preferredEvt = detectEvt(r._tv.toLowerCase()) || detectEvt(r._fv.toLowerCase());
+    // Weighted FPDoR score (0–100): penalise each failed item by its tier weight
+    const wPenalty = r._failedItems.reduce((sum,item)=>sum+(FPDOR_WEIGHTS[item]||3),0);
+    r._wFPDoR = Math.max(0, 100 - wPenalty);
+
+    // Read labels from CSV if the column exists (requires Labels column in Org Pulse export)
+    // Without it we fall back to heuristic detection
+    const rawLabels = (r['Labels']||'').split(';').map(x=>x.trim()).filter(Boolean);
+    r._labels = new Set(rawLabels);
+
+    // Label shortcuts per Erle's FPDoR definition:
+    const hasQG1Pass      = r._labels.has('rp-qg1-pass');
+    const hasRubricPass   = r._labels.has('strat-creator-rubric-pass');
+    const hasHumanSignoff = r._labels.has('strat-creator-human-sign-off');
+    const hasAutoCreated  = r._labels.has('strat-creator-auto-created');
+    const hasEpicDecomp   = r._labels.has('epic-creator-auto-decomposed');
+
+    // PATH detection — real if Labels column present, heuristic fallback otherwise
+    const hasLabelData = r['Labels'] !== undefined;
+    r._hasLabelData = hasLabelData;
+    if(hasLabelData){
+      r._path = (hasQG1Pass||hasRubricPass||hasHumanSignoff||hasAutoCreated||hasEpicDecomp) ? 'ai-first' : 'legacy';
+    } else {
+      r._path = (r._fNum===13 && r._failedItems.length===0) ? 'ai-first' : 'legacy';
+    }
+
+    // Confidence contribution from each label (stacks, capped later):
+    // rp-qg1-pass   = +10  (full mandatory bundle confirmed)
+    // rubric-pass   = +5   (AC, requirements, risks, architecture confirmed)
+    // human-signoff = +5   (requirements, risks, architecture, human approval confirmed)
+    // epic-decomp   = +3   (cross-team deps + child epics confirmed)
+    r._labelBoost = (hasQG1Pass?10:0) + (hasRubricPass?5:0) + (hasHumanSignoff?5:0) + (hasEpicDecomp?3:0);
+
+    // Fix Version signal — weak only (per Erle 2026-08-06: FV not reliable until PM+Eng approval workflow exists)
+    // FV matches TV event → +5%, FV mismatches TV event → -10%, FV absent → 0
+    const fvEvt = r._fv ? detectEvt(r._fv.toLowerCase()) : null;
+    const tvEvt = detectEvt(r._tv.toLowerCase());
+    r._fvBoost = fvEvt && tvEvt ? (fvEvt===tvEvt ? 5 : -10) : 0;
+
+    // Priority boost — calibrated from 3.4 features.json delivery rates:
+    // Blocker 50%, Major 42%, Normal 40%, Critical 34%, Undefined 0%
+    // Major and Normal outperformed Critical — teams over-label Critical.
+    // Blocker: +5, Major: +2, Normal: 0, Critical: −2, Undefined: −5
+    const pri = (r['Priority']||'').trim().toLowerCase();
+    r._priorityBoost = pri==='blocker'?5 : pri==='major'?2 : pri==='normal'?0 : pri==='critical'?-2 : pri==='minor'?-3 : pri===''?-5 : 0;
+    r._priorityLabel = pri ? r['Priority'].trim() : '';
+
+    // PM Committed signal — explicit PM endorsement. In 3.4, committed features had higher delivery rates.
+    // Currently parsed (_committed) but was unused. Now +5%.
+    r._committedBoost = r._committed ? 5 : 0;
+
+    // RICE Score signal — features with RICE > 20 were better-scoped and had better delivery rates.
+    // Score > 20: +2, Score 5–20: +1, missing/0: 0
+    r._riceBoost = r._score > 20 ? 2 : r._score >= 5 ? 1 : 0;
+
+    // Release Type: read from CSV 'Release Type' column (PR #1394 merged 2026-08-12).
+    // Fallback to title prefix [DP]/[TP]/[GA] for older exports without the column.
+    // Aug 10 meeting decision (Erle, Yuval, John): DP → +8%, TP → +5%, GA → 0%.
+    const rtField = (r['Release Type']||'').trim().toUpperCase();
+    const rtMatch = !rtField ? (r['Title']||'').match(/^\[(DP|TP|GA)\]/i) : null;
+    r._releaseType = rtField || (rtMatch ? rtMatch[1].toUpperCase() : null);
+    r._releaseTypeBoost = r._releaseType==='DP' ? 8 : r._releaseType==='TP' ? 5 : 0;
+
+    // Big Rock membership — match Outcome against known Big Rock keyword sets
+    r._bigRocks = BIG_ROCKS.filter(br=>br.keywords.some(k=>(r['Outcome']||'').toLowerCase().includes(k))).map(br=>br.name);
+    r._isBigRock = r._bigRocks.length > 0;
+    // Complexity warning — 6+ components signals cross-team dependency risk (spec: not an exclusion)
+    r._complexityWarn = r._comps.length >= 6;
+
+    // rp-qg1-pass satisfies ALL mandatory FPDoR fields as a bundle — skip hard gate
+    if(hasQG1Pass){
+      // Mandatory fields satisfied by label — skip to scheduling
+    } else {
+      if(!r._comps.length){
+        r._place='No'; r._reason='No components assigned'; r._conf=0; return;
+      }
+      const hardFail = r._failedItems.find(i=>FPDOR_MANDATORY_HARD.includes(i));
+      if(hardFail){
+        r._place='No'; r._reason=`Mandatory FPDoR field missing: ${hardFail}`; r._conf=0; return;
+      }
+    }
+
+    if(!r._tv){
+      r._place='No'; r._reason='No Target Version set'; r._conf=0; return;
+    }
+    if(/^rhoai-|^rhaii-/i.test(r._tv)){
+      r._place='No'; r._reason=`Non-standard Target Version: "${r._tv}" — set to standard format to qualify`; r._conf=5; return;
+    }
+    if(!r._preferredEvt){
+      r._place='No'; r._reason='Target Version does not map to EA1/EA2/GA'; r._conf=5; return;
+    }
+    r._place=null; // eligible for scheduling
+  });
+
+  // Historical delivery rate caps — from 3.4 all-features baseline (Erle, Aug 2026).
+  // EA1: 10/10 delivered (100% actual → 75% conservative cap)
+  // EA2: 9/14 delivered (64% actual → 60% cap)
+  // GA:  22/78 delivered (28% actual → 40% cap)
+  // NOTE: Erle's 3.5 sealed data (2026-08-12, n=205, tv+fv committed at freeze) shows
+  // EA2=83% (15/18) · GA=92% (88/96) for properly-committed features.
+  // LR classifier trained on 3.5 (2026-08-15, AUC=0.914, 5-fold CV). Inference run on
+  // 3.6 EA1 freeze baseline (70 features) → ML_SCORES below. Old caps still apply as
+  // fallback for features not in the ML set or for EA2/GA (3.5-only training).
+  const HIST_CAP = {EA1:75, EA2:60, GA:40};
+
+  // ── Single phase: delivery confidence classifier ──
+  // Goal: how likely is this feature to ship in its requested Target Version event?
+  // Fix Version is NOT a primary signal (per Erle 2026-08-06 — unreliable until approval workflow).
+  // Confidence = readiness base + label boosts + FV signal + component reliability - capacity penalty
+  // Capped by historical delivery rate per event.
+  // Phase 2: Big Rocks scheduled first (global leadership priorities), then remaining by score.
+  // Within each tier (BR / non-BR), sort descending by priority score.
+  rows.filter(r=>r._place===null)
+      .sort((a,b)=>{
+        if(a._isBigRock&&!b._isBigRock) return -1;
+        if(!a._isBigRock&&b._isBigRock) return 1;
+        return b._score-a._score;
+      })
+      .forEach(r=>{
+        const pref = r._preferredEvt;
+        const order = pref==='EA1'?['EA1','EA2','GA']:
+                      pref==='EA2'?['EA2','GA']:['GA'];
+        const {boost:compBonus, signal:compSignal} = componentBoost(r._comps);
+        const extraBoosts = r._priorityBoost + r._committedBoost + r._riceBoost + r._releaseTypeBoost;
+        const extraSignal = [
+          r._committedBoost ? ' · PM committed' : '',
+          r._priorityLabel && r._priorityBoost !== 0 ? ` · ${r._priorityLabel} priority (${r._priorityBoost>0?'+':''}${r._priorityBoost}%)` : '',
+          r._riceBoost ? ` · RICE ${r._score}` : '',
+          r._releaseType ? ` · ${r._releaseType}` : '',
+        ].join('');
+
+        let placed=false;
+        for(const evt of order){
+          const {penalty,warn} = capacityPenalty(r._comps,evt);
+          const boost = r._labelBoost + r._fvBoost + compBonus + extraBoosts - penalty;
+          if(evt===pref){
+            if(r._wFPDoR>=85){
+              r._place=evt; r._reason=`High readiness (${r['FPDoR']} · w:${r._wFPDoR}) + ${evt} target${compSignal}${extraSignal}${warn}`;
+              r._conf=Math.max(0,Math.min(HIST_CAP[evt]||96,(r._wFPDoR>=95?72:62)+boost));
+            } else if(r._wFPDoR>=60&&evt!=='EA1'){
+              r._place=evt; r._reason=`Moderate readiness (${r['FPDoR']} · w:${r._wFPDoR}) + ${evt} target${compSignal}${extraSignal}${warn}`;
+              r._conf=Math.max(0,Math.min(HIST_CAP[evt]||96,48+boost));
+            } else if(r._wFPDoR>=60&&evt==='EA1'){
+              continue;
+            } else {
+              break;
+            }
+          } else {
+            if(r._wFPDoR>=60){
+              r._place=evt; r._reason=`Readiness gap → moved to ${evt} (target was ${pref})${compSignal}${extraSignal}${warn}`;
+              r._conf=Math.max(0,Math.min(HIST_CAP[evt]||96,38+boost));
+            } else break;
+          }
+          addUsage(r._comps,r._team,evt);
+          placed=true; break;
+        }
+        if(!placed){
+          r._place='No';
+          r._reason=`Readiness too low (${r['FPDoR']} · w:${r._wFPDoR}) — fix: ${r._failedItems.slice(0,2).join(', ')||'see FPDoR items'}`;
+          r._conf=10;
+        }
+      });
+
+  // ML scoring — pre-computed RF+ROS for 70 EA1-freeze features, JS approximation for all others.
+  // Pre-computed: trained on RHOAI 3.5 (AUC=91.9%), includes slip history signal (52% of weight).
+  // Approx: all other in-plan features — uses FPDoR+RICE+priority only (no slip history, ~43% weight).
+  rows.forEach(r=>{
+    if(!r._place||r._place==='No') return;
+    const mlScore=ML_SCORES[r['Key']];
+    if(mlScore!==undefined){
+      r._conf=Math.round(mlScore);
+      r._reason=r._reason+' · 🤖 ML';
+      r._mlType='ml';
+    } else {
+      r._conf=computeApproxMLScore(r);
+      r._reason=r._reason+' · ~ML';
+      r._mlType='approx';
+    }
+  });
+
+  return rows;
+}
+
+function detectEvt(s){
+  if(s.includes('ea1')) return 'EA1';
+  if(s.includes('ea2')) return 'EA2';
+  if(/ ga /.test(s)||s.endsWith(' ga')||s.includes('ga release')||s.includes('ga rhaii')||s.includes('ga rhelai')) return 'GA';
+  return null;
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let allData=[], sortCol='Rank', sortAsc=true;
+
+window.onload=()=>{
+  allData=parseCSV(SAMPLE).map(r=>({...r}));
+  schedule(allData);
+  populateFilters();
+  run();
+};
+
+function loadCSV(e){
+  const f=e.target.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=ev=>{
+    allData=parseCSV(ev.target.result).map(r=>({...r}));
+    schedule(allData);
+    populateFilters();
+    run();
+    document.getElementById('data-status').textContent=f.name+' ('+allData.length+' features)';
+  };
+  rd.readAsText(f);
+}
+
+function populateFilters(){
+  const uniq=(key)=>[...new Set(allData.map(r=>r[key]).filter(Boolean))].sort();
+  const comps=[...new Set(allData.flatMap(r=>(r['Components']||'').split(';').map(c=>c.trim())).filter(Boolean))].sort();
+  setOpts('f-outcome',uniq('Outcome'),'All Outcomes');
+  const standardTVs=[...new Set(allData.map(r=>r['Target Versions']).filter(v=>v&&/^3\.\d/i.test(v)&&!/^rhoai-|^rhaii-|^rhelai-/i.test(v)))].sort();
+  setOpts('f-tv',standardTVs,'All Target Versions');
+  setOpts('f-comp',comps,'All Components');
+  setOpts('f-team',uniq('Team'),'All Teams');
+}
+function setOpts(id,vals,ph){
+  const s=document.getElementById(id);
+  const cur=s.value;
+  s.innerHTML=`<option value="">${ph}</option>`+vals.map(v=>`<option${v===cur?' selected':''}>${v}</option>`).join('');
+}
+
+function run(){
+  const rel   = v('f-rel'), read  = v('f-read'), place = v('f-place');
+  const out   = v('f-outcome'), tv = v('f-tv'),   comp  = v('f-comp');
+  const team  = v('f-team'), pri  = v('f-pri'),   fail  = v('f-fail');
+  const bigRockOnly = document.getElementById('f-bigrock').checked;
+
+  let rows=allData.filter(r=>{
+    if(rel&&!((r['Target Versions']||'').includes(rel)||(r['Fix Version']||'').includes(rel))) return false;
+    if(read==='committed'&&r['Confidence']!=='committed') return false;
+    if(read==='not-ready'&&r['Confidence']==='committed') return false;
+    if(place&&r._place!==place) return false;
+    if(out&&r['Outcome']!==out) return false;
+    if(tv&&r['Target Versions']!==tv) return false;
+    if(comp&&!(r['Components']||'').includes(comp)) return false;
+    if(team&&r['Team']!==team) return false;
+    if(pri&&r['Priority']!==pri) return false;
+    if(fail&&!(r['Failed FPDoR Items']||'').includes(fail)) return false;
+    if(bigRockOnly&&!r._isBigRock) return false;
+    if(window._selectedBR&&!(r._bigRocks&&r._bigRocks.includes(window._selectedBR))) return false;
+    return true;
+  });
+
+  rows=rows.slice().sort((a,b)=>{
+    let va=a[sortCol],vb=b[sortCol];
+    if(sortCol==='Score'||sortCol==='Rank'){va=+va;vb=+vb;}
+    else if(sortCol==='FPDoR'){va=parseInt((va||'0').split('/')[0]);vb=parseInt((vb||'0').split('/')[0]);}
+    return sortAsc?(va>vb?1:-1):(va<vb?1:-1);
+  });
+
+  window._brGapMap={};
+  BIG_ROCKS.forEach(br=>{window._brGapMap[br.name]=0;});
+  allData.forEach(r=>{
+    if(!r._bigRocks) return;
+    r._bigRocks.forEach(name=>{if(r._place==='No') window._brGapMap[name]=(window._brGapMap[name]||0)+1;});
+  });
+  renderTbl(rows); renderCards(rows); renderBigRocks(allData); renderAppendix(allData);
+}
+function v(id){return document.getElementById(id).value;}
+function sort(col){sortCol===col?sortAsc=!sortAsc:(sortCol=col,sortAsc=true);run();}
+
+function renderCards(rows){
+  const c={EA1:0,EA2:0,GA:0,No:0};
+  rows.forEach(r=>c[r._place]=(c[r._place]||0)+1);
+  ['ea1','ea2','ga','no'].forEach(k=>{
+    const key=k==='no'?'No':k.toUpperCase();
+    document.getElementById('cnt-'+k).textContent=c[key]||0;
+  });
+  const inPlan=(c.EA1||0)+(c.EA2||0)+(c.GA||0);
+  document.getElementById('st-total').textContent=rows.length+' features';
+  document.getElementById('st-in').textContent=inPlan+' in-plan';
+  document.getElementById('st-no').textContent=(c.No||0)+' no';
+
+  // Executive summary strip
+  const strip=document.getElementById('exec-strip');
+  if(strip&&rows.length){
+    const inPlanRows=rows.filter(r=>r._place!=='No');
+    const avgConf=inPlanRows.length?Math.round(inPlanRows.reduce((s,r)=>s+(r._conf||0),0)/inPlanRows.length):0;
+    const inPlanPct=Math.round(inPlan/rows.length*100);
+    document.getElementById('ex-total').textContent=rows.length;
+    document.getElementById('ex-inplan').textContent=inPlanPct+'%';
+    document.getElementById('ex-atrisk').textContent=c.No||0;
+    document.getElementById('ex-avgconf').textContent=avgConf+'%';
+    strip.style.display='flex';
+  }
+}
+
+function renderTbl(rows){
+  const tb=document.getElementById('tbody');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="17" class="empty-row">No features match the current filters</td></tr>';return;}
+  let _prevPlace=null;
+  tb.innerHTML=rows.map(r=>{
+    const fNum=r._fNum;
+    const rCls=r._committed?'r-committed':r._wFPDoR>=85?'r-high':r._wFPDoR>=60?'r-med':'r-low';
+    // FPDoR breakdown: tooltip with full tier breakdown, inline for Critical/High fails only
+    const failedSet=new Set(r._failedItems);
+    const hasFpdorData=r['FPDoR']&&r['FPDoR']!=='—';
+    const tooltipLines=['Weighted FPDoR: '+r._wFPDoR+'/100 (Erle\'s tier weights)',''];
+    FPDOR_TIERS_DISPLAY.forEach(t=>{
+      const fails=t.items.filter(i=>failedSet.has(i));
+      const passes=hasFpdorData?t.items.filter(i=>!failedSet.has(i)):[];
+      if(fails.length) tooltipLines.push('✗ '+t.label+': '+fails.join(', '));
+      if(passes.length) tooltipLines.push('✓ '+t.label+': '+passes.join(', '));
+    });
+    const fpdorTooltip=tooltipLines.join('\n');
+    const critFails=FPDOR_TIERS_DISPLAY[0].items.filter(i=>failedSet.has(i));
+    const highFails=FPDOR_TIERS_DISPLAY[1].items.filter(i=>failedSet.has(i));
+    const medFails=FPDOR_TIERS_DISPLAY[2].items.filter(i=>failedSet.has(i));
+    const softFails=FPDOR_TIERS_DISPLAY[3].items.filter(i=>failedSet.has(i));
+    const breakdownHtml=r._path==='legacy'?[
+      ...critFails.map(i=>`<span class="fd-item fd-crit" title="${i} [Critical −25]">${i}</span>`),
+      ...highFails.map(i=>`<span class="fd-item fd-high" title="${i} [High −10]">${i}</span>`),
+      ...medFails.map(i=>`<span class="fd-item fd-med" title="${i} [Medium −5]">${i}</span>`),
+      ...softFails.map(i=>`<span class="fd-item fd-soft" title="${i} [Soft −2]">${i}</span>`),
+    ].join(''):'';
+    const pCls=r._place==='EA1'?'p-ea1':r._place==='EA2'?'p-ea2':r._place==='GA'?'p-ga':'p-no';
+    const conf=r._conf||0;
+    const cCls=conf>=70?'hi':conf>=40?'mi':'lo';
+    // Frequency framing — research shows "7 of 10" builds more calibrated trust than "68%"
+    const freqOf10=conf>=90?'9 of 10':conf>=80?'8 of 10':conf>=70?'7 of 10':conf>=60?'6 of 10':conf>=50?'5 of 10':conf>=40?'4 of 10':'3 of 10';
+    const confBand=conf>=80?'High':conf>=55?'Medium':'Low';
+    // Counterfactual — what the PM can do to improve placement (shown for Medium/Low only)
+    const topFix=r._failedItems&&r._failedItems.length>0?r._failedItems[0]:null;
+    const counterfactual=conf<80&&r._place!=='No'&&topFix?`Fix: complete ${topFix} to raise confidence.`:'';
+    const isMl=!!r._mlType&&r._place&&r._place!=='No';
+    const isPrecomp=r._mlType==='ml';
+    const cleanReason=isMl&&r._reason?(r._reason+'').replace(' · 🤖 ML','').replace(' · ~ML',''):r._reason||'';
+    const compsA=(r['Components']||'').split(';').map(x=>x.trim()).filter(Boolean);
+    const compsStr=compsA.slice(0,2).join(', ')+(compsA.length>2?' +'+(compsA.length-2):'');
+    const brGapCount=r._place!=='No'&&r._isBigRock?r._bigRocks.reduce((s,n)=>s+(window._brGapMap?.[n]||0),0):0;
+    const brGapHtml=brGapCount>0?`<span style="font-size:9px;font-weight:700;color:#c0392b;display:block" title="${brGapCount} feature(s) from this Big Rock not in plan — delivery chain at risk">⚠ ${brGapCount} BR gap${brGapCount>1?'s':''}</span>`:'';
+    const pathHtml=r._path==='ai-first'
+      ?`<span class="path-badge path-ai" title="${r._hasLabelData?'rp-qg1-pass or strat-creator label detected':'13/13 FPDoR — no Labels column in CSV, heuristic only'}">AI-First</span><span class="path-note">${r._hasLabelData?'label':'heuristic'}</span>`
+      :`<span class="path-badge path-legacy" title="${r._hasLabelData?'No pipeline labels detected':'Labels column not in CSV — assumed legacy'}">Legacy</span><span class="path-note">${r._hasLabelData?'confirmed':'assumed'}</span>`;
+    // Cut-line: insert freeze boundary row when placement bucket changes
+    let cutLine='';
+    if(_prevPlace!==null && _prevPlace!==r._place){
+      if(r._place==='No')
+        cutLine=`<tr><td colspan="17" style="padding:5px 12px;background:#ffebee;border-top:2px solid #e57373;border-bottom:1px solid #ffcdd2;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ BELOW CUT — features below do not qualify for 3.6 (fix inputs to re-qualify)</td></tr>`;
+      else if(r._place==='GA' && (_prevPlace==='EA1'||_prevPlace==='EA2'))
+        cutLine=`<tr><td colspan="17" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#2e7d32;text-align:center;letter-spacing:.04em">▼ GA TARGET — General Availability features below EA2</td></tr>`;
+    }
+    _prevPlace=r._place;
+    // Swing features: confidence 50–69% while in-plan — borderline, worth discussing Aug 24
+    const isSwing=r._place!=='No'&&conf>=50&&conf<70;
+    return cutLine+`<tr style="${isSwing?'background:#fffde7;':''}" title="${isSwing?'Swing feature — confidence borderline (50–69%), worth discussing at freeze':''}">
+      <td style="color:#bbb">${r['Rank']||'—'}</td>
+      <td><span class="score">${r['Score']}</span></td>
+      <td><div class="fpdor-cell"><span class="rp ${rCls}" title="${fpdorTooltip}">${r['FPDoR']||'—'}</span><span class="fpdor-w">w:${r._wFPDoR}</span>${breakdownHtml}</div></td>
+      <td>${(()=>{const allPass=r._fNum===13&&(!r._failedItems||r._failedItems.length===0);return `<span class="risk-badge risk-${allPass?'low':'high'}">${allPass?'🟢 Ready':'🔴 Not Ready'}</span>`;})()}</td>
+      <td>${pathHtml}</td>
+      <td style="max-width:160px;font-size:10px;color:#555;white-space:normal;line-height:1.4">${[...r._labels].join('<br>') || '—'}</td>
+      <td><span class="pp ${pCls}">${r._place}</span></td>
+      <td>${r._releaseType?`<span class="rt-badge rt-${r._releaseType.toLowerCase()}">${r._releaseType}</span>`:'<span class="rt-badge rt-none">—</span>'}</td>
+      <td><div class="cbar-wrap" title="${isPrecomp?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nTrained on RHOAI 3.5 history (104 shipped / 11 slipped). Includes prior slip record.`:isMl?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nApprox — no prior slip record available. Based on FPDoR completeness + priority + RICE.`:`Readiness estimate: ${conf}%\nBased on FPDoR completeness, labels, and component capacity.`}"><div class="cbar"><div class="cfill ${cCls}" style="width:${Math.min(conf,100)}%"></div></div><span class="cnum" style="font-weight:700">${confBand}</span><span class="cnum" style="color:#999;font-size:10px;margin-left:3px">${conf}%</span>${isPrecomp?'<span style="font-size:9px;font-weight:700;color:#7b1fa2;margin-left:4px" title="AI Delivery Signal — trained on 3.5 historical outcomes (includes slip record)">🤖</span>':isMl?'<span style="font-size:9px;font-weight:700;color:#9c27b0;margin-left:4px" title="AI Delivery Signal (approx) — FPDoR+priority+RICE only, no slip record">~🤖</span>':''}</div></td>
+      <td><span class="reason">${cleanReason}</span>${isMl?`<div style="font-size:9px;color:${isPrecomp?'#7b1fa2':'#9c27b0'};margin-top:2px;font-weight:600">🤖 AI Signal · ${freqOf10} similar features shipped · 3.5 history</div>`:''}${counterfactual?`<div style="font-size:9px;color:#e65100;margin-top:2px;font-weight:600">→ ${counterfactual}</div>`:''}${r._teams?`<div style="font-size:9px;color:#7b68ee;margin-top:3px" title="Jira Team field — Erle Marion capacity-dataset.json">👥 ${r._teams.join(' · ')}</div>`:''}</td>
+      <td><a class="klink" href="https://redhat.atlassian.net/browse/${r['Key']}" target="_blank">${r['Key']}</a></td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r['Title']}">${r['Title']}</td>
+      <td style="max-width:140px;white-space:normal;line-height:1.4">${r._isBigRock?'<span class="br-badge">🪨 BR</span>':''}${brGapHtml}<span style="color:#555" title="${r['Outcome']||''}">${r['Outcome']||'—'}</span></td>
+      <td style="white-space:nowrap;font-size:11px;color:#555">${r['Target Versions']||'—'}</td>
+      <td style="white-space:nowrap;font-size:11px;color:#555">${r['Fix Version']||'—'}</td>
+      <td title="${r['Components']}" style="max-width:160px;color:#444">${compsStr||'—'}${r._complexityWarn?`<div style="font-size:9px;color:#e65100;font-weight:700;margin-top:1px" title="${r._comps.length} components — cross-team delivery risk (spec: 6+ = complexity flag)">⚠ ${r._comps.length} comps</div>`:''}</td>
+      <td style="font-size:11px;color:#555;white-space:nowrap">${r['Team']||'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderAppendix(data){
+  // Component capacity usage
+  const usedC={}, usedT={};
+  data.forEach(r=>{
+    if(r._place==='No') return;
+    (r['Components']||'').split(';').forEach(c=>{
+      c=c.trim(); if(!c) return;
+      if(!usedC[c]) usedC[c]={EA1:0,EA2:0,GA:0};
+      if(usedC[c][r._place]!==undefined) usedC[c][r._place]++;
+    });
+    const t=(r['Team']||'').trim();
+    if(t){
+      if(!usedT[t]) usedT[t]={EA1:0,EA2:0,GA:0};
+      if(usedT[t][r._place]!==undefined) usedT[t][r._place]++;
+    }
+  });
+
+  const allC=[...new Set([...Object.keys(CAP),...Object.keys(usedC)])].sort();
+  document.getElementById('cap-body').innerHTML=allC.map(c=>{
+    const cap=CAP[c]||{EA1:1,EA2:1,GA:1};
+    const u=usedC[c]||{EA1:0,EA2:0,GA:0};
+    const w=e=>u[e]>cap[e]?' style="color:#c0392b;font-weight:600"':'';
+    const over=u.EA1>cap.EA1||u.EA2>cap.EA2||u.GA>cap.GA;
+    return `<tr><td>${c}</td><td>${cap.EA1}</td><td>${cap.EA2}</td><td>${cap.GA}</td>
+      <td${w('EA1')}>${u.EA1}</td><td${w('EA2')}>${u.EA2}</td><td${w('GA')}>${u.GA}</td>
+      <td>${over?'⚠ Over ceiling':'✓ OK'}</td></tr>`;
+  }).join('');
+
+  // Team in-plan counts (informational only — no ceilings defined yet)
+  const allT=[...new Set(Object.keys(usedT))].sort();
+  document.getElementById('team-cap-body').innerHTML=allT.length
+    ? allT.map(t=>{
+        const u=usedT[t]||{EA1:0,EA2:0,GA:0};
+        const total=u.EA1+u.EA2+u.GA;
+        return `<tr><td>${t}</td><td>${u.EA1}</td><td>${u.EA2}</td><td>${u.GA}</td><td><strong>${total}</strong></td><td style="color:#888;font-size:11px">No ceiling set — add Scrum/Kanban velocity to enforce</td></tr>`;
+      }).join('')
+    : '<tr><td colspan="6" style="color:#bbb;text-align:center">No team data — Team column empty in CSV</td></tr>';
+
+  // Exclusions — grouped by fix action
+  const noRows=data.filter(r=>r._place==='No');
+  const groups={
+    'No Target Version':      {label:'📋 Assign a Target Version',      color:'#e53935', rows:[]},
+    'Mandatory FPDoR field':  {label:'✏️ Fill mandatory FPDoR fields',   color:'#f57c00', rows:[]},
+    'Non-standard':           {label:'🔧 Fix Target Version format',     color:'#7b1fa2', rows:[]},
+    'Readiness too low':      {label:'📝 Complete FPDoR checklist',      color:'#1565c0', rows:[]},
+    'other':                  {label:'⚠️ Other / review reason',         color:'#555',    rows:[]},
+  };
+  noRows.forEach(r=>{
+    const rs=r._reason||'';
+    if(rs.includes('No Target Version')||rs.includes('No components'))        groups['No Target Version'].rows.push(r);
+    else if(rs.includes('Mandatory FPDoR'))                                    groups['Mandatory FPDoR field'].rows.push(r);
+    else if(rs.includes('Non-standard')||rs.includes('does not map'))          groups['Non-standard'].rows.push(r);
+    else if(rs.includes('Readiness too low')||rs.includes('Moderate readiness')||rs.includes('w:')) groups['Readiness too low'].rows.push(r);
+    else                                                                        groups['other'].rows.push(r);
+  });
+  const excHtml=Object.entries(groups)
+    .filter(([,g])=>g.rows.length>0)
+    .sort((a,b)=>b[1].rows.length-a[1].rows.length)
+    .map(([,g])=>`
+      <tr style="background:#f9f9f9">
+        <td colspan="3" style="padding:6px 8px;font-weight:700;font-size:11px;color:${g.color};border-top:2px solid ${g.color}22">
+          ${g.label} &nbsp;<span style="background:${g.color};color:#fff;border-radius:10px;padding:1px 8px;font-size:10px">${g.rows.length} features</span>
+        </td>
+      </tr>
+      ${g.rows.slice(0,5).map(r=>`<tr><td style="padding:3px 8px 3px 20px;font-size:11px;color:#555"><a href="https://redhat.atlassian.net/browse/${r['Key']}" target="_blank" style="color:#1565c0;font-weight:600">${r['Key']}</a> — ${(r['Title']||r['summary']||'').slice(0,55)}</td><td style="font-size:10px;color:#888;white-space:nowrap">${r['Target Version']||'—'}</td><td style="font-size:10px;color:#c62828">${r._reason.slice(0,60)}</td></tr>`).join('')}
+      ${g.rows.length>5?`<tr><td colspan="3" style="padding:2px 8px 6px 20px;font-size:10px;color:#aaa">+${g.rows.length-5} more — export CSV to see all</td></tr>`:''}
+    `).join('');
+  document.getElementById('exc-body').innerHTML=excHtml||'<tr><td colspan="3" style="color:#bbb;text-align:center">No features in No bucket</td></tr>';
+}
+
+function renderBigRocks(data){
+  const panel=document.getElementById('br-panel');
+  if(!panel) return;
+  const s={};
+  BIG_ROCKS.forEach(br=>{s[br.name]={inPlan:0,total:0,confSum:0,atRisk:0,noFeatures:[]};});
+  data.forEach(r=>{
+    if(!r._bigRocks||!r._bigRocks.length) return;
+    r._bigRocks.forEach(name=>{
+      if(!s[name]) return;
+      s[name].total++;
+      if(r._place!=='No'){s[name].inPlan++;s[name].confSum+=(r._conf||0);}
+      else{s[name].atRisk++;s[name].noFeatures.push({key:r['Key'],reason:r._reason});}
+    });
+  });
+  const gapped=BIG_ROCKS.filter(br=>s[br.name].total>0&&s[br.name].atRisk>0).length;
+  const items=BIG_ROCKS.map(br=>{
+    const d=s[br.name];
+    const avg=d.inPlan>0?Math.round(d.confSum/d.inPlan):0;
+    let cls='br-ok',icon='✓';
+    if(d.total===0){cls='';icon='—';}
+    else if(d.inPlan===0){cls='br-miss';icon='✗';}
+    else if(d.atRisk>0){cls='br-warn';icon='⚠';}
+    let noHtml='';
+    if(d.noFeatures.length){
+      noHtml='<div class="br-risk" style="margin-top:5px">Not in plan ('+d.noFeatures.length+'):</div>';
+      noHtml+=d.noFeatures.map(f=>{
+        const short=f.reason.length>60?f.reason.slice(0,60)+'…':f.reason;
+        return `<div class="br-no-feat"><a href="https://redhat.atlassian.net/browse/${f.key}" target="_blank" style="color:#c0392b;font-weight:600">${f.key}</a> — ${short}</div>`;
+      }).join('');
+    }
+    const noLine=d.total===0?'<div class="br-risk" style="color:#bbb">No features in CSV</div>':'';
+    const pc={'Platform':'#6a1b9a','Inference':'#1565c0','Agents':'#2e7d32','Data':'#b8860b'}[br.pillar]||'#888';
+    const ptag=`<div style="font-size:9px;font-weight:700;color:${pc};text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">${br.pillar}</div>`;
+    const prioTag=`<div style="font-size:10px;font-weight:700;color:#aaa;margin-bottom:3px">P${br.priority}</div>`;
+    const projTag=br.projected?`<div style="font-size:9px;color:#888;margin-top:3px" title="Projected total descendant issues — similarity analysis">~${br.projected} issues projected</div>`:'';
+    const poorlyDefined=br.links!==null&&br.links<3;
+    const linkTag=br.links!==null?`<div style="font-size:9px;margin-top:2px;color:${poorlyDefined?'#c0392b':'#888'}" title="First-level Jira links in dependency report — <3 means teams haven't decomposed this outcome yet">${poorlyDefined?'⚠ ':''}${br.links} dep link${br.links!==1?'s':''} in Jira${poorlyDefined?' — poorly defined':''}</div>`:'';
+    const newChildTag=br.newChildren>0?`<div style="font-size:9px;margin-top:2px;color:#e67e22;font-weight:600" title="Child issues with New/To Do status — not started, delivery at risk">⬤ ${br.newChildren} child issue${br.newChildren>1?'s':''} not started</div>`:'';
+    const extDepTag=br.externalDeps&&br.externalDeps.length?br.externalDeps.map(d=>`<div style="font-size:9px;margin-top:2px;color:#c0392b" title="External team dependency — slippage is outside RHOAI control">↗ Ext dep: ${d}</div>`).join(''):'';
+    const sharedDepTag=br.sharedDep?`<div style="font-size:9px;color:#8e44ad;margin-top:2px" title="Shared dependency — slippage affects multiple Big Rocks">⚑ Shared dep: ${br.sharedDep}</div>`:'';
+    const isSel=window._selectedBR===br.name;
+    const safeN=br.name.replace(/'/g,"\\'");
+    const has35match=br.outcomeKeys&&br.outcomeKeys.some(k=>BR_35_MATCHES.has(k));
+    const matchBadge=has35match?'<span class="br-35match" title="This outcome appeared in the 3.5 Big Rock set (similarity analysis, 2026-08-13)">↪ 3.5</span>':'';
+    // Aha! OKR thresholds: 70%+ = Confident, 40-70% = Lagging, <40% = At Risk
+    const brConfLabel=d.inPlan===0?'No features in plan':avg>=70?'✓ Confident':avg>=40?'⚠ Lagging':'✗ At Risk';
+    const brConfColor=d.inPlan===0?'#bbb':avg>=70?'#2e7d32':avg>=40?'#f57f17':'#c62828';
+    const rollupHtml=d.total>0?`<div style="font-size:13px;font-weight:700;color:${brConfColor};margin:4px 0 2px" title="AI Delivery Signal rollup — avg confidence of in-plan features for this outcome">${d.inPlan>0?avg+'%':'—'}</div><div style="font-size:10px;font-weight:600;color:${brConfColor};margin-bottom:3px">${brConfLabel}</div><div style="font-size:10px;color:#777">${d.inPlan}/${d.total} in-plan</div>`:'';
+    return `<div class="br-item br-clickable ${cls}${isSel?' br-selected':''}" onclick="filterToBigRock('${safeN}')" title="Click to filter table to ${br.name}">${ptag}${prioTag}<div class="br-name">${icon} ${br.name}${matchBadge}</div>${rollupHtml}${linkTag}${newChildTag}${extDepTag}${projTag}${sharedDepTag}${noHtml}${noLine}</div>`;
+  }).join('');
+  panel.style.display='';
+  const filterBar=window._selectedBR?`<div class="br-filter-bar">Showing <strong>${window._selectedBR}</strong> only &nbsp;<button class="btn" style="padding:2px 8px;font-size:11px" onclick="clearBRFilter()">✕ Clear</button></div>`:'';
+  const poorlyDefinedRocks=BIG_ROCKS.filter(br=>br.links!==null&&br.links<3).map(br=>br.name);
+  const sharedDepRocks=BIG_ROCKS.filter(br=>br.sharedDep);
+  const capacityBanner=`<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:5px;padding:8px 12px;margin:8px 0;font-size:11px;color:#856404">
+    <strong>⚠ Capacity Overrun Risk</strong> — 3.6 has <strong>18 Big Rocks vs 3.4's 13 (38% more work)</strong>. Similarity analysis projects
+    <strong>1,400–2,800 child issues</strong> (3.4 delivered ~2,300 across 13 rocks). Current Jira: 147 first-level links — <strong>10x–19x growth projected</strong> as teams decompose.
+    ${poorlyDefinedRocks.length?`<br><strong style="color:#c0392b">⚠ Poorly defined (&lt;3 Jira links):</strong> ${poorlyDefinedRocks.join(', ')} — these outcomes haven't been decomposed yet.`:''}
+    ${sharedDepRocks.length?`<br><strong style="color:#8e44ad">⚑ Shared dependencies:</strong> MCP Connectivity (RHAISTRAT-932) is shared between BYOA and AI Hub — slippage here risks two rocks simultaneously. AutoRAG ↔ AutoML share architectural pattern.`:''}
+  </div>
+  <div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:5px;padding:8px 12px;margin:6px 0;font-size:11px;color:#1565c0">
+    <strong>↪ 3.5→3.6 Similarity: 78%</strong> — Analogy-based analysis (2026-08-13).
+    <strong>14 of 3.5's 31 outcomes carry into 3.6 directly</strong> (same RHAISTRAT ID) — tiles marked <span class="br-35match">↪ 3.5</span>.
+    4 outcomes are 3.6-only. Workload projection: 3.6 substantially similar to 3.5 (~3,887 resolved issues in 3.5, despite only 609 directly linked to Big Rocks — linking gap is the risk, not capacity).
+  </div>`;
+  panel.innerHTML=`<div class="br-title">🪨 Big Rocks Coverage — 3.6 (18 rocks)${gapped>0?` — <span style="color:#c0392b">${gapped} Big Rock${gapped>1?'s':''} with gaps</span>`:''}<span style="font-size:10px;color:#aaa;font-weight:400;margin-left:8px">click a tile to filter table · P# = priority</span></div>${capacityBanner}${filterBar}<div class="br-grid">${items}</div>`;
+}
+
+function filterToBigRock(name){
+  window._selectedBR=(window._selectedBR===name)?null:name;
+  document.getElementById('f-bigrock').checked=window._selectedBR!==null;
+  run();
+  if(window._selectedBR) setTimeout(()=>document.querySelector('.tbl-wrap').scrollIntoView({behavior:'smooth'}),80);
+}
+
+function clearBRFilter(){
+  window._selectedBR=null;
+  document.getElementById('f-bigrock').checked=false;
+  run();
+}
+
+function doExport(){
+  const hdr=['Rank','Key','Title','Score','FPDoR','Target Versions','Fix Version','Components','Team','Priority','Confidence','Placement','Confidence%','Reason'];
+  const lines=[hdr.join(','),...allData.map(r=>[
+    r['Rank'],r['Key'],`"${(r['Title']||'').replace(/"/g,'""')}"`,r['Score'],r['FPDoR'],
+    `"${r['Target Versions']||''}"`,`"${r['Fix Version']||''}"`,`"${r['Components']||''}"`,
+    `"${r['Team']||''}"`,r['Priority'],r['Confidence'],r._place,r._conf+'%',`"${r._reason}"`
+  ].join(','))];
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/csv'})),download:'release-plan-output.csv'});
+  a.click();
+}
+
+function showTab(t){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  const idx={arch:0,feat:1,ap:2}[t];
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+  if(t==='ap') renderAppendix(allData);
+}
+
+// ── EMBEDDED DATA (feature-readiness-2026-08-04.csv, 166 features) ─────────────
+const SAMPLE=`Rank,Key,Title,Score,FPDoR,Failed FPDoR Items,Outcome,Target Versions,Fix Version,Components,Team,Status,Priority,Confidence,Labels
+1,RHAISTRAT-1473,Tech Preview - Validated Defaults for Tool Calling Configuration (Stage 1),77,11/13,Acceptance Criteria; Architectural Alignment,"Tool Calling, llm-d Tool Calling Pass Through",3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,AI Core Dashboard; AI Hub; Documentation; UXD; vLLM Runtime,RHOAI AI Hub,Release Pending,Major,not-ready,rp-qg1-pass
+2,RHAISTRAT-1431,UI for Registering Internal and External Model Endpoints in MaaS,76,11/13,Acceptance Criteria; Risks & Assumptions,"MaaS, Observability",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; Model as a Service; UXD,RHAI Onyx,Release Pending,Critical,not-ready,
+3,RHAISTRAT-1874,[TP] Multi-Provider API Passthrough for Native Client Format Support,73,8/13,Requirements Clarity; Acceptance Criteria; UXD; Architectural Alignment; Risks & Assumptions,"MaaS, Observability",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Inference Gateway; Model as a Service,,Release Pending,Major,not-ready,
+4,RHAISTRAT-1540,[GA] MaaS Body-Based Policy Enforcement,70,12/13,UXD,"MaaS, Observability",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Inference Gateway; Model as a Service; Serving Orchestration,,Release Pending,Major,not-ready,strat-creator-rubric-pass; strat-creator-human-sign-off
+5,RHAISTRAT-2198,Validated Models Available in AI Hub for 3.5 GA,70,9/13,Acceptance Criteria; Documentation; UXD; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Hub,RHOAI AI Hub,In Progress,Blocker,not-ready,
+6,RHAISTRAT-1528,Default Vector Store for Gen AI Studio and Auto Rag,70,10/13,Acceptance Criteria; Risks & Assumptions; PM Assigned,Gen AI Studio,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; Gen AI Studio; UXD,RHAI Crimson,Release Pending,Blocker,not-ready,
+7,RHAISTRAT-1547,MaaS Self-Service Subscription Page for Non-Admin Users,67,12/13,Acceptance Criteria,"MaaS, Observability",3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,AI Core Dashboard; Documentation; Model as a Service; UXD,RHAI Onyx,Release Pending,Major,not-ready,
+8,RHAISTRAT-1741,[TP] MaaS Multi-Tenancy Per-Tenant Gateway and Identity Isolation,67,8/13,Acceptance Criteria; RICE Score; UXD; Architectural Alignment; Risks & Assumptions,"MaaS, Observability",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Model as a Service,,Release Pending,Critical,not-ready,
+9,RHAISTRAT-1658,[GA] External Model Egress via Inference Gateway,67,5/13,Requirements Clarity; RICE Score; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions; Release Type,"MaaS, Observability",rhoai-3.5,,Inference Gateway,,In Progress,Critical,not-ready,
+10,RHAISTRAT-1656,[GA] External OIDC Support for MaaS,67,5/13,Requirements Clarity; Acceptance Criteria; RICE Score; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions; PM Assigned,"MaaS, Observability",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Model as a Service,,Release Pending,Critical,not-ready,
+11,RHAISTRAT-1527,[TP] Multimodal Support in Gen AI Studio Playground,66,12/13,Acceptance Criteria,Gen AI Studio,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; Gen AI Studio; UXD,RHAI Crimson,Release Pending,Critical,not-ready,
+12,RHAISTRAT-1534,[DP] Configuration Persistence for Gen AI Studio,65,13/13,,Gen AI Studio,rhoai-3.5,3.5 GA RHOAI RELEASE,AI Core Dashboard; Documentation; Gen AI Studio; UXD,RHAI Crimson,Release Pending,Critical,committed,
+13,RHAISTRAT-1550,MaaS Settings IA Redesign Unified Policy and Subscription Management,65,12/13,Acceptance Criteria,"MaaS, Observability",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; Model as a Service; UXD,RHAI Onyx,Release Pending,Major,not-ready,
+14,RHAISTRAT-133,[TP] Chat Metrics Observability Tracing in Playground,65,12/13,Architectural Alignment,Gen AI Studio,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; Gen AI Studio; RAG + Vector DB; UXD,RHAI Crimson,Release Pending,Critical,not-ready,
+15,RHAISTRAT-1720,[GA] Separated Provider and Model Configuration for Multi-Provider External Model Serving,64,9/13,RICE Score; UXD; Architectural Alignment; Risks & Assumptions,"MaaS, Observability",rhoai-3.5,,Inference Gateway; Model as a Service,,In Progress,Major,not-ready
+16,RHAISTRAT-1314,MaaS Loki-Based Showback User-Scoped Dashboards,64,10/13,RICE Score; Architectural Alignment; Risks & Assumptions,"MaaS, Observability",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Model and Agent Observability; Model as a Service; UXD,,Release Pending,Major,not-ready
+17,RHAISTRAT-1919,[DP] External Metering for Per-User Token Usage and Cost Tracking,64,9/13,Scope Defined; RICE Score; UXD; Architectural Alignment,"MaaS, Observability",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Inference Gateway; Model as a Service,,Release Pending,Major,not-ready
+18,RHAISTRAT-1412,Option to modify sidecar container memory and cpu resources in managed state,63,10/13,UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,AI Core Platform; Documentation; Serving Orchestration,RHAI Serving Orchestration,Release Pending,Blocker,not-ready
+19,RHAISTRAT-1750,[TP] Load starter prompts from global registry namespaces in Gen AI Studio playground,62,13/13,,Gen AI Studio,rhoai-3.5,3.5 GA RHOAI RELEASE,AI Core Dashboard; Gen AI Studio; MLflow; UXD,RHAI Crimson,Release Pending,Critical,committed
+20,RHAISTRAT-1803,[Feat] Improve tool calling reliability for agentic workflows,62,10/13,Acceptance Criteria; UXD; Risks & Assumptions,,3.5 GA RHOAI RELEASE,,Inference-Time Techniques,AI Innovation team,In Progress,Critical,not-ready
+21,RHAISTRAT-1472,AI Hub Model Serving Wizard Surface Tool Calling Configuration During Deployment Stage 2,61,12/13,Risks & Assumptions,Tool Calling,3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AI Core Dashboard; Documentation; Serving Orchestration; UXD,RHAI Green,In Progress,Major,not-ready
+22,RHAISTRAT-1817,Add new model batch to RHOAI 3.5 EA2 catalog,59,10/13,Acceptance Criteria; Documentation; UXD,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,AI Hub,RHOAI AI Hub,Release Pending,Major,not-ready
+23,RHAISTRAT-1468,Inference-Aware Pod Lifecycle for llm-d,57,11/13,Acceptance Criteria; UXD,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Documentation; llm-d; Model as a Service; Serving Orchestration; vLLM Runtime,RHAI Serving Orchestration,Release Pending,Critical,not-ready
+24,RHAISTRAT-1921,[DP] OGX must apply configuration changes without requiring a restart,57,10/13,Requirements Clarity; Scope Defined; Risks & Assumptions,"Gen AI Studio, vLLM Multimodal",3.6 GA RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AI Core Dashboard; Gen AI Studio; UXD,RHAI Crimson,In Progress,Critical,not-ready
+25,RHAISTRAT-1641,P/D Disaggregation for llm-d on AKS + NVIDIA GA,57,7/13,Requirements Clarity; Acceptance Criteria; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,llm-d on xKS,3.5 GA RHAII RELEASE,3.5 GA RHAII RELEASE,llm-d,INFERENG llm-d,Release Pending,Critical,not-ready
+26,RHAISTRAT-1526,AI Security Insights Tab for Red Hat AI Model Catalog,55,12/13,Acceptance Criteria,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AI Evaluations; AI Hub; AI Safety; Documentation; UXD,RHOAI AI Hub,Release Pending,Critical,not-ready
+27,RHAISTRAT-1377,RHAII MaaS on xKS,55,10/13,Acceptance Criteria; UXD; Risks & Assumptions,llm-d on xKS,3.5 GA RHAII RELEASE,,Model as a Service,,In Progress,Blocker,not-ready
+28,RHAISTRAT-1939,[GA] Gen AI Studio General Availability,54,12/13,UXD,"Gen AI Studio, vLLM Multimodal",3.6 GA RHOAI RELEASE,,AI Core Dashboard; Gen AI Studio,RHAI Crimson,Backlog,Critical,not-ready
+29,RHAISTRAT-1914,[DP] Deployment of gen AI playground configurations as callable API services,54,8/13,Requirements Clarity; Acceptance Criteria; Scope Defined; Release Type,"Gen AI Studio, vLLM Multimodal",3.6 GA RHOAI RELEASE,,AI Core Dashboard; Gen AI Studio; UXD,,Backlog,Critical,not-ready
+30,RHAISTRAT-1267,[GA] Perses Scalable Dashboard Contribution Patterns,53,12/13,Risks & Assumptions,Observability,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; Documentation; Model and Agent Observability; UXD,,Release Pending,Critical,not-ready
+31,RHAISTRAT-1643,P/D Disaggregation for llm-d on CoreWeave + NVIDIA GA,53,7/13,Requirements Clarity; Acceptance Criteria; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,llm-d on xKS,3.5 GA RHAII RELEASE,3.5 GA RHAII RELEASE,llm-d,INFERENG llm-d,Release Pending,Critical,not-ready
+32,RHAISTRAT-1954,Tool-Calling Benchmarks in the Model Validation Pipeline,52,8/13,Acceptance Criteria; RICE Score; Cross-functional Engineering; Documentation; UXD,"Tool Calling, llm-d Tool Calling Pass Through",rhoai-3.5,,Model Validation,,New,Normal,not-ready
+33,RHAISTRAT-1722,RHAII Model Deployment UI for xKS,52,10/13,UXD; Architectural Alignment; Risks & Assumptions,llm-d on xKS,rhoai-3.5,3.5 GA RHOAI RELEASE,AI Core Dashboard; AI Core Platform; Documentation; llm-d,RHAI Pewter,Release Pending,Critical,not-ready
+34,RHAISTRAT-1678,[TP] GenAI Studio MCP Discovery from Registry,52,9/13,Acceptance Criteria; Risks & Assumptions; Release Type,"Gen AI Studio, vLLM Multimodal",3.6 EA2 RHOAI RELEASE,,AI Core Dashboard; Gen AI Studio; UXD,,Backlog,Major,not-ready
+35,RHAISTRAT-1524,Surface model cold-start and vRAM metrics in Model Catalog,52,11/13,Architectural Alignment; Risks & Assumptions,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,AI Core Dashboard; AI Hub; Documentation; UXD,RHOAI AI Hub,Release Pending,Critical,not-ready
+36,RHAISTRAT-2317,Gateway Discovery for llm-d Deployments General Availability,51,6/13,Acceptance Criteria; RICE Score; UXD; Release Type; Assignee; PM Assigned,llm-d Platform Experience,3.6 GA RHOAI RELEASE,,AI Core Dashboard; llm-d,RHAI Zaffre,New,Critical,not-ready
+37,RHAISTRAT-2052,Agent Configuration Comparison in Gen AI Studio Chat Compare,51,8/13,Acceptance Criteria; RICE Score; UXD; Release Type,"Gen AI Studio, vLLM Multimodal",3.6 EA2 RHOAI RELEASE,,AI Core Dashboard; Gen AI Studio,,New,Major,not-ready
+38,RHAISTRAT-1749,[TP] Model-prompt associations in embedded prompt registry,51,12/13,Acceptance Criteria,"Gen AI Studio, vLLM Multimodal",3.6 EA1 RHOAI RELEASE,,AI Core Dashboard; Gen AI Studio; MLflow; UXD,RHAI Crimson,In Progress,Major,not-ready
+39,RHAISTRAT-1748,[TP] Model-prompt pairing in Gen AI Studio playground,51,11/13,Documentation; Risks & Assumptions,"Gen AI Studio, vLLM Multimodal",3.6 EA2 RHOAI RELEASE,,AI Core Dashboard; Gen AI Studio; UXD,RHAI Crimson,New,Major,not-ready
+40,RHAISTRAT-1729,Autoscaling Configuration for Model Serving in the Dashboard UI,51,7/13,Acceptance Criteria; RICE Score; UXD; Release Type; Assignee,llm-d Platform Experience,3.6 GA RHOAI RELEASE,,AI Core Dashboard,RHAI Zaffre,New,Critical,not-ready
+41,RHAISTRAT-2192,Agentic Tool Layer for llm-d Deployment Planning Phase 1,51,5/13,RICE Score; UXD; Architectural Alignment; Risks & Assumptions; Release Type; Assignee; PM Assigned,llm-d Platform Experience,3.6 GA RHOAI RELEASE,,AI Navigator; llm-d,,New,Critical,not-ready
+42,RHAISTRAT-2160,Speculative Decoding Tool Calling and Structured Outputs Must Work Together on RHOAI 3.6,51,7/13,Acceptance Criteria; RICE Score; UXD; Risks & Assumptions; Release Type,Tool Calling,3.6 GA RHOAI RELEASE,,vLLM,,In Progress,Blocker,not-ready
+43,RHAISTRAT-1461,Responses API Tool Calling Parity with Chat Completions,51,10/13,Documentation; UXD; Risks & Assumptions,Tool Calling,3.6 GA RHOAI RELEASE,3.6 GA RHAII RELEASE,vLLM Runtime,RHAI INFERENG Runtime,In Progress,Major,not-ready
+44,RHAISTRAT-1535,YAML Editor GA Bi-Directional UI/YAML Toggle in Model Serving,50,11/13,Cross-functional Engineering; Documentation,llm-d Platform Experience,3.6 GA RHOAI RELEASE,,AI Core Dashboard; UXD,RHAI Zaffre,New,Critical,not-ready
+45,RHAISTRAT-1740,Agent Catalog Discovery and Deployment of Agent Starter Kits in RHOAI,50,11/13,Acceptance Criteria; UXD,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AgentDev; AI Core Dashboard; AI Hub; Documentation; Tooling Experience,RHOAI AI Hub,Release Pending,Critical,not-ready
+46,RHAISTRAT-1816,Add text-embedding model catalog entries,49,11/13,Documentation; UXD,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,AI Hub,RHOAI AI Hub,Release Pending,Normal,not-ready
+47,RHAISTRAT-1047,Add fast builds of RHAII vLLM into RHOAI,49,12/13,UXD,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AI Core Platform; AIPCC Ecosystems; AIPCC Productization; AI Platform DevOps; DevOps; INFERENG Midstream; Model Runtimes; Serving Orchestration; vLLM Runtime,RHAI Zaffre,Release Pending,Critical,not-ready
+48,RHAISTRAT-1536,[GA] Granular Role Creation UI,49,13/13,,Multitenancy,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; Documentation; UXD,RHAI Razzmatazz,Release Pending,Critical,committed
+49,RHAISTRAT-1603,EvalHub Server Implement OTEL Meter Provider for Metrics Export,49,11/13,Acceptance Criteria; UXD,Eval Hub,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Evaluations; AI Safety,evalhub,Release Pending,Critical,not-ready
+50,RHAISTRAT-1284,Enable ability to test connection during creation flow,49,12/13,Architectural Alignment,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AI Core Platform; UXD,RHAI Razzmatazz,Release Pending,Critical,not-ready
+51,RHAISTRAT-2254,Improve rolling upgrade reliability for disaggregated prefill/decode deployments,49,7/13,Requirements Clarity; Scope Defined; Documentation; UXD; Risks & Assumptions; Assignee,llm-d Platform Experience,3.6 GA RHOAI RELEASE,3.6 GA RHAII RELEASE,llm-d; Serving Orchestration,,New,Critical,not-ready
+52,RHAISTRAT-1576,[TP] Surface MCP Endpoints in AI Asset Endpoints View,49,8/13,Acceptance Criteria; UXD; Risks & Assumptions; Release Type,"Gen AI Studio, vLLM Multimodal",3.6 EA2 RHOAI RELEASE,,AI Core Dashboard; Gen AI Studio,RHAI Crimson,Backlog,Major,not-ready
+53,RHAISTRAT-1856,[DP] Midojo Red Teaming Execution Engine,49,7/13,Requirements Clarity; Acceptance Criteria; RICE Score; UXD; Architectural Alignment; Risks & Assumptions,Eval Hub,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Safety; AI Safety Orchestration,RHOAI Trusty AI,Release Pending,Critical,not-ready
+54,RHAISTRAT-1507,EvalHub metrics must be automatically discoverable by the OpenShift platform monitoring stack,49,9/13,RICE Score; UXD; Architectural Alignment; Risks & Assumptions,Eval Hub,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,AI Evaluations; AI Safety,evalhub,Release Pending,Critical,not-ready
+55,RHAISTRAT-1488,PyTorch NVIDIA Rubin Day-0 support,49,7/13,Acceptance Criteria; Scope Defined; RICE Score; Documentation; UXD; Architectural Alignment,Red Hat AI Factory with NVIDIA Rubin Day 0,3.5 GA RHAII RELEASE,,PyTorch,,In Progress,Critical,not-ready
+56,RHAISTRAT-949,Support RHOAI on HCP on OCP Virt,49,6/13,Requirements Clarity; Acceptance Criteria; RICE Score; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,Multitenancy,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Platform; Documentation,AI Core Platform,Release Pending,Critical,not-ready
+57,RHAISTRAT-2049,ExternalModel CR Support in Gen AI Studio Playground,48,9/13,RICE Score; UXD; Release Type,"Gen AI Studio, vLLM Multimodal",3.6 EA2 RHOAI RELEASE,,AI Core Dashboard; Gen AI Studio,,New,Normal,not-ready
+58,RHAISTRAT-2003,Self-Service Gateway Creation for llm-d Deployments,48,7/13,RICE Score; UXD; Release Type; Assignee; PM Assigned,llm-d Platform Experience,3.6 GA RHOAI RELEASE,,AI Core Dashboard; llm-d,RHAI Zaffre,New,Major,not-ready
+59,RHAISTRAT-2403,Context-Aware Prompt Optimization in Gen AI Studio Playground,48,8/13,Acceptance Criteria; RICE Score; Documentation; UXD; Assignee,"Gen AI Studio, vLLM Multimodal",3.6 GA RHOAI RELEASE,3.6 GA RHOAI RELEASE,AI Core Dashboard; Gen AI Studio; MLflow,RHAI Crimson,New,Normal,not-ready
+60,RHAISTRAT-2028,MCP Catalog Support Tier Labeling,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AI Hub,RHOAI AI Hub,Release Pending,Critical,not-ready
+61,RHAISTRAT-2050,Re-evaluate Custom Endpoints Feature in Light of ExternalModel CR Capabilities,48,7/13,Acceptance Criteria; RICE Score; UXD; Architectural Alignment; Release Type,"Gen AI Studio, vLLM Multimodal",3.6 EA2 RHOAI RELEASE,,AI Core Dashboard; Gen AI Studio,,New,Normal,not-ready
+62,RHAISTRAT-1822,AutoML Experimentation Visibility and Transparency,48,9/13,Documentation; UXD; Architectural Alignment; Risks & Assumptions,AutoML,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AutoML,RHAI Purple,Release Pending,Major,not-ready
+63,RHAISTRAT-1757,GPU Topology and Utilization Dashboard for OpenShift AI,48,11/13,Acceptance Criteria; Risks & Assumptions,GPUaaS,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; Distributed Workloads; UXD,,Release Pending,Major,not-ready
+64,RHAISTRAT-1723,RHAII MaaS Consumer Self-Service Portal for xKS,48,10/13,RICE Score; Architectural Alignment; Risks & Assumptions,Inference on xKS,3.6 EA2 RHOAI RELEASE,,AI Core Dashboard; Documentation; Model as a Service; UXD,RHAI Pewter,Refinement,Critical,not-ready
+65,RHAISTRAT-1209,Intelligent Inference Scheduling for llm-d on xKS,48,11/13,Architectural Alignment; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Platform; Documentation; llm-d; Serving Orchestration; UXD,,Release Pending,Blocker,not-ready
+66,RHAISTRAT-497,Integrate Kueue Workload Scheduling Information in Workbenches Overview,48,12/13,Architectural Alignment,GPUaaS,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AI Core Platform; Notebooks Server; UXD,RHOAI Dashboard,Release Pending,Major,not-ready
+67,RHAISTRAT-1476,OGX EA1 Readiness 3.5,47,6/13,Requirements Clarity; Acceptance Criteria; Cross-functional Engineering; Documentation; UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA1 RHOAI RELEASE,3.5 EA1 RHOAI RELEASE,OGX Core,RHAI Agentic API,Release Pending,Critical,not-ready
+68,RHAISTRAT-1373,Rename Llama Stack to remove Meta trademark dependency ahead of GA,47,9/13,Requirements Clarity; Acceptance Criteria; UXD; Architectural Alignment,,3.5 EA1 RHOAI RELEASE,3.5 EA1 RHOAI RELEASE,Documentation; OGX Core; Tooling Experience,RHAI Agentic API,Release Pending,Critical,not-ready
+69,RHAISTRAT-323,Support Autoscaling for Distributed Workloads based on Ray,47,11/13,UXD; Architectural Alignment,GPUaaS,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Distributed Workloads; Documentation; KubeRay; Ray Training,AIP Training Ray,Release Pending,Critical,not-ready
+70,RHAISTRAT-1738,Prefill/Decode Disaggregation Template Card in Model Serving Wizard,46,11/13,Release Type; PM Assigned,llm-d Platform Experience,3.6 GA RHOAI RELEASE,,AI Core Dashboard; Documentation; llm-d; Serving Orchestration; UXD,,New,Normal,not-ready
+71,RHAISTRAT-1773,[TP] Productize MCP Lifecycle Operator for RHOAI Installation,46,10/13,RICE Score; UXD; Risks & Assumptions,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Agentic; AI Core Platform; AI Hub; AI Platform DevOps,pod-yellow-octopus,Release Pending,Major,not-ready
+72,RHAISTRAT-1673,Structural contextualization support for AutoRAG,46,10/13,Acceptance Criteria; RICE Score; UXD,AutoRAG,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AutoRAG,RHAI Purple,Release Pending,Major,not-ready
+73,RHAISTRAT-1636,AISI Inspect AI Evals External Provider Adapter for EvalHub Contrib,46,9/13,Acceptance Criteria; RICE Score; Documentation; UXD,Eval Hub,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Evaluations; AI Safety,,Release Pending,Major,not-ready
+74,RHAISTRAT-1538,AutoGluon as a Supported Model Serving Runtime in Red Hat OpenShift AI,46,10/13,Acceptance Criteria; RICE Score; UXD,AutoML,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AutoML; Model Runtimes,,Release Pending,Critical,not-ready
+75,RHAISTRAT-1937,[TP] Document MCP Gateway Operator as an RHOAI Dependency,46,9/13,Acceptance Criteria; RICE Score; UXD; Architectural Alignment,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.5 GA RHOAI RELEASE,,AI Hub; AI Platform DevOps; Documentation,,In Progress,Major,not-ready
+76,RHAISTRAT-1859,MCP Catalog Admin UI for Managing Catalog Entries,46,9/13,Acceptance Criteria; Documentation; UXD; Risks & Assumptions,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AI Hub,RHAI Green,Release Pending,Major,not-ready
+77,RHAISTRAT-1589,EvalCard Generation per-eval run in eval-hub,46,9/13,Acceptance Criteria; RICE Score; UXD; Risks & Assumptions,Eval Hub,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Evaluations; AI Safety,RHOAI Trusty AI,Release Pending,Major,not-ready
+78,RHAISTRAT-1491,AutoML Enhanced Trained Model Insights,46,9/13,Acceptance Criteria; RICE Score; UXD; Risks & Assumptions,AutoML,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AutoML,RHAI Purple,Release Pending,Major,not-ready
+79,RHAISTRAT-1608,EvalHub Sidecar Metrics Proxy for Evaluation Performance Metrics from K8s Job Pods,46,6/13,Acceptance Criteria; RICE Score; UXD; Architectural Alignment; Risks & Assumptions; Release Type; Assignee,Eval Hub,rhoai-3.5,,AI Evaluations; AI Safety,evalhub,New,Major,not-ready
+80,RHAISTRAT-1418,GA readiness for the Responses API,46,11/13,UXD; Architectural Alignment,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,Documentation; OGX Core,RHAI Agentic API,Release Pending,Critical,not-ready
+81,RHAISTRAT-1811,KV Cache Handoff on the Disaggregated Path for llm-d,45,10/13,RICE Score; UXD; Risks & Assumptions,Tool Calling,3.6 GA RHOAI RELEASE,,llm-d; vLLM Runtime,,In Progress,Major,not-ready
+82,RHAISTRAT-1810,AI Gateway Full API Fidelity for Tool-Calling Clients,45,7/13,RICE Score; Documentation; UXD; Architectural Alignment; Assignee; PM Assigned,Tool Calling,3.6 GA RHOAI RELEASE,,Inference Gateway; vLLM Runtime,,New,Major,not-ready
+83,RHAISTRAT-1422,Ability to hide default Workbench images,45,12/13,Acceptance Criteria,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; Notebooks Images; Notebooks Server; UXD,,Release Pending,Major,not-ready
+84,RHAISTRAT-2428,Display agentic evaluation results in the Model Catalog AI Hub,45,7/13,Acceptance Criteria; RICE Score; UXD; Risks & Assumptions; Release Type,Tool Calling,3.6 GA RHOAI RELEASE,,AI Core Dashboard; AI Hub; Model Validation,,New,Major,not-ready
+85,RHAISTRAT-2427,End-to-end agentic validation as part of model validation,45,6/13,Acceptance Criteria; RICE Score; UXD; Architectural Alignment; Risks & Assumptions; Release Type,Tool Calling,3.6 GA RHOAI RELEASE,,Model Validation,,New,Major,not-ready
+86,RHAISTRAT-2064,Validate Tool-Calling Models on vLLM for RHOAI 3.6 GA,45,8/13,Scope Defined; RICE Score; Documentation; UXD; Risks & Assumptions,Tool Calling,3.6 GA RHOAI RELEASE,3.6 GA RHOAI RELEASE,vLLM Runtime,,In Progress,Major,not-ready
+87,RHAISTRAT-1568,RHAII on NVIDIA DGX Spark GB10,45,11/13,UXD; Architectural Alignment,,3.5 GA RHAII RELEASE,3.5 GA RHAII RELEASE,INFERENG Midstream; vLLM Runtime,INFERENG Midstream,Review,Major,not-ready
+88,RHAISTRAT-1361,Deprecate and remove the Evaluation API from OGX distribution,45,9/13,Requirements Clarity; UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA1 RHOAI RELEASE,3.5 EA1 RHOAI RELEASE,AI Evaluations; AI Safety; Documentation; OGX Core,RHAI Agentic API,Release Pending,Critical,not-ready
+89,RHAISTRAT-1281,Support Admin Setup of LLMInferenceServiceConfig,45,13/13,,llm-d Platform Experience,3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AI Core Dashboard; Documentation; llm-d; Serving Orchestration; UXD,RHAI Zaffre,In Progress,Normal,committed
+90,RHAISTRAT-1425,[Feat] Multi-Lingual Support for AutoRAG,44,12/13,Risks & Assumptions,AutoRAG,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AutoRAG; UXD,RHAI Purple,Release Pending,Major,not-ready
+91,RHAISTRAT-1615,Intelligent Inference Scheduling for llm-d on EKS TP,44,7/13,Requirements Clarity; Acceptance Criteria; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,llm-d,,Release Pending,Blocker,not-ready
+92,RHAISTRAT-1433,AI Pipelines MLflow integration in RHOAI,44,11/13,Architectural Alignment; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AI Pipelines; DevOps; Documentation; MLflow; TestOps; UXD,,Release Pending,Critical,not-ready
+93,RHAISTRAT-1362,Deprecate and remove the Safety/Shields API from OGX distribution,44,9/13,Requirements Clarity; UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA1 RHOAI RELEASE,3.5 EA1 RHOAI RELEASE,AI Safety; Documentation; OGX Core,RHAI Agentic API,Release Pending,Critical,not-ready
+94,RHAISTRAT-1850,Keep pre-AIPCC workbenches available after the change,43,11/13,UXD; Risks & Assumptions,,rhoai-3.5,3.5 GA RHOAI RELEASE,AI Platform DevOps; Notebooks Images,RHAI Notebooks,Release Pending,Major,not-ready
+95,RHAISTRAT-1474,Homepage Refactor - Improved Feature Discovery,43,9/13,Acceptance Criteria; Documentation; Risks & Assumptions; PM Assigned,,3.5 EA1 RHOAI RELEASE,3.5 EA1 RHOAI RELEASE,AI Core Dashboard; UXD,,Release Pending,Critical,not-ready
+96,RHAISTRAT-1685,[GA] llm-d Observability Reference Dashboards via Perses RHOAI 3.5,43,6/13,Requirements Clarity; Acceptance Criteria; Scope Defined; RICE Score; UXD; Architectural Alignment; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,llm-d; Model and Agent Observability,INFERENG llm-d,Release Pending,Blocker,not-ready
+97,RHAISTRAT-1409,Docling container image updates and push to registry,43,5/13,Requirements Clarity; Acceptance Criteria; Scope Defined; RICE Score; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,Data Processing,RHAI Data Processing,Release Pending,Blocker,not-ready
+98,RHAISTRAT-1374,Remove inline providers from Llama Stack distribution image,43,9/13,Acceptance Criteria; UXD; Architectural Alignment; PM Assigned,,3.5 EA1 RHOAI RELEASE,3.5 EA1 RHOAI RELEASE,OGX Core,RHAI Agentic API,Release Pending,Critical,not-ready
+99,RHAISTRAT-1111,Tech-preview/GA readiness for the conversations API,43,8/13,Requirements Clarity; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA1 RHOAI RELEASE,3.5 EA1 RHOAI RELEASE,Documentation; OGX Core,RHAI Agentic API,Release Pending,Critical,not-ready
+100,RHAISTRAT-178,[Feat] Enable its_hub to run as an AI Gateway component,43,10/13,Cross-functional Engineering; UXD; Risks & Assumptions,,3.6 GA RHOAI RELEASE,3.6 GA RHOAI RELEASE,Inference-Time Techniques,AI Innovation team,In Progress,Critical,not-ready
+101,RHAISTRAT-2245,Go SDK for OpenShell programmatic integration in Red Hat AI,42,10/13,Acceptance Criteria; RICE Score; UXD,Bring Your Own Agent,3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AgentOps; Documentation,,New,Critical,not-ready
+102,RHAISTRAT-1569,EvalHub UI Real-Time Evaluation Job Progress and State Visibility,42,12/13,Acceptance Criteria,Eval Hub,3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AI Core Dashboard; AI Evaluations; AI Safety; UXD,RHAI Purple,In Progress,Major,not-ready
+103,RHAISTRAT-2247,Sub-second sandbox cold-start via warm pools,42,5/13,Requirements Clarity; Acceptance Criteria; Scope Defined; RICE Score; UXD; Release Type; PM Assigned,Bring Your Own Agent,3.6 EA2 RHOAI RELEASE,,AgentOps,,In Progress,Critical,not-ready
+104,RHAISTRAT-1752,Productize OpenShell for Red Hat AI,42,9/13,Acceptance Criteria; RICE Score; UXD; Risks & Assumptions,Bring Your Own Agent,3.6 GA RHOAI RELEASE,,AgentOps; Documentation; Security,,In Progress,Critical,not-ready
+105,RHAISTRAT-1164,Hardware Profiles with Accelerator Type Awareness,42,10/13,Acceptance Criteria; Documentation; Architectural Alignment,GPUaaS,3.6 EA2 RHOAI RELEASE,,AI Core Dashboard; AI Core Platform; Serving Orchestration; UXD,RHAI Razzmatazz,Refinement,Major,not-ready
+106,RHAISTRAT-2305,Downstream build pipeline and distribution for OpenShell images and CLI,42,6/13,Requirements Clarity; Acceptance Criteria; Scope Defined; RICE Score; Documentation; UXD; Risks & Assumptions,Bring Your Own Agent,3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AgentOps,,In Progress,Critical,not-ready
+107,RHAISTRAT-2148,Configure and Deploy Agents into Secure Execution Environments,42,5/13,Requirements Clarity; Acceptance Criteria; Scope Defined; RICE Score; UXD; Risks & Assumptions; Release Type; PM Assigned,Bring Your Own Agent,3.6 EA2 RHOAI RELEASE,,AgentOps; Documentation,,New,Critical,not-ready
+108,RHAISTRAT-2138,Progressive Agent Sandboxing on OpenShift AI via Kata Containers,42,8/13,Scope Defined; RICE Score; UXD; Release Type,Bring Your Own Agent,3.6 EA2 RHOAI RELEASE,,Tooling Experience,RHAI Tooling Experience,New,Critical,not-ready
+109,RHAISTRAT-853,Implement Model Cache in RHOAI,42,11/13,Cross-functional Engineering; UXD,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Documentation; Serving Orchestration,RHAI Serving Orchestration,Release Pending,Critical,not-ready
+110,RHAISTRAT-1975,API Surface Full-Stack Passthrough - Tool calling for llm-d,41,12/13,UXD,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,llm-d,INFERENG llm-d,Review,Blocker,not-ready
+111,RHAISTRAT-1577,Kueue Quota Hierarchy Visualization and Management in OpenShift AI Dashboard,41,12/13,Acceptance Criteria,GPUaaS,3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AI Core Dashboard; AI Core Platform; Documentation; Ray Training; Training Kubeflow; UXD,RHAI Tangerine,In Progress,Critical,not-ready
+112,RHAISTRAT-1987,Automated Prompt Optimization for Agentic Systems,41,8/13,Acceptance Criteria; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Training Hub,,Release Pending,Critical,not-ready
+113,RHAISTRAT-1828,EvalHub K8s Controller Namespace-Admin-Managed Per-Tenant Deployment,40,11/13,RICE Score; UXD,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Evaluations; AI Safety,evalhub,Release Pending,Critical,not-ready
+114,RHAISTRAT-1789,Ship Upstream Optimized Baseline as Default Scheduler Configuration,40,11/13,UXD; PM Assigned,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Documentation; llm-d; PerfScale; Serving Orchestration,RHAI Serving Orchestration,Release Pending,Major,not-ready
+115,RHAISTRAT-1719,Controlled Deployment for Inference Workloads - llm-d,40,11/13,UXD; PM Assigned,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Documentation; llm-d; Serving Orchestration,RHAI Serving Orchestration,Release Pending,Critical,not-ready
+116,RHAISTRAT-2199,Usage telemetry for Auto ML feature adoption,40,11/13,Documentation; Architectural Alignment,AutoML,3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AI Core Dashboard; AutoML; UXD,RHAI Purple,In Progress,Critical,not-ready
+117,RHAISTRAT-1762,MCP Registry Operational Governance for Deployed and Registered MCP Assets,40,12/13,Acceptance Criteria,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AI Core Dashboard; AI Hub; UXD,RHAI Razzmatazz,In Progress,Critical,not-ready
+118,RHAISTRAT-1737,llm-d Deployment Template Selection in Model Serving Wizard,40,12/13,Architectural Alignment,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; Documentation; llm-d; Serving Orchestration; UXD,RHAI Zaffre,Release Pending,Critical,not-ready
+119,RHAISTRAT-1727,Cross-namespace shared workspace access for curated resources,40,10/13,Acceptance Criteria; Cross-functional Engineering; UXD,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard,RHAI Razzmatazz,Release Pending,Major,not-ready
+120,RHAISTRAT-1718,llm-d Hierarchical KV Cache Tiering GPU CPU POSIX File System,40,10/13,Acceptance Criteria; UXD; PM Assigned,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,llm-d,INFERENG llm-d,Review,Critical,not-ready
+121,RHAISTRAT-1477,Kueue support for Kubeflow Spark Operator KSO,40,10/13,RICE Score; UXD; Risks & Assumptions,,rhoai-3.5,3.5 GA RHOAI RELEASE,Data Processing; Documentation,RHAI Data Processing,Release Pending,Critical,not-ready
+122,RHAISTRAT-2114,Secure agent sandboxing and policy enforcement via OpenShell Dev Preview,40,7/13,RICE Score; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions; PM Assigned,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AgentOps; Documentation,RHAI AgentOps,Review,Critical,not-ready
+123,RHAISTRAT-1924,Unstructured Policy-to-Risk Mapping via AI Risk Atlas Nexus,40,6/13,Acceptance Criteria; RICE Score; Cross-functional Engineering; Documentation; UXD; Risks & Assumptions; PM Assigned,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,AI Safety,,Release Pending,Critical,not-ready
+124,RHAISTRAT-1802,[DP] MaaS External Metering Integration Validated BBR Plugin,40,8/13,RICE Score; UXD; Architectural Alignment; Risks & Assumptions; PM Assigned,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Inference Gateway; Model and Agent Observability; Model as a Service,,Release Pending,Critical,not-ready
+125,RHAISTRAT-1395,Display vLLM version for LLMInferenceServiceConfigs,40,11/13,Acceptance Criteria; Architectural Alignment,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Platform; AI Platform DevOps; DevOps; llm-d; Serving Orchestration; UXD,RHAI Serving Orchestration,Review,Critical,not-ready
+126,RHAISTRAT-1934,Align RHAII and RHOAI releases for more recent vLLM delivery,40,4/13,Requirements Clarity; Acceptance Criteria; Scope Defined; RICE Score; UXD; Architectural Alignment; Release Type; PM Assigned,,RHAII-3.5 GA,,DevOps; INFERENG Midstream; Model Runtimes; TestOps,RHAI Model Runtimes,In Progress,Critical,not-ready
+127,RHAISTRAT-1915,Announce Deprecation of FMS Guardrails Orchestrator in Favor of NeMo Guardrails,40,9/13,RICE Score; UXD; Architectural Alignment; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Guardrails; AI Safety,RHOAI Trusty AI,Release Pending,Critical,not-ready
+128,RHAISTRAT-1721,[TP] Provide Integration knobs for Guardrails with the MCP Gateway,40,6/13,Requirements Clarity; Acceptance Criteria; RICE Score; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,AI Safety,,Release Pending,Critical,not-ready
+129,RHAISTRAT-1519,Test Automation for Upgrade Validation,40,11/13,RICE Score; UXD,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Core Dashboard; AI Core Platform; KubeRay; Notebooks Extensions; Notebooks Server; Serving Orchestration,AI Core Platform,Review,Blocker,not-ready
+130,RHAISTRAT-1505,EvalHub General Availability GA Graduation for Red Hat AI Evaluation Stack,40,10/13,RICE Score; UXD; Architectural Alignment,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,AI Evaluations; AI Safety,RHOAI Trusty AI,Release Pending,Critical,not-ready
+131,RHAISTRAT-1469,llm-d Priority-Aware Scheduling for Mixed Workloads GA,40,6/13,Requirements Clarity; Acceptance Criteria; RICE Score; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,llm-d,INFERENG llm-d,Release Pending,Critical,not-ready
+132,RHAISTRAT-1439,Enable use of vLLM model refresh in LLS distro image,40,6/13,Requirements Clarity; Acceptance Criteria; Cross-functional Engineering; Documentation; UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA1 RHOAI RELEASE,3.5 EA1 RHOAI RELEASE,OGX Core,RHAI Agentic API,Release Pending,Normal,not-ready
+133,RHAISTRAT-1368,GA Implement End-to-End Distributed Tracing for llm-d,40,9/13,RICE Score; UXD; Architectural Alignment; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Documentation; llm-d; Serving Orchestration,,Release Pending,Critical,not-ready
+134,RHAISTRAT-1301,Deliver RHAIE onto Cloud Marketplaces OCP + OAI Operator Install Validation,40,7/13,RICE Score; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions; PM Assigned,,rhoai-3.5.EA1,,AI Platform DevOps; Documentation,RHOAI DevOps,In Progress,Critical,not-ready
+135,RHAISTRAT-1286,KSO + Workbench integration - interactive spark job management,40,5/13,Requirements Clarity; Acceptance Criteria; Scope Defined; RICE Score; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Data Processing; Documentation,RHAI Data Processing,Release Pending,Critical,not-ready
+136,RHAISTRAT-1228,Improve Inference API OpenAI parity,40,6/13,Requirements Clarity; Acceptance Criteria; Cross-functional Engineering; Documentation; UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA1 RHOAI RELEASE,3.5 EA1 RHOAI RELEASE,OGX Core,RHAI Agentic API,Release Pending,Major,not-ready
+137,RHAISTRAT-1199,Implement Service-Level SLI Metrics at Inference Gateway llm-d,40,7/13,Requirements Clarity; RICE Score; Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Documentation; llm-d,INFERENG llm-d,Release Pending,Critical,not-ready
+138,RHAISTRAT-1113,Hermetically build all Notebook images,40,5/13,Requirements Clarity; Acceptance Criteria; Scope Defined; RICE Score; Documentation; UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA2 RHOAI RELEASE,3.5 GA RHOAI RELEASE,Notebooks Images,RHAI Notebooks,Release Pending,Critical,not-ready
+139,RHAISTRAT-1061,Introduce runtime config in LlamaStackDistribution,40,7/13,Requirements Clarity; Acceptance Criteria; UXD; Architectural Alignment; Risks & Assumptions; PM Assigned,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,Documentation; OGX Core,RHAI Agentic API,Release Pending,Major,not-ready
+140,RHAISTRAT-989,Document OGX Multi-Tenancy Architectures Isolation Patterns and Operational Guidance,40,9/13,Cross-functional Engineering; UXD; Architectural Alignment; Risks & Assumptions,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,Documentation; OGX Core,RHAI Agentic API,Release Pending,Major,not-ready
+141,RHAISTRAT-332,llm-d Install Metrics Dashboards by Default in OpenShift Console,40,11/13,RICE Score; UXD,,3.5 GA RHOAI RELEASE,3.5 GA RHOAI RELEASE,Documentation; llm-d; Serving Orchestration,RHAI Serving Orchestration,Review,Critical,not-ready
+142,RHAISTRAT-1117,[GA] MaaS Subscription Model Redesign,40,13/13,,,rhoai-3.4,rhoai-3.4,AI Core Dashboard; Model as a Service; UXD,RHOAI Inference Extensions,Review,Blocker,committed
+143,RHAISTRAT-2006,Hard Multi-Tenancy GPU-Shared AI-as-a-Service via Virtualized OpenShift Clusters,39,10/13,RICE Score; Documentation; UXD,Multitenancy,3.6 EA1 RHOAI RELEASE,,DevOps; TestOps,,Refinement,Critical,not-ready
+144,RHAISTRAT-2392,Notebook image for NVIDIA Rubin architecture,39,6/13,RICE Score; Cross-functional Engineering; UXD; Risks & Assumptions; Release Type; Assignee; PM Assigned,Red Hat Al Factory with NVIDIA Rubin Day 0,3.6 GA RHOAI RELEASE,,Documentation; Notebooks Images,,New,Critical,not-ready
+145,RHAISTRAT-2353,Metrics emission and collection for RH AI inference components,39,9/13,Requirements Clarity; Scope Defined; RICE Score; UXD,Observability,3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AI Core Platform; Model and Agent Observability,,New,Critical,not-ready
+146,RHAISTRAT-2185,OpenShell protocol-aware inbound policy enforcement for A2A and MCP traffic,39,6/13,Acceptance Criteria; RICE Score; Cross-functional Engineering; UXD; Release Type; PM Assigned,Bring Your Own Agent,3.6 EA2 RHOAI RELEASE,,AgentOps,,New,Major,not-ready
+147,RHAISTRAT-2184,OpenShell inbound caller authentication for sandbox-to-sandbox communication,39,7/13,RICE Score; UXD; Risks & Assumptions; Release Type; PM Assigned,Bring Your Own Agent,3.6 EA2 RHOAI RELEASE,,AgentOps,,New,Major,not-ready
+148,RHAISTRAT-2183,OpenShell user identity delegation via token exchange,39,7/13,RICE Score; UXD; Risks & Assumptions; Release Type; PM Assigned,Bring Your Own Agent,3.6 EA2 RHOAI RELEASE,,AgentOps,,New,Major,not-ready
+149,RHAISTRAT-1995,MCP Lifecycle Operator General Availability,39,10/13,RICE Score; UXD; Risks & Assumptions,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.6 GA RHOAI RELEASE,,AI Core Dashboard; AI Hub,,New,Critical,not-ready
+150,RHAISTRAT-1994,MCP Catalog General Availability,39,10/13,Acceptance Criteria; RICE Score; UXD,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.6 GA RHOAI RELEASE,,AI Core Dashboard; AI Hub,,New,Critical,not-ready
+151,RHAISTRAT-1820,Kueue and Workload Visibility for Data Scientists,39,9/13,Acceptance Criteria; RICE Score; Release Type,GPUaaS,3.6 EA2 RHOAI RELEASE,,AI Core Dashboard; AI Core Platform; AI Core Platform Security; UXD,,New,Critical,not-ready
+152,RHAISTRAT-1780,Skills Catalog Discovery and Acquisition of AI Skills and Skill Packages in RHOAI,39,10/13,RICE Score; UXD; Architectural Alignment,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.6 EA2 RHOAI RELEASE,3.6 EA2 RHOAI RELEASE,AI Core Dashboard; AI Hub,,New,Critical,not-ready
+153,RHAISTRAT-1756,Support for ARM Architecture for Workbenches,39,10/13,Acceptance Criteria; Cross-functional Engineering; UXD,,3.5 EA2 RHOAI RELEASE,3.6 EA2 RHOAI RELEASE,Notebooks Images,RHAI Notebooks,To Do,Major,not-ready
+154,RHAISTRAT-1246,Enable remote anthropic provider in OGX Llama Stack,39,10/13,Acceptance Criteria; Cross-functional Engineering; UXD,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,Documentation; OGX Core,RHAI Agentic API,Release Pending,Major,not-ready
+155,RHAISTRAT-1245,Enable remote gemini provider in OGX Llama Stack,39,10/13,Acceptance Criteria; Cross-functional Engineering; UXD,,3.5 EA2 RHOAI RELEASE,3.5 EA2 RHOAI RELEASE,OGX Core,RHAI Agentic API,Release Pending,Major,not-ready
+156,RHAISTRAT-2413,Structured logging for RH AI inference components,39,8/13,Acceptance Criteria; RICE Score; Documentation; UXD; Risks & Assumptions,Observability,3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AI Core Platform; Model and Agent Observability,,New,Critical,not-ready
+157,RHAISTRAT-2405,Notebook image for NVIDIA Rubin architecture v2,39,6/13,Acceptance Criteria; RICE Score; UXD; Risks & Assumptions; Release Type; Assignee; PM Assigned,Red Hat Al Factory with NVIDIA Rubin Day 0,3.6 GA RHOAI RELEASE,,Documentation; Notebooks Images,,New,Critical,not-ready
+158,RHAISTRAT-2027,MCP Catalog and Registry Integration Unified Discovery-to-Governance Workflow for Tech Preview,39,10/13,Acceptance Criteria; Documentation; Risks & Assumptions,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.6 EA1 RHOAI RELEASE,3.6 EA1 RHOAI RELEASE,AI Core Dashboard; AI Hub; UXD,RHAI Razzmatazz,In Progress,Critical,not-ready
+159,RHAISTRAT-1993,MCP Registry General Availability,39,9/13,Acceptance Criteria; RICE Score; UXD; Risks & Assumptions,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.6 GA RHOAI RELEASE,,AI Core Dashboard; AI Hub,,New,Critical,not-ready
+160,RHAISTRAT-1906,Sandboxed Containers API and Shell Tool for Agent Code Execution,39,7/13,RICE Score; UXD; Architectural Alignment; Risks & Assumptions; Release Type; PM Assigned,Bring Your Own Agent,3.6 EA1 RHOAI RELEASE,,Documentation; Inference Gateway,RHAI Agentic API,In Progress,Major,not-ready
+161,RHAISTRAT-1821,Admin Per-Tenant GPU Usage Export for Chargeback,39,6/13,Acceptance Criteria; RICE Score; UXD; Risks & Assumptions; Release Type; Assignee,GPUaaS,3.6 EA2 RHOAI RELEASE,,AI Core Dashboard; AI Core Platform; AI Core Platform Security,,New,Critical,not-ready
+162,RHAISTRAT-1573,MCP Server Registration and Management UI in RHOAI,39,7/13,Acceptance Criteria; RICE Score; UXD; Architectural Alignment; Release Type,"AI Hub incl MCP, AI Safety x Model Validation Integration",3.6 GA RHOAI RELEASE,,AI Core Dashboard; AI Hub,,New,Critical,not-ready
+163,RHAISTRAT-1482,Upstream PyPi Image inclusion,39,11/13,Acceptance Criteria; Risks & Assumptions,,3.6 EA2 RHOAI RELEASE,3.6 EA2 RHOAI RELEASE,AI Core Dashboard; Documentation; Notebooks Images; UXD,Notebooks,To Do,Critical,not-ready
+164,RHAISTRAT-2007,Tenant Observability Isolation and Network Boundary Enforcement,39,7/13,Acceptance Criteria; RICE Score; Documentation; UXD; Architectural Alignment; Risks & Assumptions,Multitenancy,3.6 EA1 RHOAI RELEASE,3.6 EA2 RHOAI RELEASE,AI Core Platform; Model and Agent Observability,,Refinement,Critical,not-ready
+165,RHAISTRAT-1486,Red Hat AI Inference for NVIDIA Rubin Day 0 Dev Preview,39,5/13,Requirements Clarity; Acceptance Criteria; Scope Defined; RICE Score; Cross-functional Engineering; Documentation; UXD; Risks & Assumptions,Red Hat Al Factory with NVIDIA Rubin Day 0,3.6 EA1 RHAII RELEASE,3.6 EA1 RHAII RELEASE,INFERENG Midstream,,To Do,Critical,not-ready
+166,RHAISTRAT-2258,Harden RHOAI NetworkPolicy posture for multi-tenancy,39,6/13,Scope Defined; RICE Score; UXD; Architectural Alignment; Release Type; PM Assigned,Multitenancy,3.6 GA RHOAI RELEASE,,AI Core Platform,AI Core Platform,New,Critical,not-ready`;
+</script>
+</body>
+</html>

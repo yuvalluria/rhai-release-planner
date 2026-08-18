@@ -1,0 +1,632 @@
+{
+  "RHAISTRAT-1486": {
+    "key": "RHAISTRAT-1486",
+    "summary": "Red Hat AI Inference for NVIDIA Rubin Day 0 (Dev Preview)",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9067,
+    "rf_conf_pct": 90.7,
+    "delta_vs_cap": 15.7
+  },
+  "RHAISTRAT-1928": {
+    "key": "RHAISTRAT-1928",
+    "summary": "[RHAII TP] Omni for Productized Serving and Voice Agent Quality",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9733,
+    "rf_conf_pct": 97.3,
+    "delta_vs_cap": 22.3
+  },
+  "RHAISTRAT-2141": {
+    "key": "RHAISTRAT-2141",
+    "summary": "AIPCC 3.6 EA1 - CUDA 13.0.2 support across Red Hat AI 3.6 EA1 GPU runtime stack",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.7833,
+    "rf_conf_pct": 78.3,
+    "delta_vs_cap": 3.3
+  },
+  "RHAISTRAT-2149": {
+    "key": "RHAISTRAT-2149",
+    "summary": "AIPCC 3.6 EA1 - Google TPU Support for Red Hat AI Inference",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.8433,
+    "rf_conf_pct": 84.3,
+    "delta_vs_cap": 9.3
+  },
+  "RHAISTRAT-2151": {
+    "key": "RHAISTRAT-2151",
+    "summary": "AIPCC 3.6 EA1 - AWS Neuron Support in Red Hat AI",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.8433,
+    "rf_conf_pct": 84.3,
+    "delta_vs_cap": 9.3
+  },
+  "RHAISTRAT-2161": {
+    "key": "RHAISTRAT-2161",
+    "summary": "AIPCC 3.6 EA1 - Continued CPU Support for Red Hat AI",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.7833,
+    "rf_conf_pct": 78.3,
+    "delta_vs_cap": 3.3
+  },
+  "RHAISTRAT-1202": {
+    "key": "RHAISTRAT-1202",
+    "summary": "Include NIM in new model serving wizard UI",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-1256": {
+    "key": "RHAISTRAT-1256",
+    "summary": "Unified Callback Abstraction System for Training-Hub",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9733,
+    "rf_conf_pct": 97.3,
+    "delta_vs_cap": 22.3
+  },
+  "RHAISTRAT-1281": {
+    "key": "RHAISTRAT-1281",
+    "summary": "Support Admin Setup of LLMInferenceServiceConfig",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-130": {
+    "key": "RHAISTRAT-130",
+    "summary": "Migrate TrustyAIService to Python and Implement Core Functionality",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.8833,
+    "rf_conf_pct": 88.3,
+    "delta_vs_cap": 13.3
+  },
+  "RHAISTRAT-1309": {
+    "key": "RHAISTRAT-1309",
+    "summary": "Tech Preview - Add Speculator Models to RHOAI Catalog",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9833,
+    "rf_conf_pct": 98.3,
+    "delta_vs_cap": 23.3
+  },
+  "RHAISTRAT-1370": {
+    "key": "RHAISTRAT-1370",
+    "summary": "(feat) Industry/Use Case-Specific Evaluation Collections (Telecom) - cloned RFE-238",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1472": {
+    "key": "RHAISTRAT-1472",
+    "summary": "AI Hub Model Serving Wizard: Surface Tool Calling Configuration During Deployment (Stage 2)",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9333,
+    "rf_conf_pct": 93.3,
+    "delta_vs_cap": 18.3
+  },
+  "RHAISTRAT-1509": {
+    "key": "RHAISTRAT-1509",
+    "summary": "Support Google Interactions API as a front-end protocol",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.8967,
+    "rf_conf_pct": 89.7,
+    "delta_vs_cap": 14.7
+  },
+  "RHAISTRAT-1556": {
+    "key": "RHAISTRAT-1556",
+    "summary": "[TP] Model Type and Capability Metadata Schema with API Filtering",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-1569": {
+    "key": "RHAISTRAT-1569",
+    "summary": "EvalHub UI: Real-Time Evaluation Job Progress and State Visibility",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1570": {
+    "key": "RHAISTRAT-1570",
+    "summary": "EvalHub UI: Actionable Failure Diagnostics for Evaluation Jobs",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1577": {
+    "key": "RHAISTRAT-1577",
+    "summary": "Kueue Quota Hierarchy Visualization and Management in OpenShift AI Dashboard",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9933,
+    "rf_conf_pct": 99.3,
+    "delta_vs_cap": 24.3
+  },
+  "RHAISTRAT-1606": {
+    "key": "RHAISTRAT-1606",
+    "summary": "EvalHub K8s Controller: Reconciliation Loop Observability via Metrics and Traces",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1607": {
+    "key": "RHAISTRAT-1607",
+    "summary": "EvalHub SDK: OTEL Evaluation Execution Traces for Adapter Framework",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1634": {
+    "key": "RHAISTRAT-1634",
+    "summary": "EvalHub UI Surface for AI-Assisted Interpretation of Evaluation Results",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-1681": {
+    "key": "RHAISTRAT-1681",
+    "summary": "Kubeflow Notebooks 2.0  - Downstream",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-1716": {
+    "key": "RHAISTRAT-1716",
+    "summary": "[Openshift-AI] Central TLS Profile consistency",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9633,
+    "rf_conf_pct": 96.3,
+    "delta_vs_cap": 21.3
+  },
+  "RHAISTRAT-1736": {
+    "key": "RHAISTRAT-1736",
+    "summary": "Enable Codex CLI Agent Deployment and Operation on Red Hat OpenShift AI",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1762": {
+    "key": "RHAISTRAT-1762",
+    "summary": "MCP Registry \u2013 Operational Governance for Deployed and Registered MCP Assets",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1792": {
+    "key": "RHAISTRAT-1792",
+    "summary": "Agent Evaluation Starter Kit: Scorer Templates, Quickstart, and Evaluation Methodology",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1797": {
+    "key": "RHAISTRAT-1797",
+    "summary": "Custom Speculator Model Training for Fine-Tuned LLMs ",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.99,
+    "rf_conf_pct": 99.0,
+    "delta_vs_cap": 24.0
+  },
+  "RHAISTRAT-1814": {
+    "key": "RHAISTRAT-1814",
+    "summary": "[TP] Feature Store Admin UI \u2014 Self-Service Instance Deployment and Management",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1843": {
+    "key": "RHAISTRAT-1843",
+    "summary": "(feat) ATIF Agent Trajectory Evaluation (Harbor format)",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.99,
+    "rf_conf_pct": 99.0,
+    "delta_vs_cap": 24.0
+  },
+  "RHAISTRAT-1846": {
+    "key": "RHAISTRAT-1846",
+    "summary": "AutoRAG Index Building Pipeline Deployment",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1848": {
+    "key": "RHAISTRAT-1848",
+    "summary": "[TP] Kubeflow Automated PipeLines Engine (KALE) ",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-1918": {
+    "key": "RHAISTRAT-1918",
+    "summary": "EvalHub Server: Result-Type Metadata Field in Evaluation Results API",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1923": {
+    "key": "RHAISTRAT-1923",
+    "summary": "EvalHub: Kubernetes-Native Evaluation Lifecycle Signals",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-1948": {
+    "key": "RHAISTRAT-1948",
+    "summary": "Build an example showing how to add content safety and topical guardrails to an agent deployed on OpenShift AI using NeMo Guardrails",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9933,
+    "rf_conf_pct": 99.3,
+    "delta_vs_cap": 24.3
+  },
+  "RHAISTRAT-2027": {
+    "key": "RHAISTRAT-2027",
+    "summary": "MCP Catalog and Registry Integration \u2014 Unified Discovery-to-Governance Workflow for Tech Preview",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-2058": {
+    "key": "RHAISTRAT-2058",
+    "summary": "EvalHub: Git Repository as Storage Source for Evaluation Provider Data",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-2071": {
+    "key": "RHAISTRAT-2071",
+    "summary": "Enable and Validate MLServer (Python Inference Server) on IBM Power (ppc64le) for RHOAI",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.96,
+    "rf_conf_pct": 96.0,
+    "delta_vs_cap": 21.0
+  },
+  "RHAISTRAT-2113": {
+    "key": "RHAISTRAT-2113",
+    "summary": "Validate MCP servers using the GenAI playground in RHOAI on IBM Power",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9333,
+    "rf_conf_pct": 93.3,
+    "delta_vs_cap": 18.3
+  },
+  "RHAISTRAT-2137": {
+    "key": "RHAISTRAT-2137",
+    "summary": "Build Speculator Models for 3.6 EA1",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9433,
+    "rf_conf_pct": 94.3,
+    "delta_vs_cap": 19.3
+  },
+  "RHAISTRAT-2144": {
+    "key": "RHAISTRAT-2144",
+    "summary": "Transition RH AI Accelerator Base Images to RHEL 9.8",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.8833,
+    "rf_conf_pct": 88.3,
+    "delta_vs_cap": 13.3
+  },
+  "RHAISTRAT-2150": {
+    "key": "RHAISTRAT-2150",
+    "summary": "AIPCC 3.6 EA1 - Intel Gaudi Support for Red Hat AI",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.7833,
+    "rf_conf_pct": 78.3,
+    "delta_vs_cap": 3.3
+  },
+  "RHAISTRAT-2170": {
+    "key": "RHAISTRAT-2170",
+    "summary": "AIPCC 3.6 EA1 - AMD ROCm Continuous Delivery for Red Hat AI",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.7833,
+    "rf_conf_pct": 78.3,
+    "delta_vs_cap": 3.3
+  },
+  "RHAISTRAT-2172": {
+    "key": "RHAISTRAT-2172",
+    "summary": "AIPCC 3.6 EA1 - spyre-ubi9",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.8433,
+    "rf_conf_pct": 84.3,
+    "delta_vs_cap": 9.3
+  },
+  "RHAISTRAT-2174": {
+    "key": "RHAISTRAT-2174",
+    "summary": "Pre-configured guardrail configurations for NeMo Guardrails",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.6967,
+    "rf_conf_pct": 69.7,
+    "delta_vs_cap": -5.3
+  },
+  "RHAISTRAT-2175": {
+    "key": "RHAISTRAT-2175",
+    "summary": "Bundled HuggingFace models in NeMo Guardrails container image",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.7767,
+    "rf_conf_pct": 77.7,
+    "delta_vs_cap": 2.7
+  },
+  "RHAISTRAT-2176": {
+    "key": "RHAISTRAT-2176",
+    "summary": "Asago - Attack Scenario Generation from Risk Cards for Agent-Specific AI Safety Compliance",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-2188": {
+    "key": "RHAISTRAT-2188",
+    "summary": "Enable GenAI and RAG Workloads on IBM Power (ppc64le)",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9767,
+    "rf_conf_pct": 97.7,
+    "delta_vs_cap": 22.7
+  },
+  "RHAISTRAT-2199": {
+    "key": "RHAISTRAT-2199",
+    "summary": "Usage telemetry for Auto ML feature adoption",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-2206": {
+    "key": "RHAISTRAT-2206",
+    "summary": "Usage Telemetry for AutoRAG User Workflow and Adoption Tracking",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-2210": {
+    "key": "RHAISTRAT-2210",
+    "summary": "Upgrade Validation for RHAI 3.6",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.8833,
+    "rf_conf_pct": 88.3,
+    "delta_vs_cap": 13.3
+  },
+  "RHAISTRAT-2241": {
+    "key": "RHAISTRAT-2241",
+    "summary": "Anthropic Messages API endpoint for NeMo Guardrails server",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.3467,
+    "rf_conf_pct": 34.7,
+    "delta_vs_cap": -40.3
+  },
+  "RHAISTRAT-2245": {
+    "key": "RHAISTRAT-2245",
+    "summary": "Go SDK for OpenShell programmatic integration in Red Hat AI",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-2273": {
+    "key": "RHAISTRAT-2273",
+    "summary": "Artifact Generator: Garak Probe Configuration from asago Scenario Output",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-2304": {
+    "key": "RHAISTRAT-2304",
+    "summary": "vLLM CPU container image for Red Hat AI Inference on IBM Power and IBM Z",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9933,
+    "rf_conf_pct": 99.3,
+    "delta_vs_cap": 24.3
+  },
+  "RHAISTRAT-2305": {
+    "key": "RHAISTRAT-2305",
+    "summary": "Downstream build pipeline and distribution for OpenShell images and CLI",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9167,
+    "rf_conf_pct": 91.7,
+    "delta_vs_cap": 16.7
+  },
+  "RHAISTRAT-2319": {
+    "key": "RHAISTRAT-2319",
+    "summary": "MaaS Admin Settings \u2014 YAML Resource Inspection and Group Cross-Referencing",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-2322": {
+    "key": "RHAISTRAT-2322",
+    "summary": "Automated OpenAI API schema parity detection for transparent proxy compatibility",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-2323": {
+    "key": "RHAISTRAT-2323",
+    "summary": "Output rail evaluation support in the checks API",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 1.0,
+    "rf_conf_pct": 100.0,
+    "delta_vs_cap": 25.0
+  },
+  "RHAISTRAT-2329": {
+    "key": "RHAISTRAT-2329",
+    "summary": "Distributed tracing for RH AI inference-path components (vLLM, llm-d, MaaS, KServe)",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9333,
+    "rf_conf_pct": 93.3,
+    "delta_vs_cap": 18.3
+  },
+  "RHAISTRAT-2353": {
+    "key": "RHAISTRAT-2353",
+    "summary": "Metrics emission and collection for RH AI inference components (vLLM, llm-d, MaaS, KServe)",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9233,
+    "rf_conf_pct": 92.3,
+    "delta_vs_cap": 17.3
+  },
+  "RHAISTRAT-2360": {
+    "key": "RHAISTRAT-2360",
+    "summary": "Publish NeMo Guardrails ML models as registry-hosted container images for hermetic build compliance",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.8567,
+    "rf_conf_pct": 85.7,
+    "delta_vs_cap": 10.7
+  },
+  "RHAISTRAT-2363": {
+    "key": "RHAISTRAT-2363",
+    "summary": "Custom Taxonomy Support for Asago Policy Mapper",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-2364": {
+    "key": "RHAISTRAT-2364",
+    "summary": "Document Annotation View for Ground Truth Review",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-2366": {
+    "key": "RHAISTRAT-2366",
+    "summary": "CUDA 12.9 Support for Red Hat AI 3.6 EA1",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.7833,
+    "rf_conf_pct": 78.3,
+    "delta_vs_cap": 3.3
+  },
+  "RHAISTRAT-2379": {
+    "key": "RHAISTRAT-2379",
+    "summary": "Remove MCP Gateway/BBR Plugin Dependency on TrustyAI NeMo Guardrails",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.82,
+    "rf_conf_pct": 82.0,
+    "delta_vs_cap": 7.0
+  },
+  "RHAISTRAT-2380": {
+    "key": "RHAISTRAT-2380",
+    "summary": "Deliver fast RHAII/vLLM builds via AIPCC",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.85,
+    "rf_conf_pct": 85.0,
+    "delta_vs_cap": 10.0
+  },
+  "RHAISTRAT-2413": {
+    "key": "RHAISTRAT-2413",
+    "summary": "Structured logging for RH AI inference components (vLLM, llm-d, MaaS, KServe)",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.7567,
+    "rf_conf_pct": 75.7,
+    "delta_vs_cap": 0.7
+  },
+  "RHAISTRAT-2426": {
+    "key": "RHAISTRAT-2426",
+    "summary": "Improve OWASP LLM Top 10 2025 resolution so more extracted policy risks reach automated red-teaming",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9933,
+    "rf_conf_pct": 99.3,
+    "delta_vs_cap": 24.3
+  },
+  "RHAISTRAT-432": {
+    "key": "RHAISTRAT-432",
+    "summary": "Integrate Kueue Workload Scheduling Information in Model Deployments Overview",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  },
+  "RHAISTRAT-978": {
+    "key": "RHAISTRAT-978",
+    "summary": "remove Kubeflow Training Operator v1",
+    "committedPhase": "EA1",
+    "old_hist_cap": 75,
+    "rf_prob": 0.9967,
+    "rf_conf_pct": 99.7,
+    "delta_vs_cap": 24.7
+  }
+}

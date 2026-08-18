@@ -1,0 +1,3192 @@
+{
+  "RHAISTRAT-1473": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1431": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1874": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1540": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2198": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1528": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1519": {
+    "score": 99.2,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1547": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1741": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1656": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1527": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1550": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-133": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1314": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1919": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1412": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1803": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1472": {
+    "score": 93.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2114": {
+    "score": 99.8,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1817": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1468": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1921": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1641": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1526": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1377": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1939": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1914": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1267": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1643": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1678": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1722": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1524": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2317": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2052": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1749": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1748": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1729": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2192": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2160": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1461": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1535": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1740": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1816": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1536": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1047": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1603": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1284": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1576": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2254": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1856": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1507": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1488": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-949": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2049": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2403": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2028": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2050": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1757": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1723": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1822": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1209": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-497": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1476": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1373": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-323": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1738": {
+    "score": 99.6,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1773": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1673": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1636": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1538": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1937": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1589": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1491": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1859": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1418": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2003": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1811": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1810": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1422": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2428": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2427": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2064": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1568": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1361": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1281": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1425": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1615": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1433": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1362": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1474": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1685": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1409": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1374": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1111": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-178": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2245": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1569": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2247": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1752": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2305": {
+    "score": 91.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2148": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2515": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2514": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2138": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-853": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1975": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1577": {
+    "score": 99.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1987": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1486": {
+    "score": 90.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1828": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1789": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1719": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2199": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1762": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1727": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1718": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1737": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1924": {
+    "score": 99.5,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1802": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1395": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1934": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1915": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1721": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1505": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1469": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1439": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1368": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1301": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1286": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1228": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1199": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1113": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1061": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-989": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-332": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2006": {
+    "score": 99.9,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2518": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2392": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2185": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2184": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2183": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1994": {
+    "score": 98.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1820": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1780": {
+    "score": 99.7,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1246": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1245": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1995": {
+    "score": 98.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2353": {
+    "score": 92.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2517": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2413": {
+    "score": 75.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2405": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1993": {
+    "score": 98.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1906": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1821": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1573": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2027": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1482": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2007": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2258": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2206": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1988": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1933": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1932": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1416": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1358": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1053": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-97": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "AIPCC-19162": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1835": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-432": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1868": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1570": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1250": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1556": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2164": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1824": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-589": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1364": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1149": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-404": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2057": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1879": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1806": {
+    "score": 98.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2145": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1969": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1782": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1726": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1671": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1662": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1523": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1758": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1699": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1963": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1920": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1725": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1717": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1696": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1635": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1575": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2329": {
+    "score": 93.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2383": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2051": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1733": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1700": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1694": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1686": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1506": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1504": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1440": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1408": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1381": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1291": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1280": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1276": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1266": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1188": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-752": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-82": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1248": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2512": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1997": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1521": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1854": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1961": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2393": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1857": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1571": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1485": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1115": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2466": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1940": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1858": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2537": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2536": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2404": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2040": {
+    "score": 97.2,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1470": {
+    "score": 98.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1290": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-408": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1410": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1823": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1960": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1564": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1630": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1414": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2022": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1441": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1321": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-39": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1693": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2479": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2354": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2134": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1799": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1714": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1436": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1493": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2017": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2014": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2002": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1712": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1490": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1483": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1315": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1252": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1242": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1189": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-670": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2344": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2236": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1964": {
+    "score": 95.2,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1579": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2252": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2011": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1962": {
+    "score": 99.1,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1702": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1742": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2238": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2039": {
+    "score": 96.1,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1716": {
+    "score": 96.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-713": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2018": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1445": {
+    "score": 99.9,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2024": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1898": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1837": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1639": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1258": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-590": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1814": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1508": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1481": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-978": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2025": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1437": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1948": {
+    "score": 99.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2516": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2440": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2423": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2421": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2379": {
+    "score": 82.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2250": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2248": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2144": {
+    "score": 88.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1604": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2547": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2497": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2420": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2419": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2418": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2378": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2308": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2289": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2243": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2239": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1986": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1456": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-304": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2519": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2496": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2422": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2410": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2400": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2318": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2277": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2118": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1825": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2402": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1826": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2270": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2269": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2210": {
+    "score": 88.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2067": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2013": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1949": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1863": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1788": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1711": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1657": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1645": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1500": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1497": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1496": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1495": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1494": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1370": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1277": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1059": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-183": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2005": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1918": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1141": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1756": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2396": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2367": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2362": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2335": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2279": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1202": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1958": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1392": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1064": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-479": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-298": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2493": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2304": {
+    "score": 99.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2194": {
+    "score": 98.1,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1670": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1407": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1787": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2397": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1860": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2323": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2538": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2520": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2511": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2507": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2500": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2425": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2417": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2336": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2141": {
+    "score": 78.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1923": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1922": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1875": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2532": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2531": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2528": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2510": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2489": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2488": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2485": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2441": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2415": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2394": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2373": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2365": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2330": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2319": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2293": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2272": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2191": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2188": {
+    "score": 97.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2172": {
+    "score": 84.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2170": {
+    "score": 78.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2115": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2108": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2105": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1998": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1947": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1760": {
+    "score": 98.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1736": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1605": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1544": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1509": {
+    "score": 89.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-296": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1792": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2539": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2529": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2525": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2506": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2505": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2504": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2501": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2499": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2490": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2486": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2484": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2469": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2445": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2442": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2438": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2434": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2416": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2414": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2409": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2399": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2395": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2382": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2380": {
+    "score": 85.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2377": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2376": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2375": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2374": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2372": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2366": {
+    "score": 78.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2358": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2350": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2334": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2291": {
+    "score": 98.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2257": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2237": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2177": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2161": {
+    "score": 78.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2143": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1951": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1917": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1679": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1661": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1634": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1631": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1552": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2523": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2503": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2498": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2495": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2487": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2467": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2444": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2439": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2437": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2424": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2359": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2355": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2326": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1991": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1907": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1901": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1779": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1590": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1545": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2443": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2433": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2246": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1845": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1633": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1632": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2533": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2465": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2457": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2412": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2360": {
+    "score": 85.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2140": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2068": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2065": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1990": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1953": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1950": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1928": {
+    "score": 97.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1916": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1913": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1912": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1909": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1867": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1866": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1865": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1864": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1852": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1786": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1785": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1342": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1185": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-728": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-350": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2381": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2369": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2173": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2356": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2038": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1681": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1607": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2278": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2197": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2163": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1996": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1606": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2209": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1848": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2429": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2283": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1153": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-152": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-130": {
+    "score": 88.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1843": {
+    "score": 99.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2314": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2176": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1967": {
+    "score": 99.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1761": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1561": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1549": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1887": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1797": {
+    "score": 99.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2474": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-942": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-284": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2502": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2162": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2058": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1881": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2549": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2548": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2545": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2541": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2530": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2432": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2398": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2352": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2320": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2273": {
+    "score": 100.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2174": {
+    "score": 69.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2149": {
+    "score": 84.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2107": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2071": {
+    "score": 96.0,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1992": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1793": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1413": {
+    "score": 97.8,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1309": {
+    "score": 98.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2542": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2540": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2492": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2468": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2435": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2430": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2306": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2253": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2241": {
+    "score": 34.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2175": {
+    "score": 77.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2151": {
+    "score": 84.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2150": {
+    "score": 78.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2090": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1846": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1724": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1675": {
+    "score": 95.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1674": {
+    "score": 94.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2521": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2436": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2406": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2196": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1676": {
+    "score": 95.7,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1591": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1900": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2550": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2546": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2535": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2534": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2464": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2463": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2462": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2461": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2456": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2449": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2391": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2390": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2389": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2388": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2387": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2386": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2385": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2357": {
+    "score": 85.7,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2271": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2201": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2137": {
+    "score": 94.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2120": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-2113": {
+    "score": 93.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1870": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-597": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-96": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2364": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2363": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2401": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1882": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1256": {
+    "score": 97.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2322": {
+    "score": 99.7,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-2408": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2426": {
+    "score": 99.3,
+    "source": "jsonl",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1241": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2475": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-2351": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1499": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1989": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "GA"
+  },
+  "RHAISTRAT-1193": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1135": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1186": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1076": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-979": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-629": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA1"
+  },
+  "RHAISTRAT-1106": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  },
+  "RHAISTRAT-1243": {
+    "score": 100.0,
+    "source": "csv_imputed",
+    "phase": "EA2"
+  }
+}
