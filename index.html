@@ -370,7 +370,7 @@ tr:hover td{background:#fafafa}
         <th>LABELS</th>
         <th>PLACEMENT</th>
         <th title="Release Type: DP=Dev Preview (+8% confidence) · TP=Tech Preview (+5%) · GA=General Availability (0%) — from PR #1394 Release Type column">TYPE ⓘ</th>
-        <th title="AI Delivery Signal — how many of 10 similar features shipped on time in RHOAI 3.5.&#10;&#10;🤖 High (80%+): 8-9 of 10 similar features shipped as planned. 🤖 Medium (55–79%): 5-7 of 10 — watch the FPDoR gaps and slip history. Low (&lt;55%): 3-5 of 10 — needs data fixes before freeze.&#10;&#10;Trained on 115 RHOAI 3.5 committed features (104 shipped, 11 slipped). Key signals: prior slip record · FPDoR completeness · component delivery history · RICE priority. Shows counterfactual fix where confidence is below High.">CONFIDENCE ⓘ</th>
+        <th title="AI Delivery Signal — how many of 10 similar features shipped on time in RHOAI 3.5.&#10;&#10;🤖 High (80%+): 8-9 of 10 similar features shipped as planned. 🤖 Medium (55–79%): 5-7 of 10 — watch the FPDoR gaps and slip history. Low (&lt;55%): 3-5 of 10 — needs data fixes before freeze.&#10;&#10;Trained on 134 RHOAI 3.4+3.5 committed features (122 shipped, 12 slipped). Key signals: prior slip record · FPDoR completeness · component delivery history · RICE priority. Shows counterfactual fix where confidence is below High.">CONFIDENCE ⓘ</th>
         <th>REASON</th>
         <th>KEY</th>
         <th>TITLE</th>
@@ -750,8 +750,8 @@ function parseLine(l){
   r.push(c); return r;
 }
 
-// ML_SCORES v2 — Random Forest + Random Oversampling (AUC=91.9%, best strategy)
-// Balancing applied: 11 negatives → oversampled to 104 for balanced training.
+// ML_SCORES v3 — Random Forest + Random Oversampling, calibrated (AUC=91.8%)
+// Trained on RHOAI 3.4+3.5 combined (134 features · 122 shipped / 12 slipped).
 // Mean 93.3% | range 34.7%–100% | RHAISTRAT-2241 flagged at 34.7% (high slip risk)
 const ML_SCORES = {
   "AIPCC-19162":100.0 /* ~ */,
@@ -1397,7 +1397,7 @@ const ML_REAL_KEYS=new Set(["RHAISTRAT-1202","RHAISTRAT-1256","RHAISTRAT-1281","
 
 function computeApproxMLScore(r){
   // RF+ROS approximation using CSV-available features only.
-  // Slip history (51.6% of model signal per feature_importance_v2) is unknown → defaults to 0.
+  // Slip history (53% of model signal per feature_importance_v3) is unknown → defaults to 0.
   // Uses: FPDoR pass rate/count/failures (27%), RICE+priority (8%), label boosts (8%) = ~43% of weight.
   const mandatoryList=['Release Type','Target Version','Components','PM','Delivery Owner','Priority','RICE','Docs impact'];
   const mFailed=(r._failedItems||[]).filter(i=>mandatoryList.includes(i)).length;
@@ -1630,9 +1630,9 @@ function schedule(rows){
   // GA:  22/78 delivered (28% actual → 40% cap)
   // NOTE: Erle's 3.5 sealed data (2026-08-12, n=205, tv+fv committed at freeze) shows
   // EA2=83% (15/18) · GA=92% (88/96) for properly-committed features.
-  // LR classifier trained on 3.5 (2026-08-15, AUC=0.914, 5-fold CV). Inference run on
+  // RF+ROS v3 trained on 3.4+3.5 combined (2026-08-18, AUC=91.8%, 5-fold CV). Inference run on
   // 3.6 EA1 freeze baseline (70 features) → ML_SCORES below. Old caps still apply as
-  // fallback for features not in the ML set or for EA2/GA (3.5-only training).
+  // fallback for features not in the ML set.
   const HIST_CAP = {EA1:75, EA2:60, GA:40};
 
   // ── Single phase: delivery confidence classifier ──
@@ -1694,7 +1694,7 @@ function schedule(rows){
       });
 
   // ML scoring — pre-computed RF+ROS for 70 EA1-freeze features, JS approximation for all others.
-  // Pre-computed: trained on RHOAI 3.5 (AUC=91.9%), includes slip history signal (52% of weight).
+  // Pre-computed: trained on RHOAI 3.4+3.5 (AUC=91.8%), includes slip history signal (53% of weight).
   // Approx: all other in-plan features — uses FPDoR+RICE+priority only (no slip history, ~43% weight).
   rows.forEach(r=>{
     if(!r._place||r._place==='No') return;
@@ -1893,8 +1893,8 @@ function renderTbl(rows){
       <td style="max-width:160px;font-size:10px;color:#555;white-space:normal;line-height:1.4">${[...r._labels].join('<br>') || '—'}</td>
       <td><span class="pp ${pCls}">${r._place}</span></td>
       <td>${r._releaseType?`<span class="rt-badge rt-${r._releaseType.toLowerCase()}">${r._releaseType}</span>`:'<span class="rt-badge rt-none">—</span>'}</td>
-      <td><div class="cbar-wrap" title="${isPrecomp?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nTrained on RHOAI 3.4+3.5 history (134 committed · 122 shipped / 12 slipped). Includes prior slip record.`:isMl?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nApprox — no prior slip record available. Based on FPDoR completeness + priority + RICE.`:`Readiness estimate: ${conf}%\nBased on FPDoR completeness, labels, and component capacity.`}"><div class="cbar"><div class="cfill ${cCls}" style="width:${Math.min(conf,100)}%"></div></div><span class="cnum" style="font-weight:700">${confBand}</span><span class="cnum" style="color:#999;font-size:10px;margin-left:3px">${conf}%</span>${isPrecomp?'<span style="font-size:9px;font-weight:700;color:#7b1fa2;margin-left:4px" title="AI Delivery Signal — trained on 3.5 historical outcomes (includes slip record)">🤖</span>':isMl?'<span style="font-size:9px;font-weight:700;color:#9c27b0;margin-left:4px" title="AI Delivery Signal (approx) — FPDoR+priority+RICE only, no slip record">~🤖</span>':''}</div></td>
-      <td><span class="reason">${cleanReason}</span>${isMl?`<div style="font-size:9px;color:${isPrecomp?'#7b1fa2':'#9c27b0'};margin-top:2px;font-weight:600">🤖 AI Signal · ${freqOf10} similar features shipped · 3.5 history</div>`:''}${counterfactual?`<div style="font-size:9px;color:#e65100;margin-top:2px;font-weight:600">→ ${counterfactual}</div>`:''}${r._teams?`<div style="font-size:9px;color:#7b68ee;margin-top:3px" title="Jira Team field — Erle Marion capacity-dataset.json">👥 ${r._teams.join(' · ')}</div>`:''}</td>
+      <td><div class="cbar-wrap" title="${isPrecomp?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nTrained on RHOAI 3.4+3.5 history (134 committed · 122 shipped / 12 slipped). Includes prior slip record.`:isMl?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nApprox — no prior slip record available. Based on FPDoR completeness + priority + RICE.`:`Readiness estimate: ${conf}%\nBased on FPDoR completeness, labels, and component capacity.`}"><div class="cbar"><div class="cfill ${cCls}" style="width:${Math.min(conf,100)}%"></div></div><span class="cnum" style="font-weight:700">${confBand}</span><span class="cnum" style="color:#999;font-size:10px;margin-left:3px">${conf}%</span>${isPrecomp?'<span style="font-size:9px;font-weight:700;color:#7b1fa2;margin-left:4px" title="AI Delivery Signal — trained on 3.4+3.5 historical outcomes (includes slip record)">🤖</span>':isMl?'<span style="font-size:9px;font-weight:700;color:#9c27b0;margin-left:4px" title="AI Delivery Signal (approx) — FPDoR+priority+RICE only, no slip record">~🤖</span>':''}</div></td>
+      <td><span class="reason">${cleanReason}</span>${isMl?`<div style="font-size:9px;color:${isPrecomp?'#7b1fa2':'#9c27b0'};margin-top:2px;font-weight:600">🤖 AI Signal · ${freqOf10} similar features shipped · 3.4+3.5 history</div>`:''}${counterfactual?`<div style="font-size:9px;color:#e65100;margin-top:2px;font-weight:600">→ ${counterfactual}</div>`:''}${r._teams?`<div style="font-size:9px;color:#7b68ee;margin-top:3px" title="Jira Team field — Erle Marion capacity-dataset.json">👥 ${r._teams.join(' · ')}</div>`:''}</td>
       <td><a class="klink" href="https://redhat.atlassian.net/browse/${r['Key']}" target="_blank">${r['Key']}</a></td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r['Title']}">${r['Title']}</td>
       <td style="max-width:140px;white-space:normal;line-height:1.4">${r._isBigRock?'<span class="br-badge">🪨 BR</span>':''}${brGapHtml}<span style="color:#555" title="${r['Outcome']||''}">${r['Outcome']||'—'}</span></td>
