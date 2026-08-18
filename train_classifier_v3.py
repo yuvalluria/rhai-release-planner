@@ -200,7 +200,7 @@ def tune_rf(X_clean, y):
     grid = GridSearchCV(
         estimator  = pipe,
         param_grid = param_grid,
-        cv         = StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED),
+        cv         = StratifiedKFold(n_splits=10, shuffle=True, random_state=SEED),
         scoring    = 'roc_auc',
         n_jobs     = -1,
         verbose    = 0,
@@ -252,7 +252,7 @@ def main():
     best_params = tune_rf(X_clean, y)
 
     # ── v3 change 3: k-fold evaluation with best params ──────────────────
-    print(f'\n── 5-Fold CV with best RF params ──')
+    print(f'\n── 10-Fold CV with best RF params ──')
     metrics = cv_evaluate(X_clean, y)
     print(f'\n  Mean AUC   : {np.mean(metrics["auc"])*100:.1f}% ± {np.std(metrics["auc"])*100:.1f}%')
     print(f'  Mean Brier : {np.mean(metrics["brier"]):.3f} ± {np.std(metrics["brier"]):.3f}')
