@@ -5,7 +5,7 @@ Outputs inference_3.6_ea1_v2.json keyed by RHAISTRAT key.
 import json, pickle
 import numpy as np
 
-MODEL_PATH = '/Users/yluria/Documents/ai-first-scheduler/models_v2.pkl'
+MODEL_PATH = '/Users/yluria/Documents/ai-first-scheduler/models_v3.pkl'
 DATA_PATH  = '/Users/yluria/Downloads/RHOAI-fpdor-and-phase-labels/data/features/3.6-EA1-freeze-baseline.jsonl'
 OUT_PATH   = '/Users/yluria/Documents/ai-first-scheduler/inference_3.6_ea1_v2.json'
 
@@ -16,7 +16,7 @@ PHASE_ORD  = {'EA1': 1, 'EA2': 2, 'GA': 3}
 with open(MODEL_PATH, 'rb') as f:
     m = pickle.load(f)
 
-rf_pipe  = m['rf']
+rf_pipe  = m.get('rf_calibrated') or m['rf']
 imp      = m['imputer']
 comp_le  = m['comp_le']
 
