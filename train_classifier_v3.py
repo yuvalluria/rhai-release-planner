@@ -39,6 +39,7 @@ from sklearn.experimental import enable_iterative_imputer  # noqa
 from sklearn.impute import IterativeImputer
 
 from imblearn.over_sampling import RandomOverSampler
+from imblearn.pipeline import Pipeline as ImbPipeline
 
 DATA_PATHS = [
     '/Users/yluria/Downloads/feature-labels-3.4-handoff/history/features/3.4.jsonl',
@@ -185,27 +186,30 @@ def tune_rf(X_clean, y):
     GridSearchCV for RF hyperparameters — runs inside a single stratified split
     to avoid data leakage with ROS (ROS applied after CV split in cv_evaluate).
     """
-    print('\n── Hyperparameter tuning ──')
-    ros = RandomOverSampler(random_state=SEED)
-    X_b, y_b = ros.fit_resample(X_clean, y)
-
+    print('\n── Hyperparameter tuning (ROS inside each CV fold via Pipeline) ──')
+    # ROS inside the pipeline prevents leakage: balanced data never crosses fold boundaries
+    pipe = ImbPipeline([
+        ('ros', RandomOverSampler(random_state=SEED)),
+        ('rf',  make_rf()),
+    ])
     param_grid = {
-        'n_estimators':    [200, 400, 600],
-        'max_depth':       [None, 10, 20],
-        'min_samples_leaf': [1, 2, 3],
+        'rf__n_estimators':     [100, 200, 300],
+        'rf__max_depth':        [3, 5, 7, 10],   # no None — unlimited depth memorizes 134 samples
+        'rf__min_samples_leaf': [3, 5, 10],       # no 1 — single-sample leaves = memorization
     }
     grid = GridSearchCV(
-        estimator  = make_rf(),
+        estimator  = pipe,
         param_grid = param_grid,
         cv         = StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED),
         scoring    = 'roc_auc',
         n_jobs     = -1,
         verbose    = 0,
     )
-    grid.fit(X_b, y_b)
-    print(f'  Best params : {grid.best_params_}')
+    grid.fit(X_clean, y)
+    best = {k.replace('rf__', ''): v for k, v in grid.best_params_.items()}
+    print(f'  Best params : {best}')
     print(f'  Best AUC    : {grid.best_score_*100:.1f}%')
-    return grid.best_params_
+    return best
 
 
 def calibration_report(y_true, probs, n_bins=5):
