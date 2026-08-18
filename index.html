@@ -1859,7 +1859,7 @@ function renderTbl(rows){
       if(r._place==='No')
         cutLine=`<tr><td colspan="17" style="padding:5px 12px;background:#ffebee;border-top:2px solid #e57373;border-bottom:1px solid #ffcdd2;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ BELOW CUT — features below do not qualify for 3.6 (fix inputs to re-qualify)</td></tr>`;
       else if(r._place==='GA' && (_prevPlace==='EA1'||_prevPlace==='EA2'))
-        cutLine=`<tr><td colspan="17" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#2e7d32;text-align:center;letter-spacing:.04em">▼ GA TARGET — General Availability features below EA2</td></tr>`;
+        cutLine=`<tr><td colspan="17" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#2e7d32;text-align:center;letter-spacing:.04em">▼ GA PHASE — features below target General Availability (ship after EA2)</td></tr>`;
     }
     _prevPlace=r._place;
     // Swing features: confidence 50–69% while in-plan — borderline, worth discussing Aug 24
@@ -1868,7 +1868,7 @@ function renderTbl(rows){
       <td style="color:#bbb">${r['Rank']||'—'}</td>
       <td><span class="score">${r['Score']}</span></td>
       <td><div class="fpdor-cell"><span class="rp ${rCls}" title="${fpdorTooltip}">${r['FPDoR']||'—'}</span><span class="fpdor-w">w:${r._wFPDoR}</span>${breakdownHtml}</div></td>
-      <td>${(()=>{const allPass=r._fNum===13&&(!r._failedItems||r._failedItems.length===0);return `<span class="risk-badge risk-${allPass?'low':'high'}">${allPass?'🟢 Ready':'🔴 Not Ready'}</span>`;})()}</td>
+      <td>${r._path==='legacy'?(()=>{const allPass=r._fNum===13&&(!r._failedItems||r._failedItems.length===0);return `<span class="risk-badge risk-${allPass?'low':'high'}">${allPass?'🟢 Ready':'🔴 Not Ready'}</span>`;})():'<span style="color:#bbb;font-size:11px" title="AI-First path — quality gates via rp-qg1-pass label, not FPDoR checklist">—</span>'}</td>
       <td>${pathHtml}</td>
       <td style="max-width:160px;font-size:10px;color:#555;white-space:normal;line-height:1.4">${[...r._labels].join('<br>') || '—'}</td>
       <td><span class="pp ${pCls}">${r._place}</span></td>
