@@ -40,7 +40,10 @@ from sklearn.impute import IterativeImputer
 
 from imblearn.over_sampling import RandomOverSampler
 
-DATA_PATH = '/Users/yluria/Downloads/RHOAI-fpdor-and-phase-labels/data/features/3.5.json'
+DATA_PATHS = [
+    '/Users/yluria/Downloads/feature-labels-3.4-handoff/history/features/3.4.jsonl',
+    '/Users/yluria/Downloads/RHOAI-fpdor-and-phase-labels/data/features/3.5.json',
+]
 OUT_DIR   = '/Users/yluria/Documents/ai-first-scheduler/'
 SEED      = 42
 
@@ -50,11 +53,17 @@ PHASE_ORD = {'EA1': 1, 'EA2': 2, 'GA': 3}
 
 def load_rows():
     rows = []
-    with open(DATA_PATH) as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                rows.append(json.loads(line))
+    for path in DATA_PATHS:
+        n = 0
+        with open(path) as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    r = json.loads(line)
+                    r['_source'] = path.split('/')[-1]  # tag for diagnostics
+                    rows.append(r)
+                    n += 1
+        print(f'  Loaded {n} rows from {path.split("/")[-1]}')
     return rows
 
 
