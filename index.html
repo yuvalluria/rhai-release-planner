@@ -451,6 +451,30 @@ tr:hover td{background:#fafafa}
     </tbody>
   </table></div>
 
+  <div class="ap-sec">📊 Priority Score — How It's Calculated</div>
+  <div style="font-size:11px;color:#444;line-height:1.7;margin-bottom:6px">
+    The <strong>SCORE</strong> column comes from <a href="https://github.com/red-hat-data-services/rhai-org-pulse" target="_blank" style="color:#1565c0">org-pulse</a> · <code>modules/releases/server/planning/health/priority-scorer.js</code>.
+    It is a composite 0–100 score computed across all features at export time:
+  </div>
+  <div class="tbl-wrap" style="margin-bottom:8px"><table>
+    <thead><tr><th>Component</th><th>Weight</th><th>How it's computed</th></tr></thead>
+    <tbody>
+      <tr><td><strong>RICE score</strong></td><td style="font-weight:700;color:#1565c0">30%</td><td>Raw RICE normalized to [0,1] relative to min/max across all features in the plan. Missing RICE → median substituted.</td></tr>
+      <tr><td><strong>Big Rock alignment</strong></td><td style="font-weight:700;color:#1565c0">30%</td><td>0 if not aligned. If aligned: <code>max(0.3, 1.0 − (rank−1)×0.1)</code> — position 1=100, position 2=90 ... position 8+=30.</td></tr>
+      <tr><td><strong>Target Version</strong></td><td style="font-weight:700;color:#1565c0">25%</td><td>Current release=100 · next release=60 · release after=20 · unrecognized TV=10 · no TV=0.</td></tr>
+      <tr><td><strong>Jira Priority</strong></td><td style="font-weight:700;color:#1565c0">15%</td><td>Blocker=100 · Critical=80 · Major=60 · Normal=40 · Minor=20.</td></tr>
+    </tbody>
+  </table></div>
+  <div style="font-size:11px;color:#555;line-height:1.6;margin-bottom:4px">
+    <strong>Why this matters for explainability:</strong> Score 77 vs 76 is a tiny difference — usually a single Big Rock position or one Jira priority tier. Two features with similar scores can have very different delivery risk.
+    The ML confidence score (this tool) adds the missing risk dimension: a feature with Score=77 but 9/17 FPDoR and a prior slip is more likely to miss than one with Score=76, 16/17 FPDoR, and no slips.
+  </div>
+  <div style="font-size:11px;color:#555;line-height:1.6;margin-bottom:18px">
+    <strong>Proposed improvement — Risk-Adjusted Score:</strong> <code>RiskAdjustedScore = Score × (confidence / 100)</code>.
+    Score=77, conf=78% → 60. Score=76, conf=84% → 64. Risky features drop below ready ones in rank — which is exactly what freeze decisions need.
+    Not yet wired into the default sort; ML confidence is shown separately in the CONFIDENCE column.
+  </div>
+
   <div class="ap-sec">Component Capacity</div>
   <div class="tbl-wrap" style="margin-bottom:18px"><table>
     <thead><tr><th>Component</th><th>EA1 Cap</th><th>EA2 Cap</th><th>GA Cap</th><th>EA1 Used</th><th>EA2 Used</th><th>GA Used</th><th>Status</th></tr></thead>
