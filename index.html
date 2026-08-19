@@ -481,7 +481,7 @@ tr:hover td{background:#fafafa}
         <tr><td style="padding:3px 0;color:#555">Label</td><td style="font-weight:600;color:#222">Shipped as planned vs. slipped</td></tr>
         <tr><td style="padding:3px 0;color:#555">Class split</td><td style="font-weight:600;color:#222">280 shipped · 39 slipped → balanced 280/280</td></tr>
         <tr><td style="padding:3px 0;color:#555">AUC-ROC (CV tuning)</td><td style="font-weight:600;color:#2e7d32">85.4% ± 9.5% (10-fold CV — more realistic with 3× more slipped examples)</td></tr>
-        <tr><td style="padding:3px 0;color:#555">Confidence caps</td><td style="font-weight:600;color:#222">🤖 real history → max 95% · ~🤖 no slip record → max 85%<br><span style="font-weight:400;color:#666;font-size:10px">Why cap? Even with more training data, features with slip_count=0 cluster high. Cap keeps scores honest.<br><strong>High FPDoR</strong> = a feature has completed most or all of Erle's 17-item readiness checklist (Feature Planning Document of Record) — covering: PM ownership, RICE priority, acceptance criteria, docs plan, release type, cross-team deps, and more. 17/17 = fully ready. The higher the FPDoR, the stronger the signal the feature is well-defined and likely to ship.</span></td></tr>
+        <tr><td style="padding:3px 0;color:#555">Confidence caps</td><td style="font-weight:600;color:#222">🤖 real history → max 95% · ~🤖 no slip record → max 85% minus FPDoR penalty<br><span style="font-weight:400;color:#666;font-size:10px">Why cap? Features with slip_count=0 cluster high. FPDoR penalty (0–15pts) restores differentiation: a feature at 9/17 FPDoR scores ~7pts lower than one at 16/17, even when both raw ML scores exceed 85.<br><strong>High FPDoR</strong> = a feature has completed most or all of Erle's 17-item readiness checklist (Feature Planning Document of Record) — covering: PM ownership, RICE priority, acceptance criteria, docs plan, release type, cross-team deps, and more. 17/17 = fully ready. The higher the FPDoR, the stronger the signal the feature is well-defined and likely to ship.</span></td></tr>
         <tr><td style="padding:3px 0;color:#555">Applied to</td><td style="font-weight:600;color:#7b1fa2">All 638 in-plan features (🤖 70 w/slip history · ~🤖 568 imputed)</td></tr>
         <tr><td style="padding:3px 0;color:#555">Top signals</td><td style="font-weight:600;color:#222">Slip history 21% · Mandatory FPDoR rate 19% · FPDoR pass rate 9% · Release type 8% · Jira priority 8% · RICE 7%</td></tr>
       </table>
@@ -518,8 +518,7 @@ tr:hover td{background:#fafafa}
     <div style="margin-top:12px;padding-top:10px;border-top:1px solid #e0e0e0;font-family:sans-serif;color:#555;font-size:10px;line-height:1.6">
       <strong>200 trees vote independently</strong> using the same 12 features with different random splits. Real trees go 10 levels deep — this shows the first 3 for clarity.<br>
       If 87 of 200 trees vote SHIP → raw confidence = 43.5% → displayed as 43% (Low).<br>
-      If 170 of 200 trees vote SHIP → raw confidence = 85% → ~🤖 cap applies → displayed as 85%.<br>
-      <strong>v6 key change:</strong> mandatory FPDoR is now the #1 or #2 split in most trees (19% importance) — previously it was rarely used (3%). RICE, release type, and Jira priority also split trees at various levels.
+      If 170 of 200 trees vote SHIP → raw confidence = 85% → ~🤖 cap applies → displayed as 85%.
     </div>
   </div>
 
@@ -1730,7 +1729,16 @@ function schedule(rows){
       const isReal=ML_REAL_KEYS.has(r['Key']);
       // CSV-imputed scores: slip_count=0 → model over-optimistic by ~15pts. Cap at 85.
       r._rawMlScore=Math.round(mlScore);
-      r._conf=isReal?Math.min(95,r._rawMlScore):Math.min(85,r._rawMlScore);
+      if(isReal){
+        r._conf=Math.min(95,r._rawMlScore);
+      } else {
+        // FPDoR-completeness penalty: restores differentiation erased by the 85% cap.
+        // Features with incomplete FPDoR (e.g. 9/17) score below the cap even when raw ML >= 85.
+        const fpdorDen=parseInt((r['FPDoR']||'0/17').split('/')[1])||17;
+        const fpdorRatio=fpdorDen>0?r._fNum/fpdorDen:1;
+        const fpdorPenalty=Math.round((1-fpdorRatio)*15);
+        r._conf=Math.max(Math.min(85,r._rawMlScore)-fpdorPenalty,20);
+      }
       r._reason=r._reason+(isReal?' · 🤖 ML':' · ~ML');
       r._mlType=isReal?'ml':'approx';
     } else {
