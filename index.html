@@ -354,8 +354,10 @@ tr:hover td{background:#fafafa}
     <label style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="f-bigrock" onchange="run()"> 🪨 Big Rocks only</label>
     <select id="f-fail" onchange="run()">
       <option value="">Any Failed FPDoR</option>
-      <option>Acceptance Criteria</option><option>RICE Score</option><option>UXD</option>
-      <option>Architectural Alignment</option><option>Requirements Clarity</option><option>Risks &amp; Assumptions</option>
+      <option>Acceptance criteria</option><option>RICE</option><option>UXD</option>
+      <option>Architectural alignment</option><option>Requirements clarity</option><option>Risks &amp; assumptions</option>
+      <option>Docs impact</option><option>Delivery Owner</option><option>Child epics</option>
+      <option>Cross-team deps</option><option>Source RFE / AI SDLC</option><option>PM</option>
     </select>
   </div>
 
@@ -737,32 +739,32 @@ const BIG_ROCKS = [
     links:14, newChildren:3, externalDeps:[], projected:'80–120' },
 ];
 
-// FPDoR weighted penalty per failed item — from Erle's ranked list (2026-08-07)
-// Critical (25 pts each): Components, Child Epics, Target Version, Assignee
-// High (10 pts each): Release Type, Priority, RICE Score, Documentation
-// Medium (5 pts each): Cross-team deps, PM, Sign-off, Requirements, AC, Risks, Architecture, Scope
-// Soft (2 pts each): UXD, Source RFE
+// FPDoR weighted penalty per failed item — from Erle's ranked list (2026-08-07), remapped to Confluence/Org Pulse names.
+// Keys must match Org Pulse "Failed FPDoR Items" CSV strings exactly (otherwise default penalty 3 applies).
+// Critical (25 pts each): Components, Child epics, Target Version, Delivery Owner
+// High (10 pts each): Release Type, Priority, RICE, Docs impact
+// Medium (5 pts each): Cross-team deps, PM, Feature human sign-off, Requirements clarity, Acceptance criteria, Risks & assumptions, Architectural alignment
+// Soft (2 pts each): UXD, Source RFE / AI SDLC
 // Weighted FPDoR score = 100 - sum of penalties for failed items (floored at 0)
 // Thresholds: ≥85 → High readiness (EA1 eligible), ≥60 → Moderate (EA2/GA), <60 → No
 const FPDOR_WEIGHTS = {
   'Components':                   25,
-  'Child Epics':                  25,
+  'Child epics':                  25,
   'Target Version':               25,
-  'Assignee':                     25,
+  'Delivery Owner':               25,
   'Release Type':                 10,
   'Priority':                     10,
-  'RICE Score':                   10,
-  'Documentation':                10,
-  'Cross-functional Engineering':  5,
-  'PM Assigned':                   5,
+  'RICE':                         10,
+  'Docs impact':                  10,
+  'Cross-team deps':               5,
+  'PM':                            5,
   'Feature human sign-off':        5,
-  'Requirements Clarity':          5,
-  'Acceptance Criteria':           5,
-  'Risks & Assumptions':           5,
-  'Architectural Alignment':       5,
-  'Scope Defined':                 5,
+  'Requirements clarity':          5,
+  'Acceptance criteria':           5,
+  'Risks & assumptions':           5,
+  'Architectural alignment':       5,
   'UXD':                           2,
-  'Source RFE':                    2,
+  'Source RFE / AI SDLC':          2,
 };
 
 // Mandatory hard-fail — still gate on Release Type as before
@@ -770,10 +772,10 @@ const FPDOR_MANDATORY_HARD = ['Release Type'];
 
 // Tier groupings used for the FPDoR breakdown column in the table
 const FPDOR_TIERS_DISPLAY = [
-  { label:'Critical', cls:'fd-crit', items:['Components','Child Epics','Target Version','Assignee'] },
-  { label:'High',     cls:'fd-high', items:['Release Type','Priority','RICE Score','Documentation'] },
-  { label:'Medium',   cls:'fd-med',  items:['Cross-functional Engineering','PM Assigned','Feature human sign-off','Requirements Clarity','Acceptance Criteria','Risks & Assumptions','Architectural Alignment','Scope Defined'] },
-  { label:'Soft',     cls:'fd-soft', items:['UXD','Source RFE'] },
+  { label:'Critical', cls:'fd-crit', items:['Components','Child epics','Target Version','Delivery Owner'] },
+  { label:'High',     cls:'fd-high', items:['Release Type','Priority','RICE','Docs impact'] },
+  { label:'Medium',   cls:'fd-med',  items:['Cross-team deps','PM','Feature human sign-off','Requirements clarity','Acceptance criteria','Risks & assumptions','Architectural alignment'] },
+  { label:'Soft',     cls:'fd-soft', items:['UXD','Source RFE / AI SDLC'] },
 ];
 
 // ── CSV PARSER ─────────────────────────────────────────────────────────────────
