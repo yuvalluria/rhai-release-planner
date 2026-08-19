@@ -45,6 +45,7 @@ from imblearn.pipeline import Pipeline as ImbPipeline
 DATA_PATHS = [
     '/Users/yluria/Downloads/feature-labels-3.4-handoff/history/features/3.4.jsonl',
     '/Users/yluria/Downloads/RHOAI-fpdor-and-phase-labels/data/features/3.5.json',
+    '/Users/yluria/Documents/ai-first-scheduler/fpdor_cycles_extended.jsonl',
 ]
 OUT_DIR   = '/Users/yluria/Documents/ai-first-scheduler/'
 SEED      = 42
