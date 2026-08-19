@@ -364,6 +364,7 @@ tr:hover td{background:#fafafa}
       <thead><tr>
         <th onclick="sort('Rank')"># ↕</th>
         <th onclick="sort('Score')">SCORE ↕</th>
+        <th onclick="sort('_adjScore')" title="Risk-Adjusted Score = org-pulse Score × (ML confidence / 100). De-ranks high-priority features with low delivery confidence. Sort by this to see which high-score features are genuinely likely to ship.">ADJ ↕ ⓘ</th>
         <th onclick="sort('FPDoR')">FPDOR ↕</th>
         <th title="FPDoR checklist readiness — Erle Marion all-or-nothing logic (Aug 2026). 🟢 Ready: all 13/13 FPDoR items checked (zero failed). 🔴 Not Ready: even 1 item missing. No yellow — it's either complete or it isn't.">RISK ⓘ</th>
         <th>PATH</th>
@@ -469,10 +470,13 @@ tr:hover td{background:#fafafa}
     <strong>Why this matters for explainability:</strong> Score 77 vs 76 is a tiny difference — usually a single Big Rock position or one Jira priority tier. Two features with similar scores can have very different delivery risk.
     The ML confidence score (this tool) adds the missing risk dimension: a feature with Score=77 but 9/17 FPDoR and a prior slip is more likely to miss than one with Score=76, 16/17 FPDoR, and no slips.
   </div>
+  <div style="font-size:11px;color:#555;line-height:1.6;margin-bottom:4px">
+    <strong>Risk-Adjusted Score (ADJ column):</strong> <code>ADJ = Score × (ML confidence / 100)</code>.
+    Score=77, conf=78% → ADJ=60 (🟠). Score=76, conf=84% → ADJ=64 (🟢). Risky features drop below ready ones — which is exactly what freeze decisions need.
+    Click the <strong>ADJ ↕</strong> column header to sort by risk-adjusted priority. Color coding: 🟢 green = ADJ ≥ 85% of Score (low risk), 🟠 orange = 65–84%, 🔴 red = &lt;65%.
+  </div>
   <div style="font-size:11px;color:#555;line-height:1.6;margin-bottom:18px">
-    <strong>Proposed improvement — Risk-Adjusted Score:</strong> <code>RiskAdjustedScore = Score × (confidence / 100)</code>.
-    Score=77, conf=78% → 60. Score=76, conf=84% → 64. Risky features drop below ready ones in rank — which is exactly what freeze decisions need.
-    Not yet wired into the default sort; ML confidence is shown separately in the CONFIDENCE column.
+    <strong>About TYPE column:</strong> TYPE (DP/TP/GA) is read from the Jira "Release Type" field. If that field is unset, the demo falls back to title prefix detection — but only matches <code>[TP]</code>, <code>[DP]</code>, <code>[GA]</code> bracket format at the start of the title. A feature titled "Tech Preview - ..." with no Jira Release Type set will show TYPE blank. This is correct behavior given the data — the PM used prose naming rather than the bracket convention.
   </div>
 
   <div class="ap-sec">Component Capacity</div>
@@ -1772,6 +1776,17 @@ function schedule(rows){
     }
   });
 
+  // Risk-adjusted score: Score × (confidence/100)
+  // De-ranks high-priority features with low delivery confidence.
+  // e.g. Score=77, conf=78% → adjScore=60; Score=76, conf=84% → adjScore=64
+  rows.forEach(r=>{
+    if(r._place&&r._place!=='No'){
+      r._adjScore=Math.round(r._score*(r._conf/100));
+    } else {
+      r._adjScore=0;
+    }
+  });
+
   return rows;
 }
 
@@ -1845,6 +1860,7 @@ function run(){
   rows=rows.slice().sort((a,b)=>{
     let va=a[sortCol],vb=b[sortCol];
     if(sortCol==='Score'||sortCol==='Rank'){va=+va;vb=+vb;}
+    else if(sortCol==='_adjScore'){va=a._adjScore||0;vb=b._adjScore||0;}
     else if(sortCol==='FPDoR'){va=parseInt((va||'0').split('/')[0]);vb=parseInt((vb||'0').split('/')[0]);}
     return sortAsc?(va>vb?1:-1):(va<vb?1:-1);
   });
@@ -1948,6 +1964,7 @@ function renderTbl(rows){
     return cutLine+`<tr style="${isSwing?'background:#fffde7;':''}" title="${isSwing?'Swing feature — confidence borderline (50–69%), worth discussing at freeze':''}">
       <td style="color:#bbb">${r['Rank']||'—'}</td>
       <td><span class="score">${r['Score']}</span></td>
+      <td><span class="score" style="color:${r._adjScore>=(r._score*0.85)?'#2e7d32':r._adjScore>=(r._score*0.65)?'#e65100':'#c62828'}" title="Risk-Adjusted = ${r['Score']} × ${r._conf}% = ${r._adjScore}">${r._place&&r._place!=='No'?r._adjScore:'—'}</span></td>
       <td><div class="fpdor-cell"><span class="rp ${rCls}" title="${fpdorTooltip}">${r['FPDoR']||'—'}</span><span class="fpdor-w">w:${r._wFPDoR}</span>${breakdownHtml}</div></td>
       <td>${r._path==='legacy'?(()=>{const allPass=r._fNum===13&&(!r._failedItems||r._failedItems.length===0);return `<span class="risk-badge risk-${allPass?'low':'high'}">${allPass?'🟢 Ready':'🔴 Not Ready'}</span>`;})():'<span style="color:#bbb;font-size:11px" title="AI-First path — quality gates via rp-qg1-pass label, not FPDoR checklist">—</span>'}</td>
       <td>${pathHtml}</td>
