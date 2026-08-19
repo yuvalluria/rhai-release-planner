@@ -38,7 +38,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.experimental import enable_iterative_imputer  # noqa
 from sklearn.impute import IterativeImputer
 
-from imblearn.over_sampling import RandomOverSampler
+from imblearn.over_sampling import RandomOverSampler, SMOTE
+from imblearn.ensemble import BalancedRandomForestClassifier
 from imblearn.pipeline import Pipeline as ImbPipeline
 
 DATA_PATHS = [
@@ -150,13 +151,14 @@ def make_rf(n_estimators=300, max_depth=None, min_samples_leaf=1):
     )
 
 
-def cv_evaluate(X_clean, y, k=5):
+def cv_evaluate(X_clean, y, k=10):
     """
-    5-fold stratified CV with RandomOversampling inside each fold.
-    Computes: AUC, Brier score (lower = better calibrated), F1.
+    10-fold stratified CV with SMOTE inside each fold.
+    SMOTE generates synthetic minority samples by interpolating between existing ones
+    (better than ROS duplication for small datasets like 12 slipped features).
     """
     skf = StratifiedKFold(n_splits=k, shuffle=True, random_state=SEED)
-    ros = RandomOverSampler(random_state=SEED)
+    smote = SMOTE(random_state=SEED, k_neighbors=5)
     metrics = {'auc': [], 'brier': [], 'f1': []}
 
     for fold, (tr_idx, te_idx) in enumerate(skf.split(X_clean, y), 1):
@@ -166,7 +168,7 @@ def cv_evaluate(X_clean, y, k=5):
             print(f'  Fold {fold}: skipped (only 1 class in test split)')
             continue
 
-        X_tr_b, y_tr_b = ros.fit_resample(X_tr, y_tr)
+        X_tr_b, y_tr_b = smote.fit_resample(X_tr, y_tr)
         rf = make_rf()
         rf.fit(X_tr_b, y_tr_b)
 
@@ -186,11 +188,12 @@ def tune_rf(X_clean, y):
     GridSearchCV for RF hyperparameters — runs inside a single stratified split
     to avoid data leakage with ROS (ROS applied after CV split in cv_evaluate).
     """
-    print('\n── Hyperparameter tuning (ROS inside each CV fold via Pipeline) ──')
-    # ROS inside the pipeline prevents leakage: balanced data never crosses fold boundaries
+    print('\n── Hyperparameter tuning (SMOTE inside each CV fold via Pipeline) ──')
+    # SMOTE inside the pipeline prevents leakage and generates synthetic minority samples
+    # k_neighbors=5: interpolates between 5 nearest minority-class neighbours
     pipe = ImbPipeline([
-        ('ros', RandomOverSampler(random_state=SEED)),
-        ('rf',  make_rf()),
+        ('smote', SMOTE(random_state=SEED, k_neighbors=5)),
+        ('rf',    make_rf()),
     ])
     param_grid = {
         'rf__n_estimators':     [100, 200, 300],
@@ -258,11 +261,11 @@ def main():
     print(f'  Mean Brier : {np.mean(metrics["brier"]):.3f} ± {np.std(metrics["brier"]):.3f}')
     print(f'  Mean F1    : {np.mean(metrics["f1"])*100:.1f}% ± {np.std(metrics["f1"])*100:.1f}%')
 
-    # ── Train final model on full dataset + ROS ───────────────────────────
-    print('\n── Training final RF+ROS on full dataset ──')
-    ros      = RandomOverSampler(random_state=SEED)
-    X_b, y_b = ros.fit_resample(X_clean, y)
-    print(f'  After ROS: {Counter(y_b)}')
+    # ── Train final model on full dataset + SMOTE ────────────────────────
+    print('\n── Training final RF+SMOTE on full dataset ──')
+    smote    = SMOTE(random_state=SEED, k_neighbors=5)
+    X_b, y_b = smote.fit_resample(X_clean, y)
+    print(f'  After SMOTE: {Counter(y_b)}')
 
     rf_final = make_rf(**best_params)
     rf_final.fit(X_b, y_b)
@@ -274,9 +277,8 @@ def main():
     rf_calibrated = CalibratedClassifierCV(
         estimator = make_rf(**best_params),
         cv        = 5,
-        method    = 'isotonic',   # non-parametric; better than sigmoid for RF
+        method    = 'isotonic',
     )
-    # Calibrate on the balanced dataset (same as training)
     rf_calibrated.fit(X_b, y_b)
 
     # Check calibration on held-out cross-val predictions
