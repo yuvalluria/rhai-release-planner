@@ -503,21 +503,23 @@ tr:hover td{background:#fafafa}
     </div>
   </div>
 
-  <div class="ap-sec">🌳 Example Decision Tree (one of 100 trees, depth=3)</div>
+  <div class="ap-sec">🌳 Example Decision Tree (one of 200 trees, depth=10 — illustrative first 3 levels)</div>
   <div style="background:#fafafa;border:1px solid #e0e0e0;border-radius:8px;padding:16px;margin-bottom:18px;font-family:monospace;font-size:11px;line-height:2">
-    <div style="color:#555;margin-bottom:8px;font-family:sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em">How a single tree scores a feature — example: 15/17 FPDoR · RICE 70 · Blocker · GA · slip_count=0</div>
-    <div><span style="color:#1565c0;font-weight:700">Is slip_count &gt; 0?</span> <span style="color:#888">(prior release slips — 48% importance)</span></div>
-    <div style="padding-left:20px"><span style="color:#2e7d32">└── No</span> → <span style="color:#1565c0;font-weight:700">Is fpdor_pass_rate &gt; 0.82?</span> <span style="color:#888">(15/17 = 0.88 ✓ — 10% importance)</span></div>
-    <div style="padding-left:40px"><span style="color:#2e7d32">└── Yes</span> → <span style="color:#1565c0;font-weight:700">Is component a high-delivery group?</span> <span style="color:#888">(10% importance)</span></div>
+    <div style="color:#555;margin-bottom:8px;font-family:sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em">How a single tree scores a feature — example: 12/17 mandatory FPDoR · RICE 70 · Blocker · GA · slip_count=0</div>
+    <div><span style="color:#1565c0;font-weight:700">Is mandatory_pass_rate &gt; 0.75?</span> <span style="color:#888">(mandatory FPDoR items — 19% importance)</span></div>
+    <div style="padding-left:20px"><span style="color:#2e7d32">└── Yes</span> → <span style="color:#1565c0;font-weight:700">Is slip_count &gt; 0?</span> <span style="color:#888">(prior release slips — 21% importance)</span></div>
+    <div style="padding-left:40px"><span style="color:#2e7d32">└── No</span> → <span style="color:#1565c0;font-weight:700">Is jira_priority = Critical/High?</span> <span style="color:#888">(8% importance)</span></div>
     <div style="padding-left:60px"><span style="color:#2e7d32">└── Yes</span> → <span style="background:#e8f5e9;color:#2e7d32;padding:1px 6px;border-radius:4px;font-weight:700">SHIP</span> <span style="color:#888">→ this tree votes "will ship"</span></div>
     <div style="padding-left:60px"><span style="color:#c62828">└── No &nbsp;</span> → <span style="background:#ffebee;color:#c62828;padding:1px 6px;border-radius:4px;font-weight:700">SLIP</span> <span style="color:#888">→ this tree votes "will slip"</span></div>
-    <div style="padding-left:40px"><span style="color:#c62828">└── No &nbsp;</span> → <span style="background:#ffebee;color:#c62828;padding:1px 6px;border-radius:4px;font-weight:700">SLIP</span> <span style="color:#888">→ this tree votes "will slip"</span></div>
-    <div style="padding-left:20px"><span style="color:#c62828">└── Yes</span> → <span style="background:#ffebee;color:#c62828;padding:1px 6px;border-radius:4px;font-weight:700">SLIP</span> <span style="color:#888">→ this tree votes "will slip" (prior slips = strong signal)</span></div>
+    <div style="padding-left:40px"><span style="color:#c62828">└── Yes</span> → <span style="background:#ffebee;color:#c62828;padding:1px 6px;border-radius:4px;font-weight:700">SLIP</span> <span style="color:#888">→ prior slips = strong signal even with good FPDoR</span></div>
+    <div style="padding-left:20px"><span style="color:#c62828">└── No &nbsp;</span> → <span style="color:#1565c0;font-weight:700">Is fpdor_pass_rate &gt; 0.60?</span> <span style="color:#888">(overall FPDoR — 9% importance)</span></div>
+    <div style="padding-left:40px"><span style="color:#2e7d32">└── Yes</span> → <span style="background:#e8f5e9;color:#2e7d32;padding:1px 6px;border-radius:4px;font-weight:700">SHIP</span> <span style="color:#888">→ partial FPDoR still enough if mandatory items not the issue</span></div>
+    <div style="padding-left:40px"><span style="color:#c62828">└── No &nbsp;</span> → <span style="background:#ffebee;color:#c62828;padding:1px 6px;border-radius:4px;font-weight:700">SLIP</span> <span style="color:#888">→ low FPDoR overall = high risk</span></div>
     <div style="margin-top:12px;padding-top:10px;border-top:1px solid #e0e0e0;font-family:sans-serif;color:#555;font-size:10px;line-height:1.6">
-      <strong>100 trees vote independently</strong> using the same 12 features with different random splits.<br>
-      If 87 of 100 trees vote SHIP → raw confidence = 87% → ~🤖 cap applies → displayed as 85%.<br>
-      If 51 of 100 trees vote SHIP → raw confidence = 51% → displayed as 51% (Low) — no cap needed.<br>
-      <strong>RICE, priority, committed phase</strong> also split trees at various levels — this is one illustrative path.
+      <strong>200 trees vote independently</strong> using the same 12 features with different random splits. Real trees go 10 levels deep — this shows the first 3 for clarity.<br>
+      If 87 of 200 trees vote SHIP → raw confidence = 43.5% → displayed as 43% (Low).<br>
+      If 170 of 200 trees vote SHIP → raw confidence = 85% → ~🤖 cap applies → displayed as 85%.<br>
+      <strong>v6 key change:</strong> mandatory FPDoR is now the #1 or #2 split in most trees (19% importance) — previously it was rarely used (3%). RICE, release type, and Jira priority also split trees at various levels.
     </div>
   </div>
 
