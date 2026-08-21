@@ -168,6 +168,17 @@ tr:hover td{background:#fafafa}
 .br-selected{outline:2px solid #cc0000;outline-offset:-2px}
 .br-filter-bar{background:#fff5f5;border:1px solid #ffcdd2;border-radius:4px;padding:5px 10px;font-size:12px;display:flex;align-items:center;gap:8px;margin-bottom:8px}
 
+/* ── 40/40/20 Capacity Mix panel ── */
+.mix-panel{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:12px 16px;margin-bottom:12px}
+.mix-title{font-size:11px;font-weight:700;color:#444;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.mix-bars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:6px}
+.mix-bar-wrap{display:flex;flex-direction:column;gap:3px}
+.mix-bar-label{font-size:11px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.mix-bar-track{height:14px;background:#f0f0f0;border-radius:7px;overflow:hidden;position:relative}
+.mix-bar-fill{height:100%;border-radius:7px;transition:width .3s}
+.mix-bar-target{position:absolute;top:0;bottom:0;width:2px;background:rgba(0,0,0,.35)}
+.mix-bar-note{font-size:10px;color:#888}
+
 /* ── Appendix tab ── */
 .ap-sec{font-size:13px;font-weight:600;color:#444;margin:16px 0 8px}
 .ap-note{font-size:12px;color:#666;margin-bottom:12px}
@@ -331,6 +342,8 @@ tr:hover td{background:#fafafa}
     <div class="card c4"><div class="card-lbl">No</div><div class="card-n" id="cnt-no">—</div><div class="card-s">Fix inputs to requalify</div></div>
   </div>
 
+  <div id="mix-panel" class="mix-panel" style="display:none"></div>
+
   <div class="topbar">
     <select id="f-rel" onchange="run()"><option value="">All Releases</option><option>3.5</option><option>3.6</option></select>
     <div class="stat-row">
@@ -367,7 +380,7 @@ tr:hover td{background:#fafafa}
         <th onclick="sort('Rank')"># ↕</th>
         <th onclick="sort('Score')">SCORE ↕</th>
         <th onclick="sort('FPDoR')">FPDOR ↕</th>
-        <th title="FPDoR checklist readiness — Erle Marion all-or-nothing logic (Aug 2026). 🟢 Ready: all 13/13 FPDoR items checked (zero failed). 🔴 Not Ready: even 1 item missing. No yellow — it's either complete or it isn't.">RISK ⓘ</th>
+        <th title="FPDoR checklist readiness — all-or-nothing gate. 🟢 Ready: all 13/13 FPDoR items checked (zero failed). 🔴 Not Ready: even 1 item missing. No yellow — it's either complete or it isn't.">RISK ⓘ</th>
         <th>PATH</th>
         <th>LABELS</th>
         <th>PLACEMENT</th>
@@ -389,7 +402,7 @@ tr:hover td{background:#fafafa}
 
 <!-- ═══ APPENDIX ═══ -->
 <div id="tab-ap" class="panel">
-  <div class="ap-note">Component throughput from <strong>component-team-capacity-v2 (2026-08-12)</strong>. Source: <code>project in (RHAISTRAT,RHOAIENG,RHAIENG,INFERENG,AIPCC) AND status in ('Resolved','Closed')</code>. Values = <em>avg_when_active</em>: avg issues closed per planning cycle (EA1/EA2/GA) when the component was active. Tiers: ≥20 issues/cycle → +5% confidence, ≥8 → +3%, ≥3 → neutral, &lt;3 → −3%. Team-level capacity (Erle's <em>capacity-dataset.json</em>) is the next integration step — team footprint replaces component-first attribution.</div>
+  <div class="ap-note">Component throughput from <strong>component-team-capacity-v2 (2026-08-12)</strong> · used for confidence scoring tiers. Team-level ceilings from <strong>release-capacity-dataset (Aug 2026)</strong>: 420 features · 27 release events · 49 teams · p75 feature load per EA1/EA2/GA cycle. Values = <em>featureLoadP75</em>: 75th-percentile feature count closed when the team was active.</div>
 
   <div class="ap-sec">📊 Historical Delivery Rates — 3.4 &amp; 3.5</div>
   <div style="margin-bottom:6px;font-size:11px;color:#555">Actual shipped vs. slipped counts by event. Used to calibrate confidence caps and ML training labels. <strong>3.4 = all features baseline. 3.5 = properly-committed-at-freeze features only</strong> (higher rates reflect stricter gate).</div>
@@ -441,14 +454,14 @@ tr:hover td{background:#fafafa}
   <div class="tbl-wrap" style="margin-bottom:18px"><table>
     <thead><tr><th>Input</th><th>Source</th><th>Status</th><th>Owner</th></tr></thead>
     <tbody>
-      <tr><td>Engineering Capacity Metrics</td><td>Org Pulse / historical features delivered</td><td>Approximated</td><td>Yuval</td></tr>
-      <tr><td>Big Rocks</td><td>RHAISTRAT Big Rocks page</td><td>Manual</td><td>Erle</td></tr>
-      <tr><td>Component Dependency Mapping</td><td>Feature children / Jira links</td><td>Partial</td><td>Team</td></tr>
-      <tr><td>FPDoR Readiness (QG1)</td><td>QG1 labels from agentic-ci + rubric score</td><td>Live</td><td>Eder</td></tr>
+      <tr><td>Engineering Capacity Metrics</td><td>Org Pulse / historical features delivered</td><td>Approximated</td><td>Engineering</td></tr>
+      <tr><td>Big Rocks</td><td>RHAISTRAT Big Rocks page</td><td>Manual</td><td>Planning Domain</td></tr>
+      <tr><td>Component Dependency Mapping</td><td>Feature children / Jira links</td><td>Partial</td><td>Engineering</td></tr>
+      <tr><td>FPDoR Readiness (QG1)</td><td>QG1 labels from agentic-ci + rubric score</td><td>Live</td><td>Engineering</td></tr>
       <tr><td>Priority Score</td><td>RICE + Big Rock + Target Version + Jira Priority</td><td>Live</td><td>Org Pulse</td></tr>
-      <tr><td style="font-weight:600;color:#2e7d32">Per-feature delivery labels (3.5)</td><td>fpdor-and-phase-labels — committedPhase/deliveredPhase/slips · 205 features · n=34 never-delivered</td><td style="color:#2e7d32;font-weight:600">Ready ✓</td><td>Erle</td></tr>
-      <tr><td style="font-weight:600;color:#2e7d32">FPDoR at planning freeze (3.5 + 3.6 EA1)</td><td>fpdor-dataset — all 205 3.5 features + 3.6 EA1 freeze baseline · FPDoR joined per row</td><td style="color:#2e7d32;font-weight:600">Ready ✓</td><td>Erle</td></tr>
-      <tr><td>Customer Support Insights</td><td>Rutuja Argade</td><td>Future</td><td>—</td></tr>
+      <tr><td style="font-weight:600;color:#2e7d32">Per-feature delivery labels (3.5)</td><td>fpdor-and-phase-labels — committedPhase/deliveredPhase/slips · 205 features · n=34 never-delivered</td><td style="color:#2e7d32;font-weight:600">Ready ✓</td><td>Planning Domain</td></tr>
+      <tr><td style="font-weight:600;color:#2e7d32">FPDoR at planning freeze (3.5 + 3.6 EA1)</td><td>fpdor-dataset — all 205 3.5 features + 3.6 EA1 freeze baseline · FPDoR joined per row</td><td style="color:#2e7d32;font-weight:600">Ready ✓</td><td>Planning Domain</td></tr>
+      <tr><td>Customer Support Insights</td><td>Customer Support</td><td>Future</td><td>—</td></tr>
       <tr><td>ProdSec Policies</td><td>Internal ProdSec</td><td>Future</td><td>—</td></tr>
     </tbody>
   </table></div>
@@ -485,7 +498,7 @@ tr:hover td{background:#fafafa}
     <tbody id="cap-body"></tbody>
   </table></div>
 
-  <div class="ap-sec">Team — Features In-Plan (informational · no ceiling enforced yet)</div>
+  <div class="ap-sec">Team — Features In-Plan vs p75 Capacity (advisory · from release-capacity-dataset)</div>
   <div class="tbl-wrap" style="margin-bottom:18px"><table>
     <thead><tr><th>Team</th><th>EA1</th><th>EA2</th><th>GA</th><th>Total In-Plan</th><th>Note</th></tr></thead>
     <tbody id="team-cap-body"></tbody>
@@ -509,7 +522,7 @@ tr:hover td{background:#fafafa}
         <tr><td style="padding:3px 0;color:#555">Label</td><td style="font-weight:600;color:#222">Shipped as planned vs. slipped</td></tr>
         <tr><td style="padding:3px 0;color:#555">Class split</td><td style="font-weight:600;color:#222">280 shipped · 39 slipped → balanced 280/280</td></tr>
         <tr><td style="padding:3px 0;color:#555">AUC-ROC (CV tuning)</td><td style="font-weight:600;color:#2e7d32">85.4% ± 9.5% (10-fold CV — more realistic with 3× more slipped examples)</td></tr>
-        <tr><td style="padding:3px 0;color:#555">Confidence caps</td><td style="font-weight:600;color:#222">🤖 real history → max 95% · ~🤖 no slip record → max 85% minus FPDoR penalty<br><span style="font-weight:400;color:#666;font-size:10px">Why cap? Features with slip_count=0 cluster high. FPDoR penalty (0–15pts) restores differentiation: a feature at 9/17 FPDoR scores ~7pts lower than one at 16/17, even when both raw ML scores exceed 85.<br><strong>High FPDoR</strong> = a feature has completed most or all of Erle's 17-item readiness checklist (Feature Planning Document of Record) — covering: PM ownership, RICE priority, acceptance criteria, docs plan, release type, cross-team deps, and more. 17/17 = fully ready. The higher the FPDoR, the stronger the signal the feature is well-defined and likely to ship.</span></td></tr>
+        <tr><td style="padding:3px 0;color:#555">Confidence caps</td><td style="font-weight:600;color:#222">🤖 real history → max 95% · ~🤖 no slip record → max 85% minus FPDoR penalty<br><span style="font-weight:400;color:#666;font-size:10px">Why cap? Features with slip_count=0 cluster high. FPDoR penalty (0–15pts) restores differentiation: a feature at 9/17 FPDoR scores ~7pts lower than one at 16/17, even when both raw ML scores exceed 85.<br><strong>High FPDoR</strong> = a feature has completed most or all of the 17-item FPDoR readiness checklist (Feature Planning Document of Record) — covering: PM ownership, RICE priority, acceptance criteria, docs plan, release type, cross-team deps, and more. 17/17 = fully ready. The higher the FPDoR, the stronger the signal the feature is well-defined and likely to ship.</span></td></tr>
         <tr><td style="padding:3px 0;color:#555">Applied to</td><td style="font-weight:600;color:#7b1fa2">All 638 in-plan features (🤖 70 w/slip history · ~🤖 568 imputed)</td></tr>
         <tr><td style="padding:3px 0;color:#555">Top signals</td><td style="font-weight:600;color:#222">Slip history 21% · Mandatory FPDoR rate 19% · FPDoR pass rate 9% · Release type 8% · Jira priority 8% · RICE 7%</td></tr>
       </table>
@@ -554,18 +567,19 @@ tr:hover td{background:#fafafa}
   <div class="tbl-wrap" style="margin-bottom:18px"><table>
     <thead><tr><th>Item</th><th>Status</th><th>Detail</th><th>Owner</th></tr></thead>
     <tbody>
-      <tr><td style="color:#2e7d32;font-weight:600">AI Delivery Signal — all features</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>638 features scored: 70 🤖 (real slip history) + 568 ~🤖 (slip_count=0 imputed, capped 85%). Yuval.</td><td>Yuval</td></tr>
-      <tr><td style="color:#2e7d32;font-weight:600">FPDoR RISK column — Legacy only</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>13/13 all-or-nothing (Erle). AI-First path shows — (uses QG1 label gate instead).</td><td>Erle / Yuval</td></tr>
-      <tr><td style="color:#2e7d32;font-weight:600">FPDoR weighted score (w:) — Org Pulse name alignment</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Fixed Aug 20</span></td><td>The <strong>w:</strong> score is the explainability layer — it shows exactly which checklist failures are costing points (e.g. "Child epics −25, Delivery Owner −25 → w:50"). Before this fix, weight keys used internal names that didn't match Org Pulse CSV strings, so almost every failure fell back to a 3-pt default penalty instead of the intended 25/10/5/2. PR #1 by Erle: renamed keys to match Org Pulse exactly (Child Epics→Child epics, Assignee→Delivery Owner, RICE Score→RICE, Documentation→Docs impact, etc.). Removed Scope Defined (not a real Org Pulse item). Scores are now stricter and honest — fewer features show as high readiness when important items are still failing. <strong>Note: the ML confidence score (🤖) is unaffected — it uses FPDoR pass rates, not the weighted penalty.</strong></td><td>Erle</td></tr>
-      <tr><td style="color:#2e7d32;font-weight:600">Big Rock confidence rollup</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>Aha! OKR thresholds: 70%+ Confident · 40–70% Lagging · &lt;40% At Risk. All excluded features shown (no cap).</td><td>Yuval</td></tr>
-      <tr><td style="color:#2e7d32;font-weight:600">Historical delivery rates</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>3.4 + 3.5 actuals by event (EA1/EA2/GA). Component throughput from John Graham's capacity-v2.</td><td>John / Yuval</td></tr>
-      <tr><td style="color:#2e7d32;font-weight:600">Counterfactual fix lines</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>"→ Fix: complete [item] to raise confidence" for any in-plan feature below 80%.</td><td>Yuval</td></tr>
-      <tr><td style="font-weight:600;color:#e65100">Predictive bucket assignment — legacy unversioned features</td><td><span style="background:#fff3e0;color:#e65100;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Next Phase</span></td><td>Sherard Griffin (Aug 10). <strong>Legacy path only</strong> — on AI-First, PMs set Target Version at RFE creation (triggers STRAT-CREATOR), so no-TV features don't exist there (Erle, Aug 18). "No bucket" count is a proxy for remaining legacy surface area and self-resolves as AI SDLC adoption grows. Next phase: triage tool to predict which legacy backlog features are worth re-routing through STRAT-CREATOR vs. leaving out. Requires 3.4+3.5+3.6 outcome data.</td><td>Sherard / Yuval</td></tr>
-      <tr><td style="color:#2e7d32;font-weight:600">Extended training from FPDoR cycle snapshots</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Done Aug 19</span></td><td>Extracted 185 additional labeled features (158 shipped / 27 slipped) from 3.4+3.5 per-phase FPDoR snapshots. Total training: n=134→319, slipped: 12→39. slip_count importance: 48%→21%. FPDoR now #2 signal at 19%.</td><td>Yuval</td></tr>
-      <tr><td style="font-weight:600;color:#e65100">SHAP per-feature explanations</td><td><span style="background:#fff3e0;color:#e65100;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Pending</span></td><td>TreeSHAP values per feature for top-3 factor narrative in REASON column. Needs Python→JS bridge.</td><td>Yuval</td></tr>
-      <tr><td style="font-weight:600;color:#aaa">FPDoR rubric → Erle</td><td><span style="background:#f5f5f5;color:#888;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Pending</span></td><td>Send rubric doc to Erle for sign-off. Aug 13 action item.</td><td>Yuval</td></tr>
-      <tr><td style="font-weight:600;color:#aaa">Team capacity (hard ceiling)</td><td><span style="background:#f5f5f5;color:#888;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Future</span></td><td>Erle's capacity-dataset.json team footprint. Replaces component-first attribution with team velocity.</td><td>Erle</td></tr>
-      <tr><td style="font-weight:600;color:#aaa">Customer Support Insights</td><td><span style="background:#f5f5f5;color:#888;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Future</span></td><td>Rutuja Argade. Will add CS signal to priority scoring.</td><td>Rutuja</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">AI Delivery Signal — all features</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>638 features scored: 70 🤖 (real slip history) + 568 ~🤖 (slip_count=0 imputed, capped 85%).</td><td>ML Pipeline</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">FPDoR RISK column — Legacy only</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>13/13 all-or-nothing gate. AI-First path shows — (uses QG1 label gate instead).</td><td>Planning Domain</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">FPDoR weighted score (w:) — Org Pulse name alignment</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Fixed Aug 20</span></td><td>The <strong>w:</strong> score is the explainability layer — it shows exactly which checklist failures are costing points (e.g. "Child epics −25, Delivery Owner −25 → w:50"). Before this fix, weight keys used internal names that didn't match Org Pulse CSV strings, so almost every failure fell back to a 3-pt default penalty instead of the intended 25/10/5/2. Keys were renamed to match Org Pulse exactly (Child Epics→Child epics, Assignee→Delivery Owner, RICE Score→RICE, Documentation→Docs impact, etc.). Removed Scope Defined (not a real Org Pulse item). Scores are now stricter and honest — fewer features show as high readiness when important items are still failing. <strong>Note: the ML confidence score (🤖) is unaffected — it uses FPDoR pass rates, not the weighted penalty.</strong></td><td>Planning Domain</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">Big Rock confidence rollup</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>OKR thresholds: 70%+ Confident · 40–70% Lagging · &lt;40% At Risk. All excluded features shown (no cap).</td><td>ML Pipeline</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">Historical delivery rates</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>3.4 + 3.5 actuals by event (EA1/EA2/GA). Component throughput from capacity-v2 dataset.</td><td>Planning Domain</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">Counterfactual fix lines</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>"→ Fix: complete [item] to raise confidence" for any in-plan feature below 80%.</td><td>ML Pipeline</td></tr>
+      <tr><td style="font-weight:600;color:#e65100">Predictive bucket assignment — legacy unversioned features</td><td><span style="background:#fff3e0;color:#e65100;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Next Phase</span></td><td><strong>Legacy path only</strong> — on AI-First, PMs set Target Version at RFE creation (triggers STRAT-CREATOR), so no-TV features don't exist there. "No bucket" count is a proxy for remaining legacy surface area and self-resolves as AI SDLC adoption grows. Next phase: triage tool to predict which legacy backlog features are worth re-routing through STRAT-CREATOR vs. leaving out. Requires 3.4+3.5+3.6 outcome data.</td><td>Engineering</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">Extended training from FPDoR cycle snapshots</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Done Aug 19</span></td><td>Extracted 185 additional labeled features (158 shipped / 27 slipped) from 3.4+3.5 per-phase FPDoR snapshots. Total training: n=134→319, slipped: 12→39. slip_count importance: 48%→21%. FPDoR now #2 signal at 19%.</td><td>ML Pipeline</td></tr>
+      <tr><td style="font-weight:600;color:#e65100">SHAP per-feature explanations</td><td><span style="background:#fff3e0;color:#e65100;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Pending</span></td><td>TreeSHAP values per feature for top-3 factor narrative in REASON column. Needs Python→JS bridge.</td><td>ML Pipeline</td></tr>
+      <tr><td style="font-weight:600;color:#aaa">FPDoR readiness rubric review</td><td><span style="background:#f5f5f5;color:#888;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Pending</span></td><td>Rubric doc sign-off pending. Aug 13 action item.</td><td>Planning Domain</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">40/40/20 Capacity Mix panel</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live Aug 21</span></td><td>Shows current plan composition vs. 40% bugs+tech-debt / 40% features / 20% research target. Classifies features by label + Big Rock heuristic. Flags when stabilization work is absent from plan.</td><td>ML Pipeline</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">Team capacity p75 ceilings</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live Aug 21</span></td><td>Team-level p75 feature load from release-capacity-dataset — 63 teams wired in (EA1/EA2/GA). Shown in Team capacity table below and used as advisory ceiling. Source: 420 features · 27 release events · 49 active teams.</td><td>Planning Domain</td></tr>
+      <tr><td style="font-weight:600;color:#aaa">Customer Support Insights</td><td><span style="background:#f5f5f5;color:#888;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Future</span></td><td>Customer support signal — will add CS ticket volume to priority scoring.</td><td>—</td></tr>
     </tbody>
   </table></div>
 </div>
@@ -619,9 +633,77 @@ const CAP = {
   'RAG + Vector DB':              {EA1:1,  EA2:0,  GA:0},
 };
 
-// Team capacity: not enforced as a hard constraint — no real team velocity data exists yet.
-// Team is used for filtering and grouping only. Plug in real Scrum/Kanban velocity when available.
-const TEAM_CAP = {};
+// Team capacity — p75 feature load per team per release event.
+// Source: release-capacity-dataset (capacity-dataset.json, Aug 2026).
+// Values = featureLoadP75: 75th-percentile feature count closed per EA1/EA2/GA cycle
+// when the team was active. Used as advisory ceiling in the team capacity table.
+// Schema: summaries.byTeam[team][eventType].featureLoadP75 — 420 features, 27 release events.
+const TEAM_CAP = {
+  "ACS Automation":                               {EA2:1.0},
+  "AI Core Platform":                             {EA1:0.1, EA2:0.1, GA:0.7},
+  "AI Innovation team":                           {GA:1.6},
+  "AI Safety / Model Eval Planning":              {EA1:0.0, EA2:0.4, GA:0.3},
+  "AIP Feature Store":                            {GA:0.6},
+  "AIP Kubeflow-DevX":                            {GA:0.9},
+  "AIP MLflow":                                   {GA:0.7},
+  "AIP Training Kubeflow":                        {EA1:1.0, EA2:0.4, GA:0.6},
+  "AIP Training Ray":                             {EA2:0.8, GA:1.4},
+  "AIPCC Package Update Requests":                {GA:0.1},
+  "AgentDev Scrum Board":                         {EA1:0.0, EA2:0.5},
+  "AgentOps (RAG + Vector DB) Scrum Board":       {EA1:0.0, EA2:0.1, GA:0.5},
+  "Agentic API Team Scrum Board":                 {EA1:0.1, EA2:0.1},
+  "All EvalHub":                                  {EA1:0.2, EA2:0.2, GA:0.7},
+  "AutoML":                                       {EA2:0.1, GA:0.5},
+  "AutoRAG":                                      {EA2:0.1, GA:0.5},
+  "AutoX (AutoML & AutoRAG)":                     {EA2:0.3, GA:1.3},
+  "Crimson Planning (Dashboard)":                 {EA1:0.8, EA2:0.8, GA:1.0},
+  "Docs Team":                                    {EA2:0.6},
+  "Fine Tuning":                                  {GA:0.1},
+  "INFERENG Midstream":                           {EA1:1.0, EA2:1.5, GA:6.5},
+  "INFERENG llm-d":                               {EA1:0.4, EA2:0.4, GA:3.1},
+  "INFERENG llm-d Raft":                          {EA2:0.1, GA:0.2},
+  "InferEng Prio":                                {GA:0.1},
+  "Onyx Planning Dashboard":                      {EA2:0.5, GA:0.2},
+  "Project Navigator":                            {GA:1.0},
+  "RAG":                                          {EA2:0.4, GA:0.2},
+  "RHAI AI Pipelines":                            {GA:0.2},
+  "RHAI AgentDev":                                {EA1:1.0, EA2:1.0, GA:1.5},
+  "RHAI AgentOps":                                {EA1:1.0, EA2:0.5, GA:1.6},
+  "RHAI Agentic API":                             {EA1:4.6, EA2:6.1, GA:3.2},
+  "RHAI Crimson":                                 {EA1:0.8, EA2:0.8, GA:1.1},
+  "RHAI Data Processing":                         {EA2:2.0, GA:1.6},
+  "RHAI Documentation":                           {EA1:1.5, EA2:4.0, GA:3.8},
+  "RHAI Green":                                   {EA2:0.6, GA:0.8},
+  "RHAI INFERENG Runtime":                        {GA:2.5},
+  "RHAI Indigo":                                  {GA:0.2},
+  "RHAI Klara's Team":                            {EA2:0.5, GA:0.2},
+  "RHAI Model Runtimes":                          {EA2:0.5, GA:1.0},
+  "RHAI Notebooks":                               {EA1:1.8, EA2:1.5, GA:1.6},
+  "RHAI Onyx":                                    {EA2:0.5, GA:0.5},
+  "RHAI Purple":                                  {EA2:0.7, GA:1.0},
+  "RHAI Razzmatazz":                              {EA2:0.2, GA:0.4},
+  "RHAI SDG Kanban Board":                        {GA:0.8},
+  "RHAI Serving Orchestration":                   {EA1:0.4, EA2:1.5, GA:1.0},
+  "RHAI Tangerine":                               {GA:0.4},
+  "RHAI Teal":                                    {EA2:0.2, GA:0.2},
+  "RHAI Tooling Experience":                      {EA1:2.2, EA2:1.0, GA:0.8},
+  "RHAI Training Kanban Board":                   {EA2:0.2, GA:0.2},
+  "RHAI Zaffre":                                  {GA:0.4},
+  "RHOAI AI Hub":                                 {EA1:0.9, EA2:2.7, GA:1.4},
+  "RHOAI Customer Quality":                       {GA:0.3},
+  "RHOAI Dashboard":                              {EA1:0.7, EA2:0.4, GA:2.2},
+  "RHOAI DevTestOps":                             {EA1:0.2},
+  "RHOAI IDE":                                    {EA2:0.2, GA:0.6},
+  "RHOAI Inference Extensions":                   {GA:2.5},
+  "RHOAI Trusty AI":                              {EA1:0.4, EA2:0.5, GA:1.4},
+  "RHOAI Workload Orchestration":                 {GA:0.4},
+  "RHOAIUX Epics & Tasks":                        {EA2:0.8, GA:4.3},
+  "RHOAIUX Epics by area":                        {EA1:1.3, EA2:0.7, GA:3.0},
+  "RHOAIUX Sprint Board":                         {EA1:0.3},
+  "Zaffre Planning (Dashboard)":                  {EA2:0.2, GA:0.8},
+  "evalhub":                                      {EA1:1.0, EA2:2.0, GA:3.0},
+  "TrustyAI Board":                               {EA1:0.0, EA2:0.4, GA:0.3},
+};
 
 // 3.5→3.6 Big Rock similarity — John Graham, 2026-08-13 (br_3.5_vs_3.6_sim.html)
 // 78% overall similarity. 14 outcome JIRAs appear in both 3.5 and 3.6 by exact ID.
@@ -1860,7 +1942,7 @@ function run(){
     if(!r._bigRocks) return;
     r._bigRocks.forEach(name=>{if(r._place==='No') window._brGapMap[name]=(window._brGapMap[name]||0)+1;});
   });
-  renderTbl(rows); renderCards(rows); renderBigRocks(allData); renderAppendix(allData);
+  renderTbl(rows); renderCards(rows); renderCapacityMix(allData); renderBigRocks(allData); renderAppendix(allData);
 }
 function v(id){return document.getElementById(id).value;}
 function sort(col){sortCol===col?sortAsc=!sortAsc:(sortCol=col,sortAsc=true);run();}
@@ -1960,7 +2042,7 @@ function renderTbl(rows){
       <td><span class="pp ${pCls}">${r._place}</span></td>
       <td>${r._releaseType?`<span class="rt-badge rt-${r._releaseType.toLowerCase()}">${r._releaseType}</span>`:'<span class="rt-badge rt-none">—</span>'}</td>
       <td><div class="cbar-wrap" title="${isPrecomp?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nTrained on RHOAI 3.4+3.5 history (134 committed · 122 shipped / 12 slipped). Includes prior slip record.`:isMl?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nApprox — no prior slip record available. Based on FPDoR completeness + priority + RICE.`:`Readiness estimate: ${conf}%\nBased on FPDoR completeness, labels, and component capacity.`}"><div class="cbar"><div class="cfill ${cCls}" style="width:${Math.min(conf,100)}%"></div></div><span class="cnum" style="font-weight:700">${confBand}</span><span class="cnum" style="color:#999;font-size:10px;margin-left:3px">${conf}%</span>${isPrecomp?'<span style="font-size:9px;font-weight:700;color:#7b1fa2;margin-left:4px" title="AI Delivery Signal — trained on 3.4+3.5 historical outcomes (includes slip record)">🤖</span>':isMl?'<span style="font-size:9px;font-weight:700;color:#9c27b0;margin-left:4px" title="AI Delivery Signal (approx) — FPDoR+priority+RICE only, no slip record">~🤖</span>':''}</div></td>
-      <td><span class="reason">${cleanReason}</span>${isMl?`<div style="font-size:9px;color:${isPrecomp?'#7b1fa2':'#9c27b0'};margin-top:2px;font-weight:600">${isPrecomp?'🤖 AI Signal - ML training (Random Forest)':`~🤖 No slip record — confidence capped at 85%`}</div>`:''}${counterfactual?`<div style="font-size:9px;color:#e65100;margin-top:2px;font-weight:600">→ ${counterfactual}</div>`:''}${r._teams?`<div style="font-size:9px;color:#7b68ee;margin-top:3px" title="Jira Team field — Erle Marion capacity-dataset.json">👥 ${r._teams.join(' · ')}</div>`:''}</td>
+      <td><span class="reason">${cleanReason}</span>${isMl?`<div style="font-size:9px;color:${isPrecomp?'#7b1fa2':'#9c27b0'};margin-top:2px;font-weight:600">${isPrecomp?'🤖 AI Signal - ML training (Random Forest)':`~🤖 No slip record — confidence capped at 85%`}</div>`:''}${counterfactual?`<div style="font-size:9px;color:#e65100;margin-top:2px;font-weight:600">→ ${counterfactual}</div>`:''}${r._teams?`<div style="font-size:9px;color:#7b68ee;margin-top:3px" title="Jira Team field — release-capacity-dataset">👥 ${r._teams.join(' · ')}</div>`:''}</td>
       <td><a class="klink" href="https://redhat.atlassian.net/browse/${r['Key']}" target="_blank">${r['Key']}</a></td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r['Title']}">${r['Title']}</td>
       <td style="max-width:140px;white-space:normal;line-height:1.4">${r._isBigRock?'<span class="br-badge">🪨 BR</span>':''}${brGapHtml}<span style="color:#555" title="${r['Outcome']||''}">${r['Outcome']||'—'}</span></td>
@@ -2040,6 +2122,75 @@ function renderAppendix(data){
       ${g.rows.length>5?`<tr><td colspan="3" style="padding:2px 8px 6px 20px;font-size:10px;color:#aaa">+${g.rows.length-5} more — export CSV to see all</td></tr>`:''}
     `).join('');
   document.getElementById('exc-body').innerHTML=excHtml||'<tr><td colspan="3" style="color:#bbb;text-align:center">No features in No bucket</td></tr>';
+}
+
+function classifyFeature(r){
+  const title=(r['Title']||'').toLowerCase();
+  const labels=(r['Labels']||'').toLowerCase();
+  if(r._bigRocks&&r._bigRocks.some(n=>/stabiliz|quality.and.cohesion|remediat/i.test(n))) return 'bugs';
+  if(/bug|hotfix|tech.?debt|z-stream|stabiliz|remediat/.test(labels)) return 'bugs';
+  if(/\bbug fix\b|hotfix|tech debt|stabiliz|remediat/.test(title)) return 'bugs';
+  if(/spike|research|learning|\bpoc\b|proof.of.concept|investig/.test(labels)) return 'research';
+  if(/\bspike\b|\bpoc\b|proof.of.concept/.test(title)) return 'research';
+  return 'features';
+}
+
+function renderCapacityMix(data){
+  const panel=document.getElementById('mix-panel');
+  if(!panel) return;
+  const inPlan=data.filter(r=>r._place!=='No');
+  if(!inPlan.length){panel.style.display='none';return;}
+
+  const counts={features:0,bugs:0,research:0};
+  inPlan.forEach(r=>counts[classifyFeature(r)]++);
+  const total=inPlan.length;
+  const pct=k=>total?Math.round(counts[k]/total*100):0;
+
+  const TARGET={features:40,bugs:40,research:20};
+  const COLOR={features:'#1565c0',bugs:'#c62828',research:'#2e7d32'};
+  const LBL={features:'🔵 New Features',bugs:'🔴 Bugs / Tech Debt',research:'🟢 Learning / Research'};
+
+  const bars=['features','bugs','research'].map(k=>{
+    const p=pct(k), t=TARGET[k];
+    const diff=p-t;
+    const diffTag=diff===0
+      ?'<span style="color:#2e7d32;font-size:10px">✓ on target</span>'
+      :diff>0
+        ?`<span style="color:#c62828;font-size:10px">+${diff}% over</span>`
+        :`<span style="color:#888;font-size:10px">${diff}% under</span>`;
+    return `<div class="mix-bar-wrap">
+      <div class="mix-bar-label">
+        <span>${LBL[k]}</span>
+        <span style="color:#444">${counts[k]} · ${p}%</span>
+      </div>
+      <div class="mix-bar-track" title="Target: ${t}%">
+        <div class="mix-bar-fill" style="width:${Math.min(p,100)}%;background:${COLOR[k]};opacity:.75"></div>
+        <div class="mix-bar-target" style="left:${Math.min(t,100)}%" title="40/40/20 target: ${t}%"></div>
+      </div>
+      <div class="mix-bar-note">target ${t}% &nbsp;${diffTag}</div>
+    </div>`;
+  }).join('');
+
+  const featureOverage=pct('features')-40;
+  const alertHtml=counts.bugs===0
+    ?`<div style="background:#fff3e0;border:1px solid #ffe082;border-radius:4px;padding:6px 10px;font-size:11px;color:#856404;margin-top:8px">
+        ⚠ <strong>No bug/stabilization work detected in current plan.</strong> Big Rock #2 (RHAIE Platform Stabilization Quality &amp; Cohesion) has 0 features linked — that capacity drain is invisible here. Without it, this planner shows ${pct('features')}% new features vs. the 40% target.
+       </div>`
+    :(featureOverage>10
+      ?`<div style="background:#ffebee;border:1px solid #ffcdd2;border-radius:4px;padding:6px 10px;font-size:11px;color:#c62828;margin-top:8px">
+          ⚠ New feature allocation is ${pct('features')}% — ${featureOverage}% over the 40% target. Consider deferring lower-priority features to leave room for stabilization work.
+         </div>`
+      :'');
+
+  const johnNote=`<div style="font-size:10px;color:#555;margin-top:8px;border-top:1px solid #f0f0f0;padding-top:6px">
+    Apply 40% of observed team velocity to new feature planning. Reserve the remaining 60% for bug remediation and research — even when that work is not yet visible in this view. If the current plan exceeds the feature target, reweight capacity estimates or defer lower-priority features.
+  </div>`;
+
+  panel.innerHTML=`<div class="mix-title">📊 40/40/20 Rule — Current Plan Mix
+    <span style="font-size:10px;font-weight:400;color:#888;text-transform:none;letter-spacing:0">Bugs/Tech Debt 40% → New Features 40% → Learning/Research 20% &nbsp;·&nbsp; dashed line = target</span>
+  </div>
+  <div class="mix-bars">${bars}</div>${alertHtml}${johnNote}`;
+  panel.style.display='';
 }
 
 function renderBigRocks(data){
