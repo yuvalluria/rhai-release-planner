@@ -489,7 +489,7 @@ tr:hover td{background:#fafafa}
     Score=77, conf=78% → 60. Score=76, conf=84% → 64. Risky features would drop below ready ones in rank. Not yet wired into the sort — confidence is shown separately in the CONFIDENCE column.
   </div>
   <div style="font-size:11px;color:#555;line-height:1.6;margin-bottom:18px">
-    <strong>About TYPE column:</strong> TYPE (DP/TP/GA) is read from the Jira "Release Type" field. If unset, falls back to title prefix — but only matches <code>[TP]</code> / <code>[DP]</code> / <code>[GA]</code> bracket format at the start of the title. A feature titled "Tech Preview - ..." with no Jira Release Type field set will show TYPE blank.
+    <strong>About TYPE column:</strong> TYPE (DP/TP/GA) is read from the Jira "Release Type" field. If unset, falls back to title prefix — matches both bracket format (<code>[TP]</code> / <code>[DP]</code>) and plain-text prefixes (<code>Tech Preview -</code> / <code>Dev Preview -</code>).
   </div>
 
   <div class="ap-sec">Component Capacity</div>
@@ -1726,8 +1726,10 @@ function schedule(rows){
     // Fallback to title prefix [DP]/[TP]/[GA] for older exports without the column.
     // Aug 10 meeting decision (Erle, Yuval, John): DP → +8%, TP → +5%, GA → 0%.
     const rtField = (r['Release Type']||'').trim().toUpperCase();
-    const rtMatch = !rtField ? (r['Title']||'').match(/^\[(DP|TP|GA)\]/i) : null;
-    r._releaseType = rtField || (rtMatch ? rtMatch[1].toUpperCase() : null);
+    const rtMatch = !rtField ? (r['Title']||'').match(/^\[(DP|TP|GA)\]|^(Dev Preview|Tech Preview|General Availability)\b/i) : null;
+    const rtFromTitle = rtMatch ? (rtMatch[1]||rtMatch[2]||'').toUpperCase() : null;
+    const rtNorm = rtFromTitle==='DEV PREVIEW'?'DP':rtFromTitle==='TECH PREVIEW'?'TP':rtFromTitle==='GENERAL AVAILABILITY'?'GA':rtFromTitle;
+    r._releaseType = rtField || rtNorm;
     r._releaseTypeBoost = r._releaseType==='DP' ? 8 : r._releaseType==='TP' ? 5 : 0;
 
     // Big Rock membership — match Outcome against known Big Rock keyword sets
