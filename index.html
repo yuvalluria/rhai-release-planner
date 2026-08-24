@@ -335,14 +335,22 @@ tr:hover td{background:#fafafa}
     </div>
   </div>
 
+  <div style="display:flex;justify-content:flex-end;padding:0 16px 4px">
+    <button onclick="toggleSummary()" id="summary-toggle-btn" style="font-size:10px;background:none;border:1px solid #555;color:#aaa;border-radius:4px;padding:2px 10px;cursor:pointer">▲ Collapse summary</button>
+  </div>
+  <div id="summary-detail">
   <div class="cards">
     <div class="card c1"><div class="card-lbl">EA1</div><div class="card-n" id="cnt-ea1">—</div><div class="card-s">Highest confidence</div></div>
     <div class="card c2"><div class="card-lbl">EA2</div><div class="card-n" id="cnt-ea2">—</div><div class="card-s">Early access 2</div></div>
     <div class="card c3"><div class="card-lbl">GA</div><div class="card-n" id="cnt-ga">—</div><div class="card-s">General availability</div></div>
     <div class="card c4"><div class="card-lbl">No</div><div class="card-n" id="cnt-no">—</div><div class="card-s">Fix inputs to requalify</div></div>
   </div>
-
   <div id="mix-panel" class="mix-panel" style="display:none"></div>
+  </div><!-- /summary-detail -->
+  <div id="summary-collapsed" style="display:none;padding:6px 16px;font-size:11px;color:#aaa;background:#1a1a2e;border-bottom:1px solid #333">
+    <span id="collapsed-stats">— features · — in-plan · — no</span>
+    &nbsp;·&nbsp;<button onclick="toggleSummary()" style="font-size:10px;background:none;border:1px solid #555;color:#aaa;border-radius:4px;padding:1px 8px;cursor:pointer">▼ Expand</button>
+  </div>
 
   <div class="topbar">
     <select id="f-rel" onchange="run()"><option value="">All Releases</option><option>3.5</option><option>3.6</option></select>
@@ -508,6 +516,13 @@ tr:hover td{background:#fafafa}
   <div class="tbl-wrap"><table>
     <thead><tr><th>Reason</th><th>Count</th><th>% of Total</th></tr></thead>
     <tbody id="exc-body"></tbody>
+  </table></div>
+
+  <div class="ap-sec">✏️ FPDoR Field Failure Breakdown — which fields are blocking the most features</div>
+  <div class="ap-note">Of the features blocked by mandatory FPDoR fields, here are the specific fields failing most. Fix these in Jira to move features into plan.</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Field</th><th>Features blocked</th><th>Fix action</th></tr></thead>
+    <tbody id="fpdor-field-breakdown"></tbody>
   </table></div>
 
   <div class="ap-sec">🤖 ML Model — Training & Performance</div>
@@ -2084,13 +2099,30 @@ function renderAppendix(data){
       <td>${over?'⚠ Over ceiling':'✓ OK'}</td></tr>`;
   }).join('');
 
-  // Team in-plan counts (informational only — no ceilings defined yet)
-  const allT=[...new Set(Object.keys(usedT))].sort();
+  // Team in-plan counts — bottleneck teams flagged prominently
+  const BOTTLENECK_TEAMS = ['documentation','doc ','docs ','dashboard'];
+  const isBottleneck = t => BOTTLENECK_TEAMS.some(b=>t.toLowerCase().includes(b));
+  const allT=[...new Set(Object.keys(usedT))].sort((a,b)=>{
+    if(isBottleneck(a)&&!isBottleneck(b)) return -1;
+    if(!isBottleneck(a)&&isBottleneck(b)) return 1;
+    return a.localeCompare(b);
+  });
   document.getElementById('team-cap-body').innerHTML=allT.length
-    ? allT.map(t=>{
+    ? `<tr style="background:#fff8e1"><td colspan="6" style="padding:5px 10px;font-size:11px;font-weight:700;color:#856404">
+        ⚠ Bottleneck Teams — Dashboard &amp; Docs capacity sets the EA2 system ceiling (John Graham, Aug 24)
+      </td></tr>`
+      + allT.map(t=>{
         const u=usedT[t]||{EA1:0,EA2:0,GA:0};
         const total=u.EA1+u.EA2+u.GA;
-        return `<tr><td>${t}</td><td>${u.EA1}</td><td>${u.EA2}</td><td>${u.GA}</td><td><strong>${total}</strong></td><td style="color:#888;font-size:11px">No ceiling set — add Scrum/Kanban velocity to enforce</td></tr>`;
+        const bn=isBottleneck(t);
+        const isDoc=/doc/i.test(t);
+        const note=isDoc
+          ? '<span style="color:#c0392b;font-weight:600">⚠ 50% capacity EA2 — release notes only (Manuela Ansaldo, Aug 24)</span>'
+          : bn
+            ? '<span style="color:#e65100;font-weight:600">⚠ Bottleneck team — monitor closely</span>'
+            : '<span style="color:#888;font-size:11px">No ceiling set — add Scrum/Kanban velocity to enforce</span>';
+        const rowStyle=bn?'background:#fff8e1':'';
+        return `<tr style="${rowStyle}"><td${bn?' style="font-weight:700"':''}>${t}</td><td>${u.EA1}</td><td>${u.EA2}</td><td>${u.GA}</td><td><strong>${total}</strong></td><td style="font-size:11px">${note}</td></tr>`;
       }).join('')
     : '<tr><td colspan="6" style="color:#bbb;text-align:center">No team data — Team column empty in CSV</td></tr>';
 
@@ -2124,6 +2156,37 @@ function renderAppendix(data){
       ${g.rows.length>5?`<tr><td colspan="3" style="padding:2px 8px 6px 20px;font-size:10px;color:#aaa">+${g.rows.length-5} more — export CSV to see all</td></tr>`:''}
     `).join('');
   document.getElementById('exc-body').innerHTML=excHtml||'<tr><td colspan="3" style="color:#bbb;text-align:center">No features in No bucket</td></tr>';
+
+  // FPDoR field breakdown — which specific fields are blocking the most features
+  const fpdorRows=noRows.filter(r=>(r._reason||'').includes('Mandatory FPDoR'));
+  const fieldCounts={};
+  fpdorRows.forEach(r=>{
+    const m=(r._reason||'').match(/missing:\s*(.+?)(\s*·|$)/i);
+    const field=m?m[1].trim():'Unknown field';
+    fieldCounts[field]=(fieldCounts[field]||0)+1;
+  });
+  const fieldEl=document.getElementById('fpdor-field-breakdown');
+  if(fieldEl){
+    const sorted=Object.entries(fieldCounts).sort((a,b)=>b[1]-a[1]);
+    const maxCount=sorted[0]?sorted[0][1]:1;
+    fieldEl.innerHTML=sorted.length
+      ? sorted.map(([field,cnt])=>{
+          const pct=Math.round(cnt/maxCount*100);
+          return `<tr>
+            <td style="font-size:12px;padding:4px 8px;min-width:180px">${field}</td>
+            <td style="padding:4px 8px">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="flex:1;height:10px;background:#f0f0f0;border-radius:5px;overflow:hidden">
+                  <div style="width:${pct}%;height:100%;background:#f57c00;border-radius:5px"></div>
+                </div>
+                <span style="font-size:12px;font-weight:700;color:#f57c00;min-width:24px">${cnt}</span>
+              </div>
+            </td>
+            <td style="font-size:11px;color:#888;padding:4px 8px">→ Fill the <strong>${field}</strong> field in Jira</td>
+          </tr>`;
+        }).join('')
+      : '<tr><td colspan="3" style="color:#bbb">No mandatory FPDoR failures detected</td></tr>';
+  }
 }
 
 function classifyFeature(r){
@@ -2294,6 +2357,24 @@ function showTab(t){
   const idx={arch:0,feat:1,ap:2}[t];
   document.querySelectorAll('.tab')[idx].classList.add('active');
   if(t==='ap') renderAppendix(allData);
+}
+
+function toggleSummary(){
+  const detail=document.getElementById('summary-detail');
+  const collapsed=document.getElementById('summary-collapsed');
+  const btn=document.getElementById('summary-toggle-btn');
+  const isHidden=detail.style.display==='none';
+  detail.style.display=isHidden?'':'none';
+  collapsed.style.display=isHidden?'none':'block';
+  if(btn) btn.textContent=isHidden?'▲ Collapse summary':'';
+  // update collapsed stats line
+  if(!isHidden){
+    const total=document.getElementById('ex-total')?document.getElementById('ex-total').textContent:'—';
+    const inPlan=document.getElementById('st-in')?document.getElementById('st-in').textContent:'—';
+    const no=document.getElementById('st-no')?document.getElementById('st-no').textContent:'—';
+    const cs=document.getElementById('collapsed-stats');
+    if(cs) cs.textContent=`${total} · ${inPlan} · ${no}`;
+  }
 }
 
 // ── EMBEDDED DATA (feature-readiness-2026-08-12.csv, 1148 features) ─────────────
