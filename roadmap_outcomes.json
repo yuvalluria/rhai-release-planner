@@ -1,0 +1,5737 @@
+{
+  "RHAISTRAT-1473": {
+    "bigRock": "Tool Calling",
+    "rank": 1,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1431": {
+    "bigRock": "MaaS",
+    "rank": 2,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1874": {
+    "bigRock": "MaaS",
+    "rank": 3,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1540": {
+    "bigRock": "MaaS",
+    "rank": 4,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2198": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 5,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1528": {
+    "bigRock": "Gen AI Studio",
+    "rank": 6,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1519": {
+    "bigRock": "Upgrade Support",
+    "rank": 7,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1547": {
+    "bigRock": "MaaS",
+    "rank": 8,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1741": {
+    "bigRock": "MaaS",
+    "rank": 9,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1658": {
+    "bigRock": "MaaS",
+    "rank": 10,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1656": {
+    "bigRock": "MaaS",
+    "rank": 11,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1527": {
+    "bigRock": "Gen AI Studio",
+    "rank": 12,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1534": {
+    "bigRock": "Gen AI Studio",
+    "rank": 13,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1550": {
+    "bigRock": "MaaS",
+    "rank": 14,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-133": {
+    "bigRock": "MaaS",
+    "rank": 15,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1720": {
+    "bigRock": "MaaS",
+    "rank": 16,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1314": {
+    "bigRock": "MaaS",
+    "rank": 17,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1919": {
+    "bigRock": "MaaS",
+    "rank": 18,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1412": {
+    "bigRock": "Other Features",
+    "rank": 19,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1750": {
+    "bigRock": "Gen AI Studio",
+    "rank": 20,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1803": {
+    "bigRock": "Tool Calling",
+    "rank": 21,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1472": {
+    "bigRock": "Tool Calling",
+    "rank": 22,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2114": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 23,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1817": {
+    "bigRock": "Other Features",
+    "rank": 24,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1468": {
+    "bigRock": "Other Features",
+    "rank": 25,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1921": {
+    "bigRock": "Gen AI Studio",
+    "rank": 26,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1641": {
+    "bigRock": "Unified RHAII on xKS",
+    "rank": 27,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1526": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 28,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1377": {
+    "bigRock": "MaaS",
+    "rank": 29,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1939": {
+    "bigRock": "Gen AI Studio",
+    "rank": 30,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1914": {
+    "bigRock": "Gen AI Studio",
+    "rank": 31,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1267": {
+    "bigRock": "MaaS",
+    "rank": 32,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1643": {
+    "bigRock": "Unified RHAII on xKS",
+    "rank": 33,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1954": {
+    "bigRock": "Tool Calling",
+    "rank": 34,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1678": {
+    "bigRock": "Gen AI Studio",
+    "rank": 35,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1722": {
+    "bigRock": "Unified RHAII on xKS",
+    "rank": 36,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1524": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 37,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2317": {
+    "bigRock": "llm-d Platform",
+    "rank": 38,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2052": {
+    "bigRock": "Gen AI Studio",
+    "rank": 39,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1749": {
+    "bigRock": "Gen AI Studio",
+    "rank": 40,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1748": {
+    "bigRock": "Gen AI Studio",
+    "rank": 41,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1729": {
+    "bigRock": "llm-d Platform",
+    "rank": 42,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2192": {
+    "bigRock": "llm-d Platform",
+    "rank": 43,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2160": {
+    "bigRock": "Tool Calling",
+    "rank": 44,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1461": {
+    "bigRock": "Tool Calling",
+    "rank": 45,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1535": {
+    "bigRock": "llm-d Platform",
+    "rank": 46,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1740": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 47,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1816": {
+    "bigRock": "Other Features",
+    "rank": 48,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1536": {
+    "bigRock": "Multitenancy",
+    "rank": 49,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1047": {
+    "bigRock": "Other Features",
+    "rank": 50,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1603": {
+    "bigRock": "Eval Hub",
+    "rank": 51,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1284": {
+    "bigRock": "Other Features",
+    "rank": 52,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1576": {
+    "bigRock": "Gen AI Studio",
+    "rank": 53,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2254": {
+    "bigRock": "llm-d Platform",
+    "rank": 54,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1856": {
+    "bigRock": "Eval Hub",
+    "rank": 55,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1507": {
+    "bigRock": "Eval Hub",
+    "rank": 56,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1488": {
+    "bigRock": "Red Hat AI Factory with NVIDIA Rubin",
+    "rank": 57,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-949": {
+    "bigRock": "Multitenancy",
+    "rank": 58,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2049": {
+    "bigRock": "Gen AI Studio",
+    "rank": 59,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2403": {
+    "bigRock": "Gen AI Studio",
+    "rank": 60,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2028": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 61,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2050": {
+    "bigRock": "Gen AI Studio",
+    "rank": 62,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1757": {
+    "bigRock": "GPUaaS",
+    "rank": 63,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1723": {
+    "bigRock": "MaaS",
+    "rank": 64,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1822": {
+    "bigRock": "AutoML",
+    "rank": 65,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1209": {
+    "bigRock": "Unified RHAII on xKS",
+    "rank": 66,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-497": {
+    "bigRock": "GPUaaS",
+    "rank": 67,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1476": {
+    "bigRock": "Other Features",
+    "rank": 68,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1373": {
+    "bigRock": "Other Features",
+    "rank": 69,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-323": {
+    "bigRock": "GPUaaS",
+    "rank": 70,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1738": {
+    "bigRock": "llm-d Platform",
+    "rank": 71,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1773": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 72,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1673": {
+    "bigRock": "AutoRAG",
+    "rank": 73,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1636": {
+    "bigRock": "Eval Hub",
+    "rank": 74,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1538": {
+    "bigRock": "AutoML",
+    "rank": 75,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1937": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 76,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1589": {
+    "bigRock": "Eval Hub",
+    "rank": 77,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1491": {
+    "bigRock": "AutoML",
+    "rank": 78,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1859": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 79,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1608": {
+    "bigRock": "Eval Hub",
+    "rank": 80,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1418": {
+    "bigRock": "Other Features",
+    "rank": 81,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2003": {
+    "bigRock": "llm-d Platform",
+    "rank": 82,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1811": {
+    "bigRock": "Tool Calling",
+    "rank": 83,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1810": {
+    "bigRock": "Tool Calling",
+    "rank": 84,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1422": {
+    "bigRock": "Other Features",
+    "rank": 85,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2428": {
+    "bigRock": "Tool Calling",
+    "rank": 86,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2427": {
+    "bigRock": "Tool Calling",
+    "rank": 87,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2064": {
+    "bigRock": "Tool Calling",
+    "rank": 88,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1568": {
+    "bigRock": "Other Features",
+    "rank": 89,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1361": {
+    "bigRock": "Other Features",
+    "rank": 90,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1281": {
+    "bigRock": "llm-d Platform",
+    "rank": 91,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1425": {
+    "bigRock": "AutoRAG",
+    "rank": 92,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1615": {
+    "bigRock": "Other Features",
+    "rank": 93,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1433": {
+    "bigRock": "Other Features",
+    "rank": 94,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1362": {
+    "bigRock": "Other Features",
+    "rank": 95,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1850": {
+    "bigRock": "Other Features",
+    "rank": 96,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1474": {
+    "bigRock": "Other Features",
+    "rank": 97,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1685": {
+    "bigRock": "MaaS",
+    "rank": 98,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1409": {
+    "bigRock": "Other Features",
+    "rank": 99,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1374": {
+    "bigRock": "Other Features",
+    "rank": 100,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1111": {
+    "bigRock": "Other Features",
+    "rank": 101,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-178": {
+    "bigRock": "Other Features",
+    "rank": 102,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2245": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 103,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1569": {
+    "bigRock": "Eval Hub",
+    "rank": 104,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2247": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 105,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1752": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 106,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2305": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 107,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2148": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 108,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2515": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 109,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2514": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 110,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2138": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 111,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-853": {
+    "bigRock": "Other Features",
+    "rank": 112,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1975": {
+    "bigRock": "Tool Calling",
+    "rank": 113,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1577": {
+    "bigRock": "GPUaaS",
+    "rank": 114,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1987": {
+    "bigRock": "Other Features",
+    "rank": 115,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1486": {
+    "bigRock": "Red Hat AI Factory with NVIDIA Rubin",
+    "rank": 116,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1828": {
+    "bigRock": "Other Features",
+    "rank": 117,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1789": {
+    "bigRock": "Other Features",
+    "rank": 118,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1719": {
+    "bigRock": "Other Features",
+    "rank": 119,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2199": {
+    "bigRock": "AutoML",
+    "rank": 120,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1762": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 121,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1727": {
+    "bigRock": "Other Features",
+    "rank": 122,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1718": {
+    "bigRock": "Other Features",
+    "rank": 123,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1477": {
+    "bigRock": "Other Features",
+    "rank": 124,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1737": {
+    "bigRock": "Other Features",
+    "rank": 125,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1924": {
+    "bigRock": "Other Features",
+    "rank": 126,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1802": {
+    "bigRock": "MaaS",
+    "rank": 127,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1395": {
+    "bigRock": "Other Features",
+    "rank": 128,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1934": {
+    "bigRock": "Other Features",
+    "rank": 129,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1915": {
+    "bigRock": "Other Features",
+    "rank": 130,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1721": {
+    "bigRock": "Other Features",
+    "rank": 131,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1505": {
+    "bigRock": "Other Features",
+    "rank": 132,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1469": {
+    "bigRock": "Other Features",
+    "rank": 133,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1439": {
+    "bigRock": "Other Features",
+    "rank": 134,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1368": {
+    "bigRock": "Other Features",
+    "rank": 135,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1301": {
+    "bigRock": "Other Features",
+    "rank": 136,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1286": {
+    "bigRock": "Other Features",
+    "rank": 137,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1228": {
+    "bigRock": "Other Features",
+    "rank": 138,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1199": {
+    "bigRock": "Other Features",
+    "rank": 139,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1117": {
+    "bigRock": "MaaS",
+    "rank": 140,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1113": {
+    "bigRock": "Other Features",
+    "rank": 141,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1061": {
+    "bigRock": "Other Features",
+    "rank": 142,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-989": {
+    "bigRock": "Other Features",
+    "rank": 143,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-332": {
+    "bigRock": "Other Features",
+    "rank": 144,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2006": {
+    "bigRock": "Multitenancy",
+    "rank": 145,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2518": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 146,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2392": {
+    "bigRock": "Red Hat AI Factory with NVIDIA Rubin",
+    "rank": 147,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2185": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 148,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2184": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 149,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2183": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 150,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1994": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 151,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1820": {
+    "bigRock": "GPUaaS",
+    "rank": 152,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1780": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 153,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1246": {
+    "bigRock": "Other Features",
+    "rank": 154,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1245": {
+    "bigRock": "Other Features",
+    "rank": 155,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1995": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 156,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2353": {
+    "bigRock": "MaaS",
+    "rank": 157,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2517": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 158,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2413": {
+    "bigRock": "MaaS",
+    "rank": 159,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2405": {
+    "bigRock": "Red Hat AI Factory with NVIDIA Rubin",
+    "rank": 160,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1993": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 161,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1906": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 162,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1821": {
+    "bigRock": "GPUaaS",
+    "rank": 163,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1573": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 164,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2027": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 165,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1482": {
+    "bigRock": "Other Features",
+    "rank": 166,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2007": {
+    "bigRock": "MaaS",
+    "rank": 167,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2258": {
+    "bigRock": "Multitenancy",
+    "rank": 168,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2206": {
+    "bigRock": "AutoRAG",
+    "rank": 169,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1988": {
+    "bigRock": "Other Features",
+    "rank": 170,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1933": {
+    "bigRock": "Red Hat AI Factory with NVIDIA Rubin",
+    "rank": 171,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1932": {
+    "bigRock": "Red Hat AI Factory with NVIDIA Rubin",
+    "rank": 172,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1416": {
+    "bigRock": "Other Features",
+    "rank": 173,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1358": {
+    "bigRock": "Other Features",
+    "rank": 174,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1053": {
+    "bigRock": "GPUaaS",
+    "rank": 175,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-97": {
+    "bigRock": "Other Features",
+    "rank": 176,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1835": {
+    "bigRock": "Other Features",
+    "rank": 178,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-432": {
+    "bigRock": "GPUaaS",
+    "rank": 179,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1868": {
+    "bigRock": "Other Features",
+    "rank": 180,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1570": {
+    "bigRock": "Eval Hub",
+    "rank": 181,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1250": {
+    "bigRock": "Other Features",
+    "rank": 182,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1556": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 183,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2164": {
+    "bigRock": "GPUaaS",
+    "rank": 184,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1824": {
+    "bigRock": "Other Features",
+    "rank": 185,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-589": {
+    "bigRock": "Other Features",
+    "rank": 186,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1364": {
+    "bigRock": "Other Features",
+    "rank": 187,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1149": {
+    "bigRock": "Other Features",
+    "rank": 188,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-404": {
+    "bigRock": "Other Features",
+    "rank": 189,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2057": {
+    "bigRock": "Other Features",
+    "rank": 190,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1879": {
+    "bigRock": "Other Features",
+    "rank": 191,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1806": {
+    "bigRock": "Other Features",
+    "rank": 192,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2145": {
+    "bigRock": "Other Features",
+    "rank": 193,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1969": {
+    "bigRock": "Other Features",
+    "rank": 194,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1782": {
+    "bigRock": "Other Features",
+    "rank": 195,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1726": {
+    "bigRock": "Other Features",
+    "rank": 196,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1671": {
+    "bigRock": "Other Features",
+    "rank": 197,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1662": {
+    "bigRock": "Other Features",
+    "rank": 198,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1523": {
+    "bigRock": "Other Features",
+    "rank": 199,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1758": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 200,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1699": {
+    "bigRock": "Other Features",
+    "rank": 201,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1963": {
+    "bigRock": "AutoML",
+    "rank": 202,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1920": {
+    "bigRock": "Other Features",
+    "rank": 203,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1725": {
+    "bigRock": "Other Features",
+    "rank": 204,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1717": {
+    "bigRock": "Other Features",
+    "rank": 205,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1696": {
+    "bigRock": "Other Features",
+    "rank": 206,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1635": {
+    "bigRock": "Other Features",
+    "rank": 207,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1575": {
+    "bigRock": "Gen AI Studio",
+    "rank": 208,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1884": {
+    "bigRock": "Tool Calling",
+    "rank": 209,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2329": {
+    "bigRock": "MaaS",
+    "rank": 210,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2383": {
+    "bigRock": "Other Features",
+    "rank": 211,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2051": {
+    "bigRock": "Other Features",
+    "rank": 212,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1813": {
+    "bigRock": "Other Features",
+    "rank": 213,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1733": {
+    "bigRock": "Other Features",
+    "rank": 214,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1700": {
+    "bigRock": "Other Features",
+    "rank": 215,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1694": {
+    "bigRock": "Other Features",
+    "rank": 216,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1686": {
+    "bigRock": "Other Features",
+    "rank": 217,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1506": {
+    "bigRock": "Other Features",
+    "rank": 218,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1504": {
+    "bigRock": "Other Features",
+    "rank": 219,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1440": {
+    "bigRock": "Other Features",
+    "rank": 220,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1408": {
+    "bigRock": "Other Features",
+    "rank": 221,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1381": {
+    "bigRock": "Other Features",
+    "rank": 222,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1291": {
+    "bigRock": "Other Features",
+    "rank": 223,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1280": {
+    "bigRock": "Other Features",
+    "rank": 224,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1276": {
+    "bigRock": "Other Features",
+    "rank": 225,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1266": {
+    "bigRock": "Other Features",
+    "rank": 226,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1188": {
+    "bigRock": "Other Features",
+    "rank": 227,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-752": {
+    "bigRock": "Other Features",
+    "rank": 228,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-82": {
+    "bigRock": "Other Features",
+    "rank": 229,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1248": {
+    "bigRock": "Other Features",
+    "rank": 230,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2512": {
+    "bigRock": "MaaS",
+    "rank": 231,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1997": {
+    "bigRock": "Multitenancy",
+    "rank": 232,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1521": {
+    "bigRock": "Other Features",
+    "rank": 233,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1854": {
+    "bigRock": "Other Features",
+    "rank": 234,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1961": {
+    "bigRock": "AutoML",
+    "rank": 235,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2393": {
+    "bigRock": "Red Hat AI Factory with NVIDIA Rubin",
+    "rank": 236,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1857": {
+    "bigRock": "MaaS",
+    "rank": 237,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1571": {
+    "bigRock": "Eval Hub",
+    "rank": 238,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1485": {
+    "bigRock": "Red Hat AI Factory with NVIDIA Rubin",
+    "rank": 239,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1115": {
+    "bigRock": "Other Features",
+    "rank": 240,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2466": {
+    "bigRock": "GPUaaS",
+    "rank": 241,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1940": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 242,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1858": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 243,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2537": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 244,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2536": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 245,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2404": {
+    "bigRock": "Red Hat AI Factory with NVIDIA Rubin",
+    "rank": 246,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2040": {
+    "bigRock": "AutoRAG",
+    "rank": 247,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1470": {
+    "bigRock": "GPUaaS",
+    "rank": 248,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1290": {
+    "bigRock": "Other Features",
+    "rank": 249,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-408": {
+    "bigRock": "GPUaaS",
+    "rank": 250,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1410": {
+    "bigRock": "Other Features",
+    "rank": 251,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1823": {
+    "bigRock": "AutoRAG",
+    "rank": 252,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1960": {
+    "bigRock": "AutoML",
+    "rank": 253,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1564": {
+    "bigRock": "Eval Hub",
+    "rank": 254,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1630": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 255,
+    "roadmapConfidence": "ready"
+  },
+  "RHAISTRAT-1414": {
+    "bigRock": "Other Features",
+    "rank": 256,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2022": {
+    "bigRock": "Other Features",
+    "rank": 257,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1441": {
+    "bigRock": "Other Features",
+    "rank": 258,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1321": {
+    "bigRock": "Other Features",
+    "rank": 259,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-39": {
+    "bigRock": "Other Features",
+    "rank": 260,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1693": {
+    "bigRock": "Other Features",
+    "rank": 261,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2479": {
+    "bigRock": "Other Features",
+    "rank": 262,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2354": {
+    "bigRock": "MaaS",
+    "rank": 263,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2134": {
+    "bigRock": "Other Features",
+    "rank": 264,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1799": {
+    "bigRock": "Other Features",
+    "rank": 265,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1714": {
+    "bigRock": "Other Features",
+    "rank": 266,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1436": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 267,
+    "roadmapConfidence": "ready"
+  },
+  "RHAISTRAT-1493": {
+    "bigRock": "AutoML",
+    "rank": 268,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2017": {
+    "bigRock": "Other Features",
+    "rank": 269,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2014": {
+    "bigRock": "Other Features",
+    "rank": 270,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2002": {
+    "bigRock": "Other Features",
+    "rank": 271,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1712": {
+    "bigRock": "Other Features",
+    "rank": 272,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1490": {
+    "bigRock": "Other Features",
+    "rank": 273,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1483": {
+    "bigRock": "Other Features",
+    "rank": 274,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1315": {
+    "bigRock": "Other Features",
+    "rank": 275,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1252": {
+    "bigRock": "Other Features",
+    "rank": 276,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1242": {
+    "bigRock": "Other Features",
+    "rank": 277,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1189": {
+    "bigRock": "Other Features",
+    "rank": 278,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-670": {
+    "bigRock": "Other Features",
+    "rank": 279,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1840": {
+    "bigRock": "Other Features",
+    "rank": 280,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1841": {
+    "bigRock": "Other Features",
+    "rank": 281,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2344": {
+    "bigRock": "Other Features",
+    "rank": 282,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2236": {
+    "bigRock": "MaaS",
+    "rank": 283,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1964": {
+    "bigRock": "AutoML",
+    "rank": 284,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1579": {
+    "bigRock": "MaaS",
+    "rank": 285,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2252": {
+    "bigRock": "Other Features",
+    "rank": 286,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2011": {
+    "bigRock": "Other Features",
+    "rank": 287,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1962": {
+    "bigRock": "AutoML",
+    "rank": 288,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1702": {
+    "bigRock": "AutoRAG",
+    "rank": 289,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1742": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 290,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2238": {
+    "bigRock": "Other Features",
+    "rank": 291,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2039": {
+    "bigRock": "AutoRAG",
+    "rank": 292,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1716": {
+    "bigRock": "Other Features",
+    "rank": 293,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-713": {
+    "bigRock": "GPUaaS",
+    "rank": 294,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2018": {
+    "bigRock": "Other Features",
+    "rank": 295,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1445": {
+    "bigRock": "Other Features",
+    "rank": 296,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2024": {
+    "bigRock": "Other Features",
+    "rank": 297,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1898": {
+    "bigRock": "Other Features",
+    "rank": 298,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1837": {
+    "bigRock": "Other Features",
+    "rank": 299,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1639": {
+    "bigRock": "Other Features",
+    "rank": 300,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1258": {
+    "bigRock": "Other Features",
+    "rank": 301,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-590": {
+    "bigRock": "Other Features",
+    "rank": 302,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1814": {
+    "bigRock": "Other Features",
+    "rank": 303,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1508": {
+    "bigRock": "Other Features",
+    "rank": 304,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1481": {
+    "bigRock": "Other Features",
+    "rank": 305,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-978": {
+    "bigRock": "GPUaaS",
+    "rank": 306,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2025": {
+    "bigRock": "Other Features",
+    "rank": 307,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1437": {
+    "bigRock": "Other Features",
+    "rank": 308,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1948": {
+    "bigRock": "Other Features",
+    "rank": 309,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2516": {
+    "bigRock": "Other Features",
+    "rank": 310,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2440": {
+    "bigRock": "MaaS",
+    "rank": 311,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2423": {
+    "bigRock": "Other Features",
+    "rank": 312,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2421": {
+    "bigRock": "Other Features",
+    "rank": 313,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2379": {
+    "bigRock": "Other Features",
+    "rank": 314,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2250": {
+    "bigRock": "Other Features",
+    "rank": 315,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2248": {
+    "bigRock": "MaaS",
+    "rank": 316,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2144": {
+    "bigRock": "Other Features",
+    "rank": 317,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1604": {
+    "bigRock": "Other Features",
+    "rank": 318,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2547": {
+    "bigRock": "Other Features",
+    "rank": 319,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2497": {
+    "bigRock": "Other Features",
+    "rank": 320,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2420": {
+    "bigRock": "Other Features",
+    "rank": 321,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2419": {
+    "bigRock": "Other Features",
+    "rank": 322,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2418": {
+    "bigRock": "Other Features",
+    "rank": 323,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2378": {
+    "bigRock": "Other Features",
+    "rank": 324,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2308": {
+    "bigRock": "Other Features",
+    "rank": 325,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2289": {
+    "bigRock": "Other Features",
+    "rank": 326,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2243": {
+    "bigRock": "Other Features",
+    "rank": 327,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2239": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 328,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1986": {
+    "bigRock": "Other Features",
+    "rank": 329,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1456": {
+    "bigRock": "Other Features",
+    "rank": 330,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-304": {
+    "bigRock": "Other Features",
+    "rank": 331,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2519": {
+    "bigRock": "Other Features",
+    "rank": 332,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2496": {
+    "bigRock": "Other Features",
+    "rank": 333,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2422": {
+    "bigRock": "MaaS",
+    "rank": 334,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2410": {
+    "bigRock": "Other Features",
+    "rank": 335,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2400": {
+    "bigRock": "Other Features",
+    "rank": 336,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2318": {
+    "bigRock": "MaaS",
+    "rank": 337,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2277": {
+    "bigRock": "Other Features",
+    "rank": 338,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2118": {
+    "bigRock": "Other Features",
+    "rank": 339,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1825": {
+    "bigRock": "Other Features",
+    "rank": 340,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2402": {
+    "bigRock": "Other Features",
+    "rank": 341,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1826": {
+    "bigRock": "Other Features",
+    "rank": 342,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2270": {
+    "bigRock": "Other Features",
+    "rank": 343,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2269": {
+    "bigRock": "Other Features",
+    "rank": 344,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2210": {
+    "bigRock": "Other Features",
+    "rank": 345,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2067": {
+    "bigRock": "Other Features",
+    "rank": 346,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2013": {
+    "bigRock": "Other Features",
+    "rank": 347,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1949": {
+    "bigRock": "Other Features",
+    "rank": 348,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1946": {
+    "bigRock": "Other Features",
+    "rank": 349,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1863": {
+    "bigRock": "Other Features",
+    "rank": 350,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1788": {
+    "bigRock": "Other Features",
+    "rank": 351,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1711": {
+    "bigRock": "Other Features",
+    "rank": 352,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1657": {
+    "bigRock": "MaaS",
+    "rank": 353,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1645": {
+    "bigRock": "Other Features",
+    "rank": 354,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1500": {
+    "bigRock": "Other Features",
+    "rank": 355,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1497": {
+    "bigRock": "Other Features",
+    "rank": 356,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1496": {
+    "bigRock": "Other Features",
+    "rank": 357,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1495": {
+    "bigRock": "Other Features",
+    "rank": 358,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1494": {
+    "bigRock": "Other Features",
+    "rank": 359,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1370": {
+    "bigRock": "Other Features",
+    "rank": 360,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1277": {
+    "bigRock": "Other Features",
+    "rank": 361,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1059": {
+    "bigRock": "Other Features",
+    "rank": 362,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-183": {
+    "bigRock": "Other Features",
+    "rank": 363,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2005": {
+    "bigRock": "Other Features",
+    "rank": 364,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1918": {
+    "bigRock": "Other Features",
+    "rank": 365,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1141": {
+    "bigRock": "Other Features",
+    "rank": 366,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1756": {
+    "bigRock": "Other Features",
+    "rank": 367,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2396": {
+    "bigRock": "Other Features",
+    "rank": 368,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2367": {
+    "bigRock": "Other Features",
+    "rank": 369,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2362": {
+    "bigRock": "Other Features",
+    "rank": 370,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2335": {
+    "bigRock": "Other Features",
+    "rank": 371,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2279": {
+    "bigRock": "Other Features",
+    "rank": 372,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1202": {
+    "bigRock": "Other Features",
+    "rank": 373,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1958": {
+    "bigRock": "MaaS",
+    "rank": 374,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1392": {
+    "bigRock": "Other Features",
+    "rank": 375,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1064": {
+    "bigRock": "Other Features",
+    "rank": 376,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-479": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 377,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-298": {
+    "bigRock": "Other Features",
+    "rank": 378,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2493": {
+    "bigRock": "Other Features",
+    "rank": 379,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2304": {
+    "bigRock": "Other Features",
+    "rank": 380,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2194": {
+    "bigRock": "MaaS",
+    "rank": 381,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1670": {
+    "bigRock": "Other Features",
+    "rank": 382,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1407": {
+    "bigRock": "Tool Calling",
+    "rank": 383,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1787": {
+    "bigRock": "Other Features",
+    "rank": 384,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2397": {
+    "bigRock": "Other Features",
+    "rank": 385,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1860": {
+    "bigRock": "AutoRAG",
+    "rank": 386,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2323": {
+    "bigRock": "Other Features",
+    "rank": 387,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2538": {
+    "bigRock": "Other Features",
+    "rank": 388,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2520": {
+    "bigRock": "Other Features",
+    "rank": 389,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2511": {
+    "bigRock": "MaaS",
+    "rank": 390,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2507": {
+    "bigRock": "Other Features",
+    "rank": 391,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2500": {
+    "bigRock": "Other Features",
+    "rank": 392,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2425": {
+    "bigRock": "Other Features",
+    "rank": 393,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2417": {
+    "bigRock": "Other Features",
+    "rank": 394,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2336": {
+    "bigRock": "Other Features",
+    "rank": 395,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2141": {
+    "bigRock": "Other Features",
+    "rank": 396,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1923": {
+    "bigRock": "Other Features",
+    "rank": 397,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1922": {
+    "bigRock": "Other Features",
+    "rank": 398,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1875": {
+    "bigRock": "Other Features",
+    "rank": 399,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2532": {
+    "bigRock": "Other Features",
+    "rank": 400,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2531": {
+    "bigRock": "Other Features",
+    "rank": 401,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2528": {
+    "bigRock": "Other Features",
+    "rank": 402,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2510": {
+    "bigRock": "MaaS",
+    "rank": 403,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2489": {
+    "bigRock": "Other Features",
+    "rank": 404,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2488": {
+    "bigRock": "Other Features",
+    "rank": 405,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2485": {
+    "bigRock": "Other Features",
+    "rank": 406,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2441": {
+    "bigRock": "Other Features",
+    "rank": 407,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2415": {
+    "bigRock": "Other Features",
+    "rank": 408,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2394": {
+    "bigRock": "Eval Hub",
+    "rank": 409,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2373": {
+    "bigRock": "Other Features",
+    "rank": 410,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2365": {
+    "bigRock": "MaaS",
+    "rank": 411,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2330": {
+    "bigRock": "Other Features",
+    "rank": 412,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2319": {
+    "bigRock": "MaaS",
+    "rank": 413,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2293": {
+    "bigRock": "Other Features",
+    "rank": 414,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2272": {
+    "bigRock": "Other Features",
+    "rank": 415,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2191": {
+    "bigRock": "Other Features",
+    "rank": 416,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2188": {
+    "bigRock": "Other Features",
+    "rank": 417,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2172": {
+    "bigRock": "Other Features",
+    "rank": 418,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2170": {
+    "bigRock": "Other Features",
+    "rank": 419,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2115": {
+    "bigRock": "Other Features",
+    "rank": 420,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2108": {
+    "bigRock": "Other Features",
+    "rank": 421,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2105": {
+    "bigRock": "Other Features",
+    "rank": 422,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1998": {
+    "bigRock": "MaaS",
+    "rank": 423,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1947": {
+    "bigRock": "Other Features",
+    "rank": 424,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1760": {
+    "bigRock": "MaaS",
+    "rank": 425,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1736": {
+    "bigRock": "Other Features",
+    "rank": 426,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1605": {
+    "bigRock": "Other Features",
+    "rank": 427,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1544": {
+    "bigRock": "MaaS",
+    "rank": 428,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1509": {
+    "bigRock": "Other Features",
+    "rank": 429,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-296": {
+    "bigRock": "Other Features",
+    "rank": 430,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1792": {
+    "bigRock": "Other Features",
+    "rank": 431,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2539": {
+    "bigRock": "Other Features",
+    "rank": 432,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2529": {
+    "bigRock": "Other Features",
+    "rank": 433,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2525": {
+    "bigRock": "Other Features",
+    "rank": 434,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2506": {
+    "bigRock": "Other Features",
+    "rank": 435,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2505": {
+    "bigRock": "Other Features",
+    "rank": 436,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2504": {
+    "bigRock": "Other Features",
+    "rank": 437,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2501": {
+    "bigRock": "Other Features",
+    "rank": 438,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2499": {
+    "bigRock": "Other Features",
+    "rank": 439,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2490": {
+    "bigRock": "Other Features",
+    "rank": 440,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2486": {
+    "bigRock": "Other Features",
+    "rank": 441,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2484": {
+    "bigRock": "Other Features",
+    "rank": 442,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2469": {
+    "bigRock": "Other Features",
+    "rank": 443,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2445": {
+    "bigRock": "Other Features",
+    "rank": 444,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2442": {
+    "bigRock": "Other Features",
+    "rank": 445,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2438": {
+    "bigRock": "Other Features",
+    "rank": 446,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2434": {
+    "bigRock": "Other Features",
+    "rank": 447,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2416": {
+    "bigRock": "Other Features",
+    "rank": 448,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2414": {
+    "bigRock": "Other Features",
+    "rank": 449,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2409": {
+    "bigRock": "Other Features",
+    "rank": 450,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2399": {
+    "bigRock": "Other Features",
+    "rank": 451,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2395": {
+    "bigRock": "AutoML",
+    "rank": 452,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2382": {
+    "bigRock": "Other Features",
+    "rank": 453,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2380": {
+    "bigRock": "Other Features",
+    "rank": 454,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2377": {
+    "bigRock": "Other Features",
+    "rank": 455,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2376": {
+    "bigRock": "Other Features",
+    "rank": 456,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2375": {
+    "bigRock": "Other Features",
+    "rank": 457,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2374": {
+    "bigRock": "Other Features",
+    "rank": 458,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2372": {
+    "bigRock": "Other Features",
+    "rank": 459,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2366": {
+    "bigRock": "Other Features",
+    "rank": 460,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2358": {
+    "bigRock": "Other Features",
+    "rank": 461,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2350": {
+    "bigRock": "Other Features",
+    "rank": 462,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2334": {
+    "bigRock": "Other Features",
+    "rank": 463,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2291": {
+    "bigRock": "Other Features",
+    "rank": 464,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2257": {
+    "bigRock": "Other Features",
+    "rank": 465,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2237": {
+    "bigRock": "Other Features",
+    "rank": 466,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2177": {
+    "bigRock": "Other Features",
+    "rank": 467,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2161": {
+    "bigRock": "Other Features",
+    "rank": 468,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2143": {
+    "bigRock": "Other Features",
+    "rank": 469,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1951": {
+    "bigRock": "Other Features",
+    "rank": 470,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1917": {
+    "bigRock": "Other Features",
+    "rank": 471,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1679": {
+    "bigRock": "Other Features",
+    "rank": 472,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1661": {
+    "bigRock": "MaaS",
+    "rank": 473,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1634": {
+    "bigRock": "Other Features",
+    "rank": 474,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1631": {
+    "bigRock": "Other Features",
+    "rank": 475,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1552": {
+    "bigRock": "MaaS",
+    "rank": 476,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2523": {
+    "bigRock": "Other Features",
+    "rank": 477,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2503": {
+    "bigRock": "Other Features",
+    "rank": 478,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2498": {
+    "bigRock": "Other Features",
+    "rank": 479,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2495": {
+    "bigRock": "Gen AI Studio",
+    "rank": 480,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2487": {
+    "bigRock": "Other Features",
+    "rank": 481,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2467": {
+    "bigRock": "Other Features",
+    "rank": 482,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2444": {
+    "bigRock": "Other Features",
+    "rank": 483,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2439": {
+    "bigRock": "Other Features",
+    "rank": 484,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2437": {
+    "bigRock": "Other Features",
+    "rank": 485,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2424": {
+    "bigRock": "Other Features",
+    "rank": 486,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2359": {
+    "bigRock": "Other Features",
+    "rank": 487,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2355": {
+    "bigRock": "Other Features",
+    "rank": 488,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2326": {
+    "bigRock": "Other Features",
+    "rank": 489,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1991": {
+    "bigRock": "Other Features",
+    "rank": 490,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1907": {
+    "bigRock": "Other Features",
+    "rank": 491,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1901": {
+    "bigRock": "Other Features",
+    "rank": 492,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1779": {
+    "bigRock": "Other Features",
+    "rank": 493,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1590": {
+    "bigRock": "Other Features",
+    "rank": 494,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1545": {
+    "bigRock": "MaaS",
+    "rank": 495,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2443": {
+    "bigRock": "Other Features",
+    "rank": 496,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2433": {
+    "bigRock": "Other Features",
+    "rank": 497,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2246": {
+    "bigRock": "MaaS",
+    "rank": 498,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1845": {
+    "bigRock": "Other Features",
+    "rank": 499,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1633": {
+    "bigRock": "Other Features",
+    "rank": 500,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1632": {
+    "bigRock": "Other Features",
+    "rank": 501,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2533": {
+    "bigRock": "Other Features",
+    "rank": 502,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2465": {
+    "bigRock": "Other Features",
+    "rank": 503,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2457": {
+    "bigRock": "Other Features",
+    "rank": 504,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2412": {
+    "bigRock": "Other Features",
+    "rank": 505,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2360": {
+    "bigRock": "Other Features",
+    "rank": 506,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2140": {
+    "bigRock": "Other Features",
+    "rank": 507,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2068": {
+    "bigRock": "Other Features",
+    "rank": 508,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2065": {
+    "bigRock": "Other Features",
+    "rank": 509,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1990": {
+    "bigRock": "Other Features",
+    "rank": 510,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1953": {
+    "bigRock": "MaaS",
+    "rank": 511,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1950": {
+    "bigRock": "Other Features",
+    "rank": 512,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1928": {
+    "bigRock": "Other Features",
+    "rank": 513,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1916": {
+    "bigRock": "Other Features",
+    "rank": 514,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1913": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 515,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1912": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 516,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1909": {
+    "bigRock": "Other Features",
+    "rank": 517,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1867": {
+    "bigRock": "Other Features",
+    "rank": 518,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1866": {
+    "bigRock": "Other Features",
+    "rank": 519,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1865": {
+    "bigRock": "Other Features",
+    "rank": 520,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1864": {
+    "bigRock": "Other Features",
+    "rank": 521,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1852": {
+    "bigRock": "Other Features",
+    "rank": 522,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1786": {
+    "bigRock": "Other Features",
+    "rank": 523,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1785": {
+    "bigRock": "Other Features",
+    "rank": 524,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1342": {
+    "bigRock": "Other Features",
+    "rank": 525,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1185": {
+    "bigRock": "Other Features",
+    "rank": 526,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1136": {
+    "bigRock": "Other Features",
+    "rank": 527,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-728": {
+    "bigRock": "Other Features",
+    "rank": 528,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-350": {
+    "bigRock": "Other Features",
+    "rank": 529,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2381": {
+    "bigRock": "Other Features",
+    "rank": 530,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2369": {
+    "bigRock": "Other Features",
+    "rank": 531,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2173": {
+    "bigRock": "Other Features",
+    "rank": 532,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2356": {
+    "bigRock": "Other Features",
+    "rank": 533,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2038": {
+    "bigRock": "Other Features",
+    "rank": 534,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1681": {
+    "bigRock": "Other Features",
+    "rank": 535,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1607": {
+    "bigRock": "Other Features",
+    "rank": 536,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2278": {
+    "bigRock": "Other Features",
+    "rank": 537,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2197": {
+    "bigRock": "Other Features",
+    "rank": 538,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2163": {
+    "bigRock": "Other Features",
+    "rank": 539,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1996": {
+    "bigRock": "Other Features",
+    "rank": 540,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1606": {
+    "bigRock": "MaaS",
+    "rank": 541,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2209": {
+    "bigRock": "Other Features",
+    "rank": 542,
+    "roadmapConfidence": "ready"
+  },
+  "RHAISTRAT-1848": {
+    "bigRock": "Other Features",
+    "rank": 543,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2429": {
+    "bigRock": "Other Features",
+    "rank": 544,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2283": {
+    "bigRock": "Other Features",
+    "rank": 545,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1153": {
+    "bigRock": "Other Features",
+    "rank": 546,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-297": {
+    "bigRock": "Other Features",
+    "rank": 547,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-152": {
+    "bigRock": "Other Features",
+    "rank": 548,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-130": {
+    "bigRock": "Other Features",
+    "rank": 549,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1843": {
+    "bigRock": "Other Features",
+    "rank": 550,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2314": {
+    "bigRock": "Other Features",
+    "rank": 551,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2176": {
+    "bigRock": "AI Safety x Model Validation",
+    "rank": 552,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1967": {
+    "bigRock": "AutoML",
+    "rank": 553,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1761": {
+    "bigRock": "Other Features",
+    "rank": 554,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1561": {
+    "bigRock": "Gen AI Studio",
+    "rank": 555,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1549": {
+    "bigRock": "MaaS",
+    "rank": 556,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1887": {
+    "bigRock": "Other Features",
+    "rank": 557,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1797": {
+    "bigRock": "Other Features",
+    "rank": 558,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2474": {
+    "bigRock": "Other Features",
+    "rank": 559,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-942": {
+    "bigRock": "Other Features",
+    "rank": 560,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-284": {
+    "bigRock": "Other Features",
+    "rank": 561,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2502": {
+    "bigRock": "Other Features",
+    "rank": 562,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2162": {
+    "bigRock": "Other Features",
+    "rank": 563,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2058": {
+    "bigRock": "Other Features",
+    "rank": 564,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1881": {
+    "bigRock": "Other Features",
+    "rank": 565,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2549": {
+    "bigRock": "MaaS",
+    "rank": 566,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2548": {
+    "bigRock": "Other Features",
+    "rank": 567,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2545": {
+    "bigRock": "Other Features",
+    "rank": 568,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2541": {
+    "bigRock": "Other Features",
+    "rank": 569,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2530": {
+    "bigRock": "Other Features",
+    "rank": 570,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2432": {
+    "bigRock": "MaaS",
+    "rank": 571,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2398": {
+    "bigRock": "Other Features",
+    "rank": 572,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2352": {
+    "bigRock": "Other Features",
+    "rank": 573,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2320": {
+    "bigRock": "AutoML",
+    "rank": 574,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2273": {
+    "bigRock": "Other Features",
+    "rank": 575,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2174": {
+    "bigRock": "Other Features",
+    "rank": 576,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2149": {
+    "bigRock": "Other Features",
+    "rank": 577,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2107": {
+    "bigRock": "Other Features",
+    "rank": 578,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2071": {
+    "bigRock": "Other Features",
+    "rank": 579,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1992": {
+    "bigRock": "Other Features",
+    "rank": 580,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1793": {
+    "bigRock": "Other Features",
+    "rank": 581,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1413": {
+    "bigRock": "Other Features",
+    "rank": 582,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1309": {
+    "bigRock": "Other Features",
+    "rank": 583,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2542": {
+    "bigRock": "Other Features",
+    "rank": 584,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2540": {
+    "bigRock": "Other Features",
+    "rank": 585,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2492": {
+    "bigRock": "Other Features",
+    "rank": 586,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2468": {
+    "bigRock": "Other Features",
+    "rank": 587,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2435": {
+    "bigRock": "Other Features",
+    "rank": 588,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2430": {
+    "bigRock": "Other Features",
+    "rank": 589,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2306": {
+    "bigRock": "Other Features",
+    "rank": 590,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2253": {
+    "bigRock": "MaaS",
+    "rank": 591,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2241": {
+    "bigRock": "Other Features",
+    "rank": 592,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2175": {
+    "bigRock": "Other Features",
+    "rank": 593,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2151": {
+    "bigRock": "Other Features",
+    "rank": 594,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2150": {
+    "bigRock": "Other Features",
+    "rank": 595,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2090": {
+    "bigRock": "Other Features",
+    "rank": 596,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1846": {
+    "bigRock": "AutoRAG",
+    "rank": 597,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1724": {
+    "bigRock": "AutoRAG",
+    "rank": 598,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1675": {
+    "bigRock": "AutoRAG",
+    "rank": 599,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1674": {
+    "bigRock": "AutoRAG",
+    "rank": 600,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2521": {
+    "bigRock": "Other Features",
+    "rank": 601,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2436": {
+    "bigRock": "Other Features",
+    "rank": 602,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2406": {
+    "bigRock": "Other Features",
+    "rank": 603,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2196": {
+    "bigRock": "Other Features",
+    "rank": 604,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1676": {
+    "bigRock": "AutoRAG",
+    "rank": 605,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1591": {
+    "bigRock": "Other Features",
+    "rank": 606,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1900": {
+    "bigRock": "AI Safety x Model Validation",
+    "rank": 607,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2550": {
+    "bigRock": "Other Features",
+    "rank": 608,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2546": {
+    "bigRock": "Other Features",
+    "rank": 609,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2535": {
+    "bigRock": "Other Features",
+    "rank": 610,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2534": {
+    "bigRock": "Other Features",
+    "rank": 611,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2464": {
+    "bigRock": "Other Features",
+    "rank": 612,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2463": {
+    "bigRock": "Other Features",
+    "rank": 613,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2462": {
+    "bigRock": "Other Features",
+    "rank": 614,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2461": {
+    "bigRock": "Other Features",
+    "rank": 615,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2456": {
+    "bigRock": "Other Features",
+    "rank": 616,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2449": {
+    "bigRock": "Other Features",
+    "rank": 617,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2391": {
+    "bigRock": "Other Features",
+    "rank": 618,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2390": {
+    "bigRock": "Other Features",
+    "rank": 619,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2389": {
+    "bigRock": "Other Features",
+    "rank": 620,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2388": {
+    "bigRock": "Other Features",
+    "rank": 621,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2387": {
+    "bigRock": "Other Features",
+    "rank": 622,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2386": {
+    "bigRock": "Other Features",
+    "rank": 623,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2385": {
+    "bigRock": "Other Features",
+    "rank": 624,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2357": {
+    "bigRock": "AutoRAG",
+    "rank": 625,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2271": {
+    "bigRock": "Other Features",
+    "rank": 626,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2201": {
+    "bigRock": "Other Features",
+    "rank": 627,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2137": {
+    "bigRock": "Other Features",
+    "rank": 628,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2120": {
+    "bigRock": "Other Features",
+    "rank": 629,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2113": {
+    "bigRock": "Other Features",
+    "rank": 630,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1870": {
+    "bigRock": "Other Features",
+    "rank": 631,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1148": {
+    "bigRock": "Other Features",
+    "rank": 632,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-597": {
+    "bigRock": "Other Features",
+    "rank": 633,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-171": {
+    "bigRock": "Other Features",
+    "rank": 634,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-96": {
+    "bigRock": "Other Features",
+    "rank": 635,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2364": {
+    "bigRock": "Other Features",
+    "rank": 636,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2363": {
+    "bigRock": "Other Features",
+    "rank": 637,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2401": {
+    "bigRock": "Other Features",
+    "rank": 638,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1882": {
+    "bigRock": "Other Features",
+    "rank": 639,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1256": {
+    "bigRock": "Other Features",
+    "rank": 640,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2322": {
+    "bigRock": "Other Features",
+    "rank": 641,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-2408": {
+    "bigRock": "AutoRAG",
+    "rank": 642,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2426": {
+    "bigRock": "Other Features",
+    "rank": 643,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1241": {
+    "bigRock": "Other Features",
+    "rank": 644,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2475": {
+    "bigRock": "Other Features",
+    "rank": 645,
+    "roadmapConfidence": "ready"
+  },
+  "RHAISTRAT-2351": {
+    "bigRock": "AutoRAG",
+    "rank": 646,
+    "roadmapConfidence": "committed"
+  },
+  "RHAISTRAT-1499": {
+    "bigRock": "Other Features",
+    "rank": 647,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1989": {
+    "bigRock": "Other Features",
+    "rank": 648,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1382": {
+    "bigRock": "Other Features",
+    "rank": 649,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1325": {
+    "bigRock": "Other Features",
+    "rank": 650,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1227": {
+    "bigRock": "Other Features",
+    "rank": 651,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1193": {
+    "bigRock": "Other Features",
+    "rank": 652,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1167": {
+    "bigRock": "MaaS",
+    "rank": 653,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1135": {
+    "bigRock": "Other Features",
+    "rank": 654,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-699": {
+    "bigRock": "Other Features",
+    "rank": 655,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-623": {
+    "bigRock": "Other Features",
+    "rank": 656,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1217": {
+    "bigRock": "Other Features",
+    "rank": 657,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1601": {
+    "bigRock": "Other Features",
+    "rank": 658,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2167": {
+    "bigRock": "Other Features",
+    "rank": 659,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2165": {
+    "bigRock": "Other Features",
+    "rank": 660,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1432": {
+    "bigRock": "Other Features",
+    "rank": 661,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1379": {
+    "bigRock": "Other Features",
+    "rank": 662,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1327": {
+    "bigRock": "Other Features",
+    "rank": 663,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1302": {
+    "bigRock": "Other Features",
+    "rank": 664,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1287": {
+    "bigRock": "Other Features",
+    "rank": 665,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1206": {
+    "bigRock": "Other Features",
+    "rank": 666,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1198": {
+    "bigRock": "Other Features",
+    "rank": 667,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1186": {
+    "bigRock": "Other Features",
+    "rank": 668,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1151": {
+    "bigRock": "Other Features",
+    "rank": 669,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1120": {
+    "bigRock": "MaaS",
+    "rank": 670,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1076": {
+    "bigRock": "Other Features",
+    "rank": 671,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-983": {
+    "bigRock": "Other Features",
+    "rank": 672,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-979": {
+    "bigRock": "Other Features",
+    "rank": 673,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-855": {
+    "bigRock": "Other Features",
+    "rank": 674,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-694": {
+    "bigRock": "Other Features",
+    "rank": 675,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-629": {
+    "bigRock": "Other Features",
+    "rank": 676,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-577": {
+    "bigRock": "Other Features",
+    "rank": 677,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1316": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 678,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-503": {
+    "bigRock": "Other Features",
+    "rank": 679,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-164": {
+    "bigRock": "Gen AI Studio",
+    "rank": 680,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1559": {
+    "bigRock": "Gen AI Studio",
+    "rank": 681,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1306": {
+    "bigRock": "Other Features",
+    "rank": 682,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1179": {
+    "bigRock": "Other Features",
+    "rank": 683,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1106": {
+    "bigRock": "Other Features",
+    "rank": 684,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-970": {
+    "bigRock": "Other Features",
+    "rank": 685,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-587": {
+    "bigRock": "Other Features",
+    "rank": 686,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-44": {
+    "bigRock": "Other Features",
+    "rank": 687,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2214": {
+    "bigRock": "Other Features",
+    "rank": 688,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2325": {
+    "bigRock": "Other Features",
+    "rank": 689,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2019": {
+    "bigRock": "Other Features",
+    "rank": 690,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1807": {
+    "bigRock": "Other Features",
+    "rank": 691,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2543": {
+    "bigRock": "Other Features",
+    "rank": 692,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2349": {
+    "bigRock": "Other Features",
+    "rank": 693,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2256": {
+    "bigRock": "Other Features",
+    "rank": 694,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2255": {
+    "bigRock": "Other Features",
+    "rank": 695,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2180": {
+    "bigRock": "Other Features",
+    "rank": 696,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2158": {
+    "bigRock": "Other Features",
+    "rank": 697,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1945": {
+    "bigRock": "Gen AI Studio",
+    "rank": 698,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1944": {
+    "bigRock": "Gen AI Studio",
+    "rank": 699,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1902": {
+    "bigRock": "Bring Your Own Agent",
+    "rank": 700,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1819": {
+    "bigRock": "Other Features",
+    "rank": 701,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1798": {
+    "bigRock": "Other Features",
+    "rank": 702,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1563": {
+    "bigRock": "MaaS",
+    "rank": 703,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2211": {
+    "bigRock": "Other Features",
+    "rank": 704,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1687": {
+    "bigRock": "Other Features",
+    "rank": 705,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1574": {
+    "bigRock": "Other Features",
+    "rank": 706,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1562": {
+    "bigRock": "Gen AI Studio",
+    "rank": 707,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1543": {
+    "bigRock": "Other Features",
+    "rank": 708,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2159": {
+    "bigRock": "Other Features",
+    "rank": 709,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1594": {
+    "bigRock": "Other Features",
+    "rank": 710,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1592": {
+    "bigRock": "Other Features",
+    "rank": 711,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2527": {
+    "bigRock": "Other Features",
+    "rank": 712,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2526": {
+    "bigRock": "Other Features",
+    "rank": 713,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2207": {
+    "bigRock": "Other Features",
+    "rank": 714,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2166": {
+    "bigRock": "Other Features",
+    "rank": 715,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2139": {
+    "bigRock": "Other Features",
+    "rank": 716,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2069": {
+    "bigRock": "Other Features",
+    "rank": 717,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2066": {
+    "bigRock": "MaaS",
+    "rank": 718,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1892": {
+    "bigRock": "Other Features",
+    "rank": 719,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1873": {
+    "bigRock": "Other Features",
+    "rank": 720,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1836": {
+    "bigRock": "Other Features",
+    "rank": 721,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1769": {
+    "bigRock": "MaaS",
+    "rank": 722,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1764": {
+    "bigRock": "Other Features",
+    "rank": 723,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1713": {
+    "bigRock": "Other Features",
+    "rank": 724,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1707": {
+    "bigRock": "Other Features",
+    "rank": 725,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1695": {
+    "bigRock": "Other Features",
+    "rank": 726,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1640": {
+    "bigRock": "Other Features",
+    "rank": 727,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1384": {
+    "bigRock": "Other Features",
+    "rank": 728,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1372": {
+    "bigRock": "Other Features",
+    "rank": 729,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1371": {
+    "bigRock": "Other Features",
+    "rank": 730,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1369": {
+    "bigRock": "Other Features",
+    "rank": 731,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1367": {
+    "bigRock": "Other Features",
+    "rank": 732,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1320": {
+    "bigRock": "Other Features",
+    "rank": 733,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1297": {
+    "bigRock": "Other Features",
+    "rank": 734,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1295": {
+    "bigRock": "Other Features",
+    "rank": 735,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1251": {
+    "bigRock": "Other Features",
+    "rank": 736,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1220": {
+    "bigRock": "Other Features",
+    "rank": 737,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1147": {
+    "bigRock": "Other Features",
+    "rank": 738,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1146": {
+    "bigRock": "Other Features",
+    "rank": 739,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1145": {
+    "bigRock": "Other Features",
+    "rank": 740,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1078": {
+    "bigRock": "Other Features",
+    "rank": 741,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-964": {
+    "bigRock": "Other Features",
+    "rank": 742,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-845": {
+    "bigRock": "Other Features",
+    "rank": 743,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-776": {
+    "bigRock": "Other Features",
+    "rank": 744,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-739": {
+    "bigRock": "Other Features",
+    "rank": 745,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-737": {
+    "bigRock": "Other Features",
+    "rank": 746,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-695": {
+    "bigRock": "Other Features",
+    "rank": 747,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-647": {
+    "bigRock": "Other Features",
+    "rank": 748,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-630": {
+    "bigRock": "Other Features",
+    "rank": 749,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-622": {
+    "bigRock": "Other Features",
+    "rank": 750,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-615": {
+    "bigRock": "Other Features",
+    "rank": 751,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-585": {
+    "bigRock": "Other Features",
+    "rank": 752,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-576": {
+    "bigRock": "Other Features",
+    "rank": 753,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-536": {
+    "bigRock": "Other Features",
+    "rank": 754,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-520": {
+    "bigRock": "Other Features",
+    "rank": 755,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-506": {
+    "bigRock": "Other Features",
+    "rank": 756,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-450": {
+    "bigRock": "Other Features",
+    "rank": 757,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-302": {
+    "bigRock": "Other Features",
+    "rank": 758,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-300": {
+    "bigRock": "Other Features",
+    "rank": 759,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-273": {
+    "bigRock": "Other Features",
+    "rank": 760,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-187": {
+    "bigRock": "Other Features",
+    "rank": 761,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-139": {
+    "bigRock": "Other Features",
+    "rank": 762,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-99": {
+    "bigRock": "Other Features",
+    "rank": 763,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-90": {
+    "bigRock": "Other Features",
+    "rank": 764,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-52": {
+    "bigRock": "Other Features",
+    "rank": 765,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-38": {
+    "bigRock": "Other Features",
+    "rank": 766,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-25": {
+    "bigRock": "Other Features",
+    "rank": 767,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-74": {
+    "bigRock": "Other Features",
+    "rank": 768,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2361": {
+    "bigRock": "Other Features",
+    "rank": 769,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1072": {
+    "bigRock": "Other Features",
+    "rank": 770,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2193": {
+    "bigRock": "Other Features",
+    "rank": 771,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1365": {
+    "bigRock": "Other Features",
+    "rank": 772,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1293": {
+    "bigRock": "Other Features",
+    "rank": 773,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-516": {
+    "bigRock": "Other Features",
+    "rank": 774,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-488": {
+    "bigRock": "Other Features",
+    "rank": 775,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-372": {
+    "bigRock": "Other Features",
+    "rank": 776,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-102": {
+    "bigRock": "Other Features",
+    "rank": 777,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2285": {
+    "bigRock": "Other Features",
+    "rank": 778,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2249": {
+    "bigRock": "MaaS",
+    "rank": 779,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2195": {
+    "bigRock": "Other Features",
+    "rank": 780,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1935": {
+    "bigRock": "Gen AI Studio",
+    "rank": 781,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1739": {
+    "bigRock": "Other Features",
+    "rank": 782,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1525": {
+    "bigRock": "Other Features",
+    "rank": 783,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2470": {
+    "bigRock": "Other Features",
+    "rank": 784,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2452": {
+    "bigRock": "Other Features",
+    "rank": 785,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2451": {
+    "bigRock": "MaaS",
+    "rank": 786,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2368": {
+    "bigRock": "Other Features",
+    "rank": 787,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2343": {
+    "bigRock": "Other Features",
+    "rank": 788,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2342": {
+    "bigRock": "Other Features",
+    "rank": 789,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2341": {
+    "bigRock": "Other Features",
+    "rank": 790,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2333": {
+    "bigRock": "Other Features",
+    "rank": 791,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2310": {
+    "bigRock": "Other Features",
+    "rank": 792,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2309": {
+    "bigRock": "Other Features",
+    "rank": 793,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2288": {
+    "bigRock": "Other Features",
+    "rank": 794,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2286": {
+    "bigRock": "Other Features",
+    "rank": 795,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2242": {
+    "bigRock": "Other Features",
+    "rank": 796,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2240": {
+    "bigRock": "Other Features",
+    "rank": 797,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2234": {
+    "bigRock": "Other Features",
+    "rank": 798,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2106": {
+    "bigRock": "Other Features",
+    "rank": 799,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2092": {
+    "bigRock": "Other Features",
+    "rank": 800,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2079": {
+    "bigRock": "Other Features",
+    "rank": 801,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2076": {
+    "bigRock": "Other Features",
+    "rank": 802,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2075": {
+    "bigRock": "Other Features",
+    "rank": 803,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2074": {
+    "bigRock": "Other Features",
+    "rank": 804,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2070": {
+    "bigRock": "Other Features",
+    "rank": 805,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2009": {
+    "bigRock": "Other Features",
+    "rank": 806,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1812": {
+    "bigRock": "MaaS",
+    "rank": 807,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1759": {
+    "bigRock": "Other Features",
+    "rank": 808,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1706": {
+    "bigRock": "Other Features",
+    "rank": 809,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1659": {
+    "bigRock": "Other Features",
+    "rank": 810,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1638": {
+    "bigRock": "Other Features",
+    "rank": 811,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1626": {
+    "bigRock": "Other Features",
+    "rank": 812,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1580": {
+    "bigRock": "MaaS",
+    "rank": 813,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1578": {
+    "bigRock": "Other Features",
+    "rank": 814,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1533": {
+    "bigRock": "Gen AI Studio",
+    "rank": 815,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2455": {
+    "bigRock": "Other Features",
+    "rank": 816,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2453": {
+    "bigRock": "Other Features",
+    "rank": 817,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2450": {
+    "bigRock": "MaaS",
+    "rank": 818,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2371": {
+    "bigRock": "MaaS",
+    "rank": 819,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2332": {
+    "bigRock": "Other Features",
+    "rank": 820,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2324": {
+    "bigRock": "Other Features",
+    "rank": 821,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2290": {
+    "bigRock": "Other Features",
+    "rank": 822,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2287": {
+    "bigRock": "Other Features",
+    "rank": 823,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2284": {
+    "bigRock": "Other Features",
+    "rank": 824,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2280": {
+    "bigRock": "Other Features",
+    "rank": 825,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2233": {
+    "bigRock": "Other Features",
+    "rank": 826,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2232": {
+    "bigRock": "Other Features",
+    "rank": 827,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2231": {
+    "bigRock": "Other Features",
+    "rank": 828,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2178": {
+    "bigRock": "AI Safety x Model Validation",
+    "rank": 829,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2133": {
+    "bigRock": "Other Features",
+    "rank": 830,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2132": {
+    "bigRock": "Other Features",
+    "rank": 831,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2131": {
+    "bigRock": "Other Features",
+    "rank": 832,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2121": {
+    "bigRock": "Other Features",
+    "rank": 833,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2089": {
+    "bigRock": "Gen AI Studio",
+    "rank": 834,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2088": {
+    "bigRock": "Gen AI Studio",
+    "rank": 835,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2086": {
+    "bigRock": "Gen AI Studio",
+    "rank": 836,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2085": {
+    "bigRock": "Gen AI Studio",
+    "rank": 837,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2083": {
+    "bigRock": "Other Features",
+    "rank": 838,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2082": {
+    "bigRock": "Other Features",
+    "rank": 839,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2061": {
+    "bigRock": "Other Features",
+    "rank": 840,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1876": {
+    "bigRock": "Other Features",
+    "rank": 841,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1861": {
+    "bigRock": "Other Features",
+    "rank": 842,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1842": {
+    "bigRock": "Other Features",
+    "rank": 843,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1801": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 844,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1774": {
+    "bigRock": "Other Features",
+    "rank": 845,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1682": {
+    "bigRock": "Other Features",
+    "rank": 846,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1629": {
+    "bigRock": "Other Features",
+    "rank": 847,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1628": {
+    "bigRock": "Other Features",
+    "rank": 848,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1625": {
+    "bigRock": "Other Features",
+    "rank": 849,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1624": {
+    "bigRock": "Other Features",
+    "rank": 850,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1558": {
+    "bigRock": "Gen AI Studio",
+    "rank": 851,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1168": {
+    "bigRock": "MaaS",
+    "rank": 852,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-765": {
+    "bigRock": "Other Features",
+    "rank": 853,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2544": {
+    "bigRock": "Other Features",
+    "rank": 854,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2473": {
+    "bigRock": "Other Features",
+    "rank": 855,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2454": {
+    "bigRock": "Other Features",
+    "rank": 856,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2340": {
+    "bigRock": "Other Features",
+    "rank": 857,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2331": {
+    "bigRock": "Other Features",
+    "rank": 858,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2328": {
+    "bigRock": "Other Features",
+    "rank": 859,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2307": {
+    "bigRock": "Other Features",
+    "rank": 860,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2221": {
+    "bigRock": "Other Features",
+    "rank": 861,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2087": {
+    "bigRock": "Gen AI Studio",
+    "rank": 862,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2081": {
+    "bigRock": "Other Features",
+    "rank": 863,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2080": {
+    "bigRock": "Other Features",
+    "rank": 864,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2078": {
+    "bigRock": "Other Features",
+    "rank": 865,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2077": {
+    "bigRock": "Other Features",
+    "rank": 866,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2073": {
+    "bigRock": "Other Features",
+    "rank": 867,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1943": {
+    "bigRock": "Other Features",
+    "rank": 868,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1904": {
+    "bigRock": "Other Features",
+    "rank": 869,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1847": {
+    "bigRock": "Other Features",
+    "rank": 870,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1844": {
+    "bigRock": "Other Features",
+    "rank": 871,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1784": {
+    "bigRock": "Other Features",
+    "rank": 872,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1668": {
+    "bigRock": "Other Features",
+    "rank": 873,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1627": {
+    "bigRock": "Other Features",
+    "rank": 874,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1610": {
+    "bigRock": "Other Features",
+    "rank": 875,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1609": {
+    "bigRock": "Other Features",
+    "rank": 876,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1602": {
+    "bigRock": "Other Features",
+    "rank": 877,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1600": {
+    "bigRock": "MaaS",
+    "rank": 878,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1548": {
+    "bigRock": "MaaS",
+    "rank": 879,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1546": {
+    "bigRock": "Other Features",
+    "rank": 880,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1541": {
+    "bigRock": "Gen AI Studio",
+    "rank": 881,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2337": {
+    "bigRock": "Other Features",
+    "rank": 882,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1903": {
+    "bigRock": "Other Features",
+    "rank": 883,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2370": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 884,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2321": {
+    "bigRock": "Other Features",
+    "rank": 885,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2200": {
+    "bigRock": "MaaS",
+    "rank": 886,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2156": {
+    "bigRock": "Other Features",
+    "rank": 887,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2155": {
+    "bigRock": "Other Features",
+    "rank": 888,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2146": {
+    "bigRock": "Other Features",
+    "rank": 889,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2142": {
+    "bigRock": "MaaS",
+    "rank": 890,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2135": {
+    "bigRock": "Other Features",
+    "rank": 891,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2063": {
+    "bigRock": "Other Features",
+    "rank": 892,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2062": {
+    "bigRock": "Other Features",
+    "rank": 893,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2055": {
+    "bigRock": "Other Features",
+    "rank": 894,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2020": {
+    "bigRock": "Other Features",
+    "rank": 895,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1893": {
+    "bigRock": "Other Features",
+    "rank": 896,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1891": {
+    "bigRock": "Other Features",
+    "rank": 897,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1853": {
+    "bigRock": "Other Features",
+    "rank": 898,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1818": {
+    "bigRock": "Other Features",
+    "rank": 899,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1462": {
+    "bigRock": "Other Features",
+    "rank": 900,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1398": {
+    "bigRock": "Other Features",
+    "rank": 901,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1388": {
+    "bigRock": "Other Features",
+    "rank": 902,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1363": {
+    "bigRock": "Other Features",
+    "rank": 903,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1311": {
+    "bigRock": "Other Features",
+    "rank": 904,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1298": {
+    "bigRock": "Other Features",
+    "rank": 905,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1296": {
+    "bigRock": "Other Features",
+    "rank": 906,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1243": {
+    "bigRock": "Other Features",
+    "rank": 907,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1239": {
+    "bigRock": "Other Features",
+    "rank": 908,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1238": {
+    "bigRock": "Other Features",
+    "rank": 909,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1236": {
+    "bigRock": "Other Features",
+    "rank": 910,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1201": {
+    "bigRock": "MaaS",
+    "rank": 911,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1197": {
+    "bigRock": "Other Features",
+    "rank": 912,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1195": {
+    "bigRock": "Other Features",
+    "rank": 913,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1190": {
+    "bigRock": "Other Features",
+    "rank": 914,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1130": {
+    "bigRock": "Other Features",
+    "rank": 915,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1109": {
+    "bigRock": "Other Features",
+    "rank": 916,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1089": {
+    "bigRock": "Other Features",
+    "rank": 917,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1065": {
+    "bigRock": "Other Features",
+    "rank": 918,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-988": {
+    "bigRock": "Other Features",
+    "rank": 919,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-976": {
+    "bigRock": "Other Features",
+    "rank": 920,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-940": {
+    "bigRock": "Other Features",
+    "rank": 921,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-860": {
+    "bigRock": "Other Features",
+    "rank": 922,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-854": {
+    "bigRock": "Other Features",
+    "rank": 923,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-773": {
+    "bigRock": "Other Features",
+    "rank": 924,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-767": {
+    "bigRock": "Other Features",
+    "rank": 925,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-754": {
+    "bigRock": "Other Features",
+    "rank": 926,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-719": {
+    "bigRock": "Other Features",
+    "rank": 927,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-680": {
+    "bigRock": "Other Features",
+    "rank": 928,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-605": {
+    "bigRock": "Other Features",
+    "rank": 929,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-596": {
+    "bigRock": "Other Features",
+    "rank": 930,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-588": {
+    "bigRock": "Other Features",
+    "rank": 931,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-563": {
+    "bigRock": "Other Features",
+    "rank": 932,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-549": {
+    "bigRock": "Other Features",
+    "rank": 933,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-512": {
+    "bigRock": "Other Features",
+    "rank": 934,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-496": {
+    "bigRock": "Other Features",
+    "rank": 935,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-495": {
+    "bigRock": "Other Features",
+    "rank": 936,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-489": {
+    "bigRock": "Other Features",
+    "rank": 937,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-476": {
+    "bigRock": "Other Features",
+    "rank": 938,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-441": {
+    "bigRock": "Other Features",
+    "rank": 939,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-434": {
+    "bigRock": "Other Features",
+    "rank": 940,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-423": {
+    "bigRock": "Other Features",
+    "rank": 941,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-405": {
+    "bigRock": "Other Features",
+    "rank": 942,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-387": {
+    "bigRock": "Other Features",
+    "rank": 943,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-367": {
+    "bigRock": "Other Features",
+    "rank": 944,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-316": {
+    "bigRock": "Other Features",
+    "rank": 945,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-264": {
+    "bigRock": "Other Features",
+    "rank": 946,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-239": {
+    "bigRock": "Other Features",
+    "rank": 947,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-223": {
+    "bigRock": "Other Features",
+    "rank": 948,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-208": {
+    "bigRock": "Other Features",
+    "rank": 949,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-158": {
+    "bigRock": "MaaS",
+    "rank": 950,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-157": {
+    "bigRock": "Other Features",
+    "rank": 951,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-156": {
+    "bigRock": "Other Features",
+    "rank": 952,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-131": {
+    "bigRock": "Other Features",
+    "rank": 953,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-128": {
+    "bigRock": "Other Features",
+    "rank": 954,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-104": {
+    "bigRock": "Other Features",
+    "rank": 955,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-87": {
+    "bigRock": "Other Features",
+    "rank": 956,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-68": {
+    "bigRock": "Other Features",
+    "rank": 957,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-47": {
+    "bigRock": "Other Features",
+    "rank": 958,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-15": {
+    "bigRock": "Other Features",
+    "rank": 959,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1732": {
+    "bigRock": "Other Features",
+    "rank": 960,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1815": {
+    "bigRock": "Other Features",
+    "rank": 961,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1444": {
+    "bigRock": "Other Features",
+    "rank": 962,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1383": {
+    "bigRock": "Other Features",
+    "rank": 963,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1260": {
+    "bigRock": "Gen AI Studio",
+    "rank": 964,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1254": {
+    "bigRock": "Other Features",
+    "rank": 965,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1144": {
+    "bigRock": "Other Features",
+    "rank": 966,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-960": {
+    "bigRock": "Other Features",
+    "rank": 967,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-786": {
+    "bigRock": "Other Features",
+    "rank": 968,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-392": {
+    "bigRock": "Other Features",
+    "rank": 969,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2157": {
+    "bigRock": "Other Features",
+    "rank": 970,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1397": {
+    "bigRock": "Other Features",
+    "rank": 971,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-664": {
+    "bigRock": "Other Features",
+    "rank": 972,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-448": {
+    "bigRock": "Other Features",
+    "rank": 973,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-354": {
+    "bigRock": "GPUaaS",
+    "rank": 974,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-317": {
+    "bigRock": "Other Features",
+    "rank": 975,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-190": {
+    "bigRock": "Other Features",
+    "rank": 976,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2346": {
+    "bigRock": "Other Features",
+    "rank": 977,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2059": {
+    "bigRock": "Other Features",
+    "rank": 978,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2478": {
+    "bigRock": "AutoRAG",
+    "rank": 979,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2477": {
+    "bigRock": "Other Features",
+    "rank": 980,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2345": {
+    "bigRock": "Other Features",
+    "rank": 981,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2216": {
+    "bigRock": "Other Features",
+    "rank": 982,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2171": {
+    "bigRock": "Other Features",
+    "rank": 983,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2117": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 984,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2072": {
+    "bigRock": "Other Features",
+    "rank": 985,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1754": {
+    "bigRock": "Other Features",
+    "rank": 986,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1728": {
+    "bigRock": "Other Features",
+    "rank": 987,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1667": {
+    "bigRock": "Other Features",
+    "rank": 988,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1666": {
+    "bigRock": "Other Features",
+    "rank": 989,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1665": {
+    "bigRock": "Other Features",
+    "rank": 990,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1664": {
+    "bigRock": "Other Features",
+    "rank": 991,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1663": {
+    "bigRock": "Other Features",
+    "rank": 992,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1587": {
+    "bigRock": "Other Features",
+    "rank": 993,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1581": {
+    "bigRock": "Other Features",
+    "rank": 994,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1560": {
+    "bigRock": "Gen AI Studio",
+    "rank": 995,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2522": {
+    "bigRock": "Other Features",
+    "rank": 996,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2472": {
+    "bigRock": "MaaS",
+    "rank": 997,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2348": {
+    "bigRock": "Other Features",
+    "rank": 998,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2347": {
+    "bigRock": "Other Features",
+    "rank": 999,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2316": {
+    "bigRock": "Other Features",
+    "rank": 1000,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2220": {
+    "bigRock": "Other Features",
+    "rank": 1001,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2219": {
+    "bigRock": "Other Features",
+    "rank": 1002,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2217": {
+    "bigRock": "Gen AI Studio",
+    "rank": 1003,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2215": {
+    "bigRock": "Other Features",
+    "rank": 1004,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2110": {
+    "bigRock": "Other Features",
+    "rank": 1005,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2109": {
+    "bigRock": "Other Features",
+    "rank": 1006,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1968": {
+    "bigRock": "Other Features",
+    "rank": 1007,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1957": {
+    "bigRock": "Other Features",
+    "rank": 1008,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1794": {
+    "bigRock": "Other Features",
+    "rank": 1009,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1790": {
+    "bigRock": "Other Features",
+    "rank": 1010,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1708": {
+    "bigRock": "AI Hub incl MCP",
+    "rank": 1011,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1660": {
+    "bigRock": "Other Features",
+    "rank": 1012,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1611": {
+    "bigRock": "Other Features",
+    "rank": 1013,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1588": {
+    "bigRock": "Other Features",
+    "rank": 1014,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1542": {
+    "bigRock": "Other Features",
+    "rank": 1015,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2483": {
+    "bigRock": "Other Features",
+    "rank": 1016,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2482": {
+    "bigRock": "Other Features",
+    "rank": 1017,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2218": {
+    "bigRock": "Other Features",
+    "rank": 1018,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1795": {
+    "bigRock": "Other Features",
+    "rank": 1019,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1677": {
+    "bigRock": "Other Features",
+    "rank": 1020,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1593": {
+    "bigRock": "Other Features",
+    "rank": 1021,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-499": {
+    "bigRock": "Other Features",
+    "rank": 1022,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2524": {
+    "bigRock": "Other Features",
+    "rank": 1023,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2481": {
+    "bigRock": "Other Features",
+    "rank": 1024,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2480": {
+    "bigRock": "Other Features",
+    "rank": 1025,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2407": {
+    "bigRock": "Other Features",
+    "rank": 1026,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2226": {
+    "bigRock": "Other Features",
+    "rank": 1027,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2225": {
+    "bigRock": "Other Features",
+    "rank": 1028,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2224": {
+    "bigRock": "Other Features",
+    "rank": 1029,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2223": {
+    "bigRock": "Other Features",
+    "rank": 1030,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2202": {
+    "bigRock": "Other Features",
+    "rank": 1031,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2186": {
+    "bigRock": "Other Features",
+    "rank": 1032,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2119": {
+    "bigRock": "Other Features",
+    "rank": 1033,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2100": {
+    "bigRock": "Other Features",
+    "rank": 1034,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2099": {
+    "bigRock": "Other Features",
+    "rank": 1035,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2098": {
+    "bigRock": "Other Features",
+    "rank": 1036,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2097": {
+    "bigRock": "Other Features",
+    "rank": 1037,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2096": {
+    "bigRock": "Other Features",
+    "rank": 1038,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2095": {
+    "bigRock": "Other Features",
+    "rank": 1039,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2094": {
+    "bigRock": "Other Features",
+    "rank": 1040,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-2023": {
+    "bigRock": "Other Features",
+    "rank": 1041,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1905": {
+    "bigRock": "Other Features",
+    "rank": 1042,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1897": {
+    "bigRock": "Other Features",
+    "rank": 1043,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1895": {
+    "bigRock": "MaaS",
+    "rank": 1044,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1894": {
+    "bigRock": "Other Features",
+    "rank": 1045,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1886": {
+    "bigRock": "Other Features",
+    "rank": 1046,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1885": {
+    "bigRock": "Other Features",
+    "rank": 1047,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1849": {
+    "bigRock": "Other Features",
+    "rank": 1048,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1838": {
+    "bigRock": "Other Features",
+    "rank": 1049,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1833": {
+    "bigRock": "Other Features",
+    "rank": 1050,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1827": {
+    "bigRock": "Other Features",
+    "rank": 1051,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1783": {
+    "bigRock": "Other Features",
+    "rank": 1052,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1734": {
+    "bigRock": "Other Features",
+    "rank": 1053,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1692": {
+    "bigRock": "Other Features",
+    "rank": 1054,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1654": {
+    "bigRock": "Other Features",
+    "rank": 1055,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1653": {
+    "bigRock": "Other Features",
+    "rank": 1056,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1652": {
+    "bigRock": "Other Features",
+    "rank": 1057,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1651": {
+    "bigRock": "Other Features",
+    "rank": 1058,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1650": {
+    "bigRock": "Other Features",
+    "rank": 1059,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1649": {
+    "bigRock": "Other Features",
+    "rank": 1060,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1648": {
+    "bigRock": "Other Features",
+    "rank": 1061,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1647": {
+    "bigRock": "Other Features",
+    "rank": 1062,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1646": {
+    "bigRock": "Other Features",
+    "rank": 1063,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1644": {
+    "bigRock": "Other Features",
+    "rank": 1064,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1642": {
+    "bigRock": "Other Features",
+    "rank": 1065,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1537": {
+    "bigRock": "Other Features",
+    "rank": 1066,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1463": {
+    "bigRock": "Other Features",
+    "rank": 1067,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1460": {
+    "bigRock": "Other Features",
+    "rank": 1068,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1455": {
+    "bigRock": "Other Features",
+    "rank": 1069,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1442": {
+    "bigRock": "Other Features",
+    "rank": 1070,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1434": {
+    "bigRock": "Other Features",
+    "rank": 1071,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1401": {
+    "bigRock": "Other Features",
+    "rank": 1072,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1390": {
+    "bigRock": "Other Features",
+    "rank": 1073,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1386": {
+    "bigRock": "Other Features",
+    "rank": 1074,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1359": {
+    "bigRock": "Other Features",
+    "rank": 1075,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1307": {
+    "bigRock": "Other Features",
+    "rank": 1076,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1132": {
+    "bigRock": "Other Features",
+    "rank": 1077,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1119": {
+    "bigRock": "Other Features",
+    "rank": 1078,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1100": {
+    "bigRock": "Other Features",
+    "rank": 1079,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1071": {
+    "bigRock": "Other Features",
+    "rank": 1080,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1063": {
+    "bigRock": "Other Features",
+    "rank": 1081,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-993": {
+    "bigRock": "Other Features",
+    "rank": 1082,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-973": {
+    "bigRock": "Other Features",
+    "rank": 1083,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-938": {
+    "bigRock": "Other Features",
+    "rank": 1084,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-814": {
+    "bigRock": "Other Features",
+    "rank": 1085,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-775": {
+    "bigRock": "Other Features",
+    "rank": 1086,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-738": {
+    "bigRock": "Other Features",
+    "rank": 1087,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-725": {
+    "bigRock": "Other Features",
+    "rank": 1088,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-723": {
+    "bigRock": "Other Features",
+    "rank": 1089,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-709": {
+    "bigRock": "Other Features",
+    "rank": 1090,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-693": {
+    "bigRock": "Other Features",
+    "rank": 1091,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-689": {
+    "bigRock": "Other Features",
+    "rank": 1092,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-668": {
+    "bigRock": "Other Features",
+    "rank": 1093,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-662": {
+    "bigRock": "Other Features",
+    "rank": 1094,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-656": {
+    "bigRock": "Other Features",
+    "rank": 1095,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-649": {
+    "bigRock": "Other Features",
+    "rank": 1096,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-628": {
+    "bigRock": "Other Features",
+    "rank": 1097,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-619": {
+    "bigRock": "Other Features",
+    "rank": 1098,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-614": {
+    "bigRock": "Other Features",
+    "rank": 1099,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-547": {
+    "bigRock": "Other Features",
+    "rank": 1100,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-544": {
+    "bigRock": "Other Features",
+    "rank": 1101,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-502": {
+    "bigRock": "Other Features",
+    "rank": 1102,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-483": {
+    "bigRock": "Other Features",
+    "rank": 1103,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-469": {
+    "bigRock": "Other Features",
+    "rank": 1104,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-465": {
+    "bigRock": "Other Features",
+    "rank": 1105,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-449": {
+    "bigRock": "Other Features",
+    "rank": 1106,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-437": {
+    "bigRock": "Other Features",
+    "rank": 1107,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-414": {
+    "bigRock": "Other Features",
+    "rank": 1108,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-343": {
+    "bigRock": "Other Features",
+    "rank": 1109,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-335": {
+    "bigRock": "Other Features",
+    "rank": 1110,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-322": {
+    "bigRock": "Other Features",
+    "rank": 1111,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-274": {
+    "bigRock": "Other Features",
+    "rank": 1112,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-262": {
+    "bigRock": "Other Features",
+    "rank": 1113,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-254": {
+    "bigRock": "Other Features",
+    "rank": 1114,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-201": {
+    "bigRock": "Other Features",
+    "rank": 1115,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-200": {
+    "bigRock": "Other Features",
+    "rank": 1116,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-179": {
+    "bigRock": "Other Features",
+    "rank": 1117,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-159": {
+    "bigRock": "Other Features",
+    "rank": 1118,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-121": {
+    "bigRock": "Other Features",
+    "rank": 1119,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-85": {
+    "bigRock": "Other Features",
+    "rank": 1120,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-72": {
+    "bigRock": "Other Features",
+    "rank": 1121,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-71": {
+    "bigRock": "Other Features",
+    "rank": 1122,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-69": {
+    "bigRock": "Other Features",
+    "rank": 1123,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-67": {
+    "bigRock": "Other Features",
+    "rank": 1124,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-66": {
+    "bigRock": "Other Features",
+    "rank": 1125,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1133": {
+    "bigRock": "Other Features",
+    "rank": 1126,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1910": {
+    "bigRock": "Other Features",
+    "rank": 1127,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1554": {
+    "bigRock": "Gen AI Studio",
+    "rank": 1128,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1420": {
+    "bigRock": "Other Features",
+    "rank": 1129,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-718": {
+    "bigRock": "Other Features",
+    "rank": 1130,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-510": {
+    "bigRock": "Other Features",
+    "rank": 1131,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1747": {
+    "bigRock": "Gen AI Studio",
+    "rank": 1132,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1746": {
+    "bigRock": "Gen AI Studio",
+    "rank": 1133,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1553": {
+    "bigRock": "Gen AI Studio",
+    "rank": 1134,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1310": {
+    "bigRock": "Other Features",
+    "rank": 1135,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-842": {
+    "bigRock": "Other Features",
+    "rank": 1136,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-651": {
+    "bigRock": "Other Features",
+    "rank": 1137,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-583": {
+    "bigRock": "Other Features",
+    "rank": 1138,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-278": {
+    "bigRock": "Other Features",
+    "rank": 1139,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1394": {
+    "bigRock": "Other Features",
+    "rank": 1140,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-1348": {
+    "bigRock": "Other Features",
+    "rank": 1141,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-665": {
+    "bigRock": "Other Features",
+    "rank": 1142,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-612": {
+    "bigRock": "Other Features",
+    "rank": 1143,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-601": {
+    "bigRock": "Other Features",
+    "rank": 1144,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-559": {
+    "bigRock": "Other Features",
+    "rank": 1145,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-248": {
+    "bigRock": "Other Features",
+    "rank": 1146,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-194": {
+    "bigRock": "Other Features",
+    "rank": 1147,
+    "roadmapConfidence": "not-ready"
+  },
+  "RHAISTRAT-548": {
+    "bigRock": "Other Features",
+    "rank": 1148,
+    "roadmapConfidence": "not-ready"
+  }
+}
