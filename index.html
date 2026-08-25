@@ -182,6 +182,32 @@ tr:hover td{background:#fafafa}
 /* ── Appendix tab ── */
 .ap-sec{font-size:13px;font-weight:600;color:#444;margin:16px 0 8px}
 .ap-note{font-size:12px;color:#666;margin-bottom:12px}
+
+/* ── Schedule timeline strip ── */
+.sched-strip{background:#0d0d1a;border-bottom:1px solid #1e2a3a;padding:5px 24px;display:flex;align-items:center;gap:0;overflow-x:auto;white-space:nowrap;min-height:42px}
+.sm{display:inline-flex;flex-direction:column;align-items:center;padding:0 14px;position:relative;flex-shrink:0}
+.sm+.sm::before{content:'→';position:absolute;left:-6px;top:50%;transform:translateY(-50%);color:#2a3a4a;font-size:11px}
+.sm-lbl{font-size:9px;color:#556;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.sm-date{font-size:11px;font-weight:700;white-space:nowrap;color:#ccc}
+.sm-badge{font-size:9px;border-radius:3px;padding:1px 6px;margin-top:2px;font-weight:700;white-space:nowrap}
+.sm-past .sm-date{color:#444}.sm-past .sm-badge{background:#1a1a1a;color:#444}
+.sm-urgent .sm-date{color:#ff4444}.sm-urgent .sm-badge{background:#3d1010;color:#ff6666;animation:pulse-red 1.5s infinite}
+.sm-warn .sm-date{color:#ffb347}.sm-warn .sm-badge{background:#2d1f00;color:#ffb347}
+.sm-ok .sm-date{color:#4caf50}.sm-ok .sm-badge{background:#0d2010;color:#66bb6a}
+@keyframes pulse-red{0%,100%{opacity:1}50%{opacity:.6}}
+.sched-sep{width:1px;height:28px;background:#1e2a3a;flex-shrink:0;margin:0 4px}
+.sched-cap{display:inline-flex;align-items:center;gap:4px;border:1px solid #2a3a4a;border-radius:3px;padding:2px 8px;margin-left:8px;flex-shrink:0}
+.sched-cap-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sched-cap-txt{font-size:9px;color:#556;white-space:nowrap}
+
+/* ── Org Pulse KPI row ── */
+.pulse-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.pulse-tile{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:8px 14px;flex:1;min-width:130px}
+.pulse-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:2px}
+.pulse-val{font-size:22px;font-weight:800;letter-spacing:-0.5px}
+.pulse-sub{font-size:10px;color:#888;margin-top:1px}
+.pulse-delta{font-size:10px;font-weight:700;color:#2e7d32;background:#e8f5e9;border-radius:3px;padding:1px 6px;display:inline-block;margin-top:3px}
+.pulse-badge{font-size:9px;background:#1565c0;color:#fff;border-radius:3px;padding:1px 5px;vertical-align:middle;margin-left:4px}
 </style>
 </head>
 <body>
@@ -206,6 +232,13 @@ tr:hover td{background:#fafafa}
   <span class="ps">⑥ What-if</span><span class="arr">→</span>
   <span class="ps">⑦ Hard Freeze</span><span class="arr">→</span>
   <span class="ps">⑧ Approve → Jira</span>
+</div>
+
+<div id="sched-strip" class="sched-strip"></div>
+<div style="background:#0d1a2a;border-bottom:1px solid #1e3a5a;padding:4px 24px;display:flex;align-items:center;gap:16px;font-size:10px;flex-wrap:wrap">
+  <span style="color:#2a6a9a;font-weight:700;letter-spacing:.04em;text-transform:uppercase">⚡ 3.7 Planning Insight</span>
+  <span style="color:#5a8aaa">EA1 skipped (holidays) — EA2 <em>and</em> GA scope locked in a <strong style="color:#ffb347">single freeze on Dec 2</strong>. No warm-up window. First release where automated planning is not optional.</span>
+  <span style="margin-left:auto;color:#2a5a7a;font-style:italic">3.7 EA2 Release: Jan 20 · GA: Feb 17</span>
 </div>
 
 <div class="tabs">
@@ -332,6 +365,46 @@ tr:hover td{background:#fafafa}
     <div style="flex:1;text-align:center;padding:0 16px">
       <div style="font-size:28px;font-weight:800;letter-spacing:-1px;color:#42a5f5" id="ex-avgconf">—</div>
       <div style="font-size:11px;color:#aaa;margin-top:2px">Avg Confidence (in-plan)</div>
+    </div>
+  </div>
+
+  <!-- Org Pulse live KPI row (Aug 25 snapshot) -->
+  <div class="pulse-row" id="pulse-row">
+    <div class="pulse-tile" style="border-color:#c8e6c9">
+      <div class="pulse-lbl">TV/FV Aligned <span class="pulse-badge">Org Pulse Aug 25</span></div>
+      <div class="pulse-val" style="color:#2e7d32">89%</div>
+      <div class="pulse-sub">186 features in scope</div>
+      <div class="pulse-delta">↑ from 33% on Aug 17</div>
+    </div>
+    <div class="pulse-tile" style="border-color:#bbdefb">
+      <div class="pulse-lbl">EA2 Scope</div>
+      <div class="pulse-val" style="color:#1565c0">73</div>
+      <div class="pulse-sub">90% aligned · RHAII 85% · RHOAI 93%</div>
+    </div>
+    <div class="pulse-tile" style="border-color:#fff9c4">
+      <div class="pulse-lbl">GA Scope</div>
+      <div class="pulse-val" style="color:#f57f17">73</div>
+      <div class="pulse-sub">86% aligned · freeze Sep 23</div>
+    </div>
+    <div class="pulse-tile" style="border-color:#ffcdd2">
+      <div class="pulse-lbl">Blocked</div>
+      <div class="pulse-val" style="color:#c62828">16</div>
+      <div class="pulse-sub">4% of committed scope</div>
+    </div>
+    <div class="pulse-tile" style="border-color:#e1bee7">
+      <div class="pulse-lbl">EA1 (Done)</div>
+      <div class="pulse-val" style="color:#6a1b9a">17</div>
+      <div class="pulse-sub">100% aligned · Freeze was Jul 29</div>
+    </div>
+    <div class="pulse-tile" style="border-color:#ffcdd2;background:#fff5f5">
+      <div class="pulse-lbl">Readiness Gap <span class="pulse-badge" style="background:#c62828">Aug 24 sync</span></div>
+      <div class="pulse-val" style="color:#c62828">75%</div>
+      <div class="pulse-sub">of 1,138 features lack TV or readiness</div>
+    </div>
+    <div class="pulse-tile" style="border-color:#ffe082;background:#fffde7">
+      <div class="pulse-lbl">EA2 Funnel</div>
+      <div class="pulse-val" style="color:#f57f17">80<span style="font-size:13px;font-weight:400;color:#aaa"> / 167</span></div>
+      <div class="pulse-sub">committed of requested (48% conversion)</div>
     </div>
   </div>
 
@@ -2376,6 +2449,53 @@ function toggleSummary(){
     if(cs) cs.textContent=`${total} · ${inPlan} · ${no}`;
   }
 }
+
+// ── SCHEDULE TIMELINE STRIP ───────────────────────────────────────────────────────
+function renderScheduleStrip(){
+  const strip=document.getElementById('sched-strip');
+  if(!strip) return;
+  // All dates are 2026; today = Aug 25 2026
+  const today=new Date('2026-08-25');
+  const milestones=[
+    // 3.6 EA2
+    {lbl:'3.6 EA2 Freeze',date:'2026-08-26',urgent:true},
+    {lbl:'OpenShell',date:'2026-09-05',cap:true,dot:'#e67e22'},
+    {lbl:'EA2 Code ❄',date:'2026-09-15'},
+    {lbl:'RHOAI Code ❄',date:'2026-09-18'},
+    {lbl:'3.6 GA Freeze',date:'2026-09-23'},
+    {lbl:'NVIDIA Voyager',date:'2026-09-29',cap:true,dot:'#76b900'},
+    {lbl:'3.6 EA2 Release',date:'2026-10-14'},
+    {lbl:'OCP5',date:'2026-10-15',cap:true,dot:'#cc0000'},
+    {lbl:'GA Code ❄',date:'2026-10-23'},
+    {lbl:'3.6 GA Release',date:'2026-11-18'},
+    // 3.7 (EA1 skipped)
+    {lbl:'3.7 Planning',date:'2026-11-17',sep:true},
+    {lbl:'3.7 EA2+GA Freeze',date:'2026-12-02'},
+    {lbl:'3.7 EA2 Release',date:'2027-01-20'},
+    {lbl:'3.7 GA Release',date:'2027-02-17'},
+    // 3.8
+    {lbl:'3.8 GA Summit',date:'2027-05-27',sep38:true},
+  ];
+  const fmt=d=>{const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return mo[d.getMonth()]+' '+d.getDate();};
+  strip.innerHTML=milestones.map(m=>{
+    const dt=new Date(m.date);
+    const diff=Math.round((dt-today)/(1000*60*60*24));
+    const past=diff<0,urgent=diff>=0&&diff<=2,warn=diff>2&&diff<=14,ok=diff>14;
+    const cls=past?'sm-past':urgent?'sm-urgent':warn?'sm-warn':'sm-ok';
+    const badge=past?'done':diff===0?'TODAY':diff===1?'TOMORROW':`${diff}d`;
+    if(m.cap){
+      return `<div class="sched-cap ${cls}"><span class="sched-cap-dot" style="background:${m.dot||'#888'}"></span><span class="sched-cap-txt">${m.lbl} · ${fmt(dt)}</span></div>`;
+    }
+    if(m.sep){
+      return `<div class="sched-sep"></div><div style="font-size:9px;color:#2a4a6a;background:#0d1a2a;border:1px solid #1e3a5a;border-radius:3px;padding:2px 8px;margin:0 8px;white-space:nowrap;flex-shrink:0">3.7 — EA1 skipped</div><div class="sm ${cls}"><div class="sm-lbl">${m.lbl}</div><div class="sm-date">${fmt(dt)}</div><div class="sm-badge">${badge}</div></div>`;
+    }
+    if(m.sep38){
+      return `<div class="sched-sep"></div><div style="font-size:9px;color:#3a2a5a;background:#100d1a;border:1px solid #2a1e4a;border-radius:3px;padding:2px 8px;margin:0 8px;white-space:nowrap;flex-shrink:0">3.8</div><div class="sm ${cls}"><div class="sm-lbl">${m.lbl}</div><div class="sm-date">${fmt(dt)}</div><div class="sm-badge">${badge}</div></div>`;
+    }
+    return `<div class="sm ${cls}"><div class="sm-lbl">${m.lbl}</div><div class="sm-date">${fmt(dt)}</div><div class="sm-badge">${badge}</div></div>`;
+  }).join('');
+}
+renderScheduleStrip();
 
 // ── EMBEDDED DATA (feature-readiness-2026-08-12.csv, 1148 features) ─────────────
 const SAMPLE=`Rank,Key,Title,Score,FPDoR,Failed FPDoR Items,Outcome,Target Versions,Fix Version,Components,Team,Status,Priority,Confidence,Labels
