@@ -419,6 +419,16 @@ tr:hover td{background:#fafafa}
     <div class="card c4"><div class="card-lbl">No</div><div class="card-n" id="cnt-no">—</div><div class="card-s">Fix inputs to requalify</div></div>
   </div>
   <div id="mix-panel" class="mix-panel" style="display:none"></div>
+  <div id="capacity-panel" style="margin-top:10px;padding:10px 16px;background:#0d1a2a;border-radius:8px;border:1px solid #1e3a5f;display:none">
+    <div style="font-size:11px;font-weight:700;color:#7ec8e3;margin-bottom:6px;letter-spacing:.05em">CAPACITY LOAD — Arjay's Model (90% CI · 41 releases · ceiling 140 pts)</div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div id="cap-bar-wrap" style="flex:1;height:14px;background:#1e3a5f;border-radius:7px;overflow:hidden">
+        <div id="cap-bar-fill" style="height:100%;border-radius:7px;transition:width .4s"></div>
+      </div>
+      <div id="cap-label" style="font-size:12px;color:#fff;font-weight:700;white-space:nowrap"></div>
+    </div>
+    <div id="cap-detail" style="font-size:10px;color:#7ec8e3;margin-top:5px"></div>
+  </div>
   </div><!-- /summary-detail -->
   <div id="summary-collapsed" style="display:none;padding:6px 16px;font-size:11px;color:#aaa;background:#1a1a2e;border-bottom:1px solid #333">
     <span id="collapsed-stats">— features · — in-plan · — no</span>
@@ -474,6 +484,7 @@ tr:hover td{background:#fafafa}
         <th>TARGET VERSION</th>
         <th>FIX VERSION</th>
         <th>COMPONENTS</th>
+        <th title="Feature size from Arjay's capacity model: S=3pts(1 comp) M=5pts(1 comp) L=8pts(2 comps) XL=13pts(3+ comps). Ceiling: 140pts / release (90% CI, 41 releases)">SIZE ⓘ</th>
         <th>TEAM</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
@@ -1759,6 +1770,10 @@ function schedule(rows){
     // Weighted FPDoR score (0–100): penalise each failed item by its tier weight
     const wPenalty = r._failedItems.reduce((sum,item)=>sum+(FPDOR_WEIGHTS[item]||3),0);
     r._wFPDoR = Math.max(0, 100 - wPenalty);
+    // Arjay's feature sizing (component count → Fibonacci pts)
+    const _nComps=(r['Components']||'').split(';').filter(c=>c.trim()).length;
+    r._featurePts=_nComps>=3?13:_nComps===2?8:_nComps===1?5:3;
+    r._featureSize=_nComps>=3?'XL':_nComps===2?'L':_nComps===1?'M':'S';
 
     // Read labels from CSV if the column exists (requires Labels column in Org Pulse export)
     // Without it we fall back to heuristic detection
@@ -2049,6 +2064,24 @@ function renderCards(rows){
   document.getElementById('st-in').textContent=inPlan+' in-plan';
   document.getElementById('st-no').textContent=(c.No||0)+' no';
 
+  // Capacity load panel (Arjay's model: 140pt ceiling, 90% CI)
+  const capPanel=document.getElementById('capacity-panel');
+  if(capPanel&&rows.length){
+    const inPlanRows2=rows.filter(r=>r._place!=='No');
+    const totalPts=inPlanRows2.reduce((s,r)=>s+(r._featurePts||0),0);
+    const ea2Pts=rows.filter(r=>r._place==='EA1'||r._place==='EA2').reduce((s,r)=>s+(r._featurePts||0),0);
+    const CAP=140, WARN=80, MED=39;
+    const pct=Math.min(100,Math.round(totalPts/CAP*100));
+    const fillColor=totalPts>WARN?'#e53935':totalPts>MED?'#fb8c00':'#43a047';
+    document.getElementById('cap-bar-fill').style.width=pct+'%';
+    document.getElementById('cap-bar-fill').style.background=fillColor;
+    document.getElementById('cap-label').textContent=totalPts+'pt / '+CAP+'pt ceiling';
+    document.getElementById('cap-label').style.color=fillColor;
+    const zone=totalPts<=MED?'Conservative (≤39pt)':totalPts<=WARN?'Typical–Aggressive (40–80pt)':'High risk (>80pt) — 90% CI ceiling 140pt';
+    document.getElementById('cap-detail').textContent=`EA2-qualified: ${ea2Pts}pt · All in-plan: ${totalPts}pt · Zone: ${zone} · Median 28pt · Mean 39pt`;
+    capPanel.style.display='block';
+  }
+
   // Executive summary strip
   const strip=document.getElementById('exec-strip');
   if(strip&&rows.length){
@@ -2065,7 +2098,7 @@ function renderCards(rows){
 
 function renderTbl(rows){
   const tb=document.getElementById('tbody');
-  if(!rows.length){tb.innerHTML='<tr><td colspan="17" class="empty-row">No features match the current filters</td></tr>';return;}
+  if(!rows.length){tb.innerHTML='<tr><td colspan="18" class="empty-row">No features match the current filters</td></tr>';return;}
   let _prevPlace=null;
   tb.innerHTML=rows.map(r=>{
     const fNum=r._fNum;
@@ -2115,9 +2148,9 @@ function renderTbl(rows){
     let cutLine='';
     if(_prevPlace!==null && _prevPlace!==r._place){
       if(r._place==='No')
-        cutLine=`<tr><td colspan="17" style="padding:5px 12px;background:#ffebee;border-top:2px solid #e57373;border-bottom:1px solid #ffcdd2;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ BELOW CUT — features below do not qualify for 3.6 (fix inputs to re-qualify)</td></tr>`;
+        cutLine=`<tr><td colspan="18" style="padding:5px 12px;background:#ffebee;border-top:2px solid #e57373;border-bottom:1px solid #ffcdd2;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ BELOW CUT — features below do not qualify for 3.6 (fix inputs to re-qualify)</td></tr>`;
       else if(r._place==='GA' && (_prevPlace==='EA1'||_prevPlace==='EA2'))
-        cutLine=`<tr><td colspan="17" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#2e7d32;text-align:center;letter-spacing:.04em">▼ GA PHASE — features below target General Availability (ship after EA2)</td></tr>`;
+        cutLine=`<tr><td colspan="18" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#2e7d32;text-align:center;letter-spacing:.04em">▼ GA PHASE — features below target General Availability (ship after EA2)</td></tr>`;
     }
     _prevPlace=r._place;
     // Swing features: confidence 50–69% while in-plan — borderline, worth discussing Aug 24
@@ -2139,6 +2172,7 @@ function renderTbl(rows){
       <td style="white-space:nowrap;font-size:11px;color:#555">${r['Target Versions']||'—'}</td>
       <td style="white-space:nowrap;font-size:11px;color:#555">${r['Fix Version']||'—'}</td>
       <td title="${r['Components']}" style="max-width:160px;color:#444">${compsStr||'—'}${r._complexityWarn?`<div style="font-size:9px;color:#e65100;font-weight:700;margin-top:1px" title="${r._comps.length} components — cross-team delivery risk (spec: 6+ = complexity flag)">⚠ ${r._comps.length} comps</div>`:''}</td>
+      <td style="white-space:nowrap;text-align:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:${r._featureSize==='XL'?'#4a1a4a':r._featureSize==='L'?'#1a3a4a':r._featureSize==='M'?'#1a3a1a':'#2a2a1a'};color:${r._featureSize==='XL'?'#e040fb':r._featureSize==='L'?'#40c4ff':r._featureSize==='M'?'#69f0ae':'#ffee58'}">${r._featureSize}</span><span style="font-size:9px;color:#888;margin-left:3px">${r._featurePts}pt</span></td>
       <td style="font-size:11px;color:#555;white-space:nowrap">${r['Team']||'—'}</td>
     </tr>`;
   }).join('');
