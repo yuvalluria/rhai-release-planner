@@ -28,7 +28,7 @@ import sys
 from pathlib import Path
 
 ARJAY_CSV  = Path.home() / "Release_Fit_Predictor" / "rhaistrat_features_merged.csv"
-EXISTING_JSONL = Path(__file__).parent / "training_data.jsonl"
+EXISTING_JSONL = Path(__file__).parent / "fpdor_cycles_extended.jsonl"
 OUTPUT_JSONL   = Path(__file__).parent / "training_extended_v8.jsonl"
 
 SIZE_POINTS = {"Small": 3, "Medium": 5, "Large": 8, "Extra Large": 13, "XL": 13}
@@ -77,28 +77,47 @@ def load_arjay(path: Path) -> list:
 
 
 def arjay_to_training_row(r: dict) -> dict:
+    """Convert Arjay CSV row to RHOAI JSONL schema (matches train_classifier_v7/v8 reader)."""
     size = r.get("Size_Category", "Medium").strip()
     ncomps = int(float(r.get("Component_Count", 0) or 0))
     issue_count = int(float(r.get("Issue_Count", 0) or 0))
-    feature_pts = float(r.get("Feature_Points", SIZE_POINTS.get(size, 5)) or SIZE_POINTS.get(size, 5))
+    feature_pts = int(float(r.get("Feature_Points", SIZE_POINTS.get(size, 5)) or SIZE_POINTS.get(size, 5)))
 
-    # All rows here are Status=Closed + Fix_Versions — they shipped.
-    # Label as slipped=0 (shipped on time). These expand the negative class in v8 training.
-    slipped = 0
+    # Parse components → primaryComponent (first one if multiple)
+    raw_comps = r.get("Components", "").strip()
+    comp_list = [c.strip() for c in raw_comps.split(";") if c.strip()] if raw_comps else []
+    primary_comp = comp_list[0] if comp_list else "unknown"
 
+    # Determine committedPhase from Fix_Versions string
+    fix_ver = r.get("Fix_Versions", "").lower()
+    if "ea1" in fix_ver:
+        phase = "EA1"
+    elif "ea2" in fix_ver:
+        phase = "EA2"
+    else:
+        phase = "GA"
+
+    # All Status=Closed + Fix_Versions → shipped on time → deliveredPhase == committedPhase
+    # Trainer label: 1 if deliveredPhase == committedPhase else 0
     return {
         "key": r["Key"].strip(),
-        "slipped": slipped,
-        "slip_count": slipped,           # no multi-slip history → binary
-        "fpdor_score": 80,               # shipped features → assume adequate FPDoR
-        "rice_score": 50,                # unknown → neutral
-        "component_count": ncomps,
-        "has_prior_slip": 0,             # unknown → conservative
-        "release_type_boost": 0,
+        "summary": r.get("Summary", ""),
+        "product": "RHOAI",
+        "components": comp_list,
+        "hasDocsComponent": False,           # unknown from Arjay data
+        "primaryComponent": primary_comp,
+        "priority": {"rice": None, "jiraPriority": "Major"},  # unknown → neutral
+        "committedPhase": phase,
+        "deliveredPhase": phase,             # same = shipped on time (label=1)
+        "slips": [],                         # no slip history → 0 slips
+        "fpdorAtFreeze": None,               # not available → MICE will impute
+        "_source": "arjay_csv",
+        # Extra signals for v8 (new features the trainer can add):
         "feature_pts": feature_pts,
         "size_category": size,
-        "source": "arjay_csv",
-        "imputed_conf_cap": 85,          # no real slip history → cap at 85%
+        "component_count": ncomps,
+        "issue_count": issue_count,
+        "imputed_conf_cap": 85,              # cap at 85% — no real slip history
     }
 
 
@@ -124,14 +143,19 @@ def main():
         for row in merged.values():
             f.write(json.dumps(row) + "\n")
 
-    slipped_total = sum(1 for r in merged.values() if r.get("slipped"))
+    # Slipped = deliveredPhase != committedPhase (trainer label=0)
+    slipped_total = sum(
+        1 for r in merged.values()
+        if r.get("deliveredPhase") != r.get("committedPhase")
+    )
+    shipped_total = len(merged) - slipped_total
     print(f"\nOutput: {OUTPUT_JSONL}")
     print(f"  Total rows:       {len(merged)}")
     print(f"  From existing:    {len(existing)} (real slip history)")
-    print(f"  From Arjay CSV:   {added} (imputed labels, cap 85%)")
+    print(f"  From Arjay CSV:   {added} (all shipped, label=1, cap 85%)")
     print(f"  Duplicates skipped: {skipped_dup}")
-    print(f"  Slipped (1):      {slipped_total} ({100*slipped_total//len(merged)}%)")
-    print(f"  Shipped (0):      {len(merged)-slipped_total}")
+    print(f"  Shipped (label=1): {shipped_total} ({100*shipped_total//len(merged)}%)")
+    print(f"  Slipped (label=0): {slipped_total} ({100*slipped_total//len(merged)}%)")
     print("\nNext: run train_classifier_v8.py with training_extended_v8.jsonl")
 
 
