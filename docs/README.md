@@ -6,8 +6,6 @@ These files are copies of draft-plan and migration planning documents from the r
 |----------|---------|
 | [PLANNER-MIGRATION-DRAFT-PLANS.md](./PLANNER-MIGRATION-DRAFT-PLANS.md) | Proposed migration of draft plans into shared tooling (includes Org Pulse touchpoints in §11A) |
 | [DRAFT-PLANS-DATA-CONTRACT.md](./DRAFT-PLANS-DATA-CONTRACT.md) | JSON contract for draft plan artifacts |
-| [ML-CONFIDENCE-MODEL-JOURNEY.md](./ML-CONFIDENCE-MODEL-JOURNEY.md) | ML confidence model context and journey |
-| [DRAFT-WORK-PLAN-RELEASE-PLANNER-MVP-3.6-EA2.md](./DRAFT-WORK-PLAN-RELEASE-PLANNER-MVP-3.6-EA2.md) | MVP work plan for 3.6 EA2 |
 
 **Production archive for release planning data** remains the GitLab `release-planning-data` project—not this repository.
 
