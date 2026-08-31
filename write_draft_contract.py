@@ -8,7 +8,8 @@ Input:
   index.html             — embedded CSV with all 3.6 features
 
 Output:
-  releases/draft-plans/drafts/combined/3.6.json
+  releases/draft-plans/drafts/RHOAI/3.6.json   (pipeline path Org Pulse reads)
+  Also copies to: releases/draft-plans/drafts/combined/3.6.json (legacy)
 
 Run after: python3 merge_scores.py
 """
@@ -24,7 +25,8 @@ from pathlib import Path
 HERE = Path(__file__).parent
 SCORES_FILE = HERE / "merged_ml_scores.json"
 HTML_FILE = HERE / "index.html"
-OUT_FILE = HERE / "releases" / "draft-plans" / "drafts" / "combined" / "3.6.json"
+OUT_FILE = HERE / "releases" / "draft-plans" / "drafts" / "RHOAI" / "3.6.json"
+OUT_FILE_COMBINED = HERE / "releases" / "draft-plans" / "drafts" / "combined" / "3.6.json"
 
 DEFAULT_SCORE = 65  # 0-100; used when key not in merged_ml_scores
 
@@ -80,6 +82,14 @@ def derive_phase(target_version: str, fix_versions: str, score: float) -> str:
     return "EA2"  # most common default
 
 
+JIRA_PRIORITY_MAP = {
+    "blocker": "Critical", "critical": "Critical",
+    "major": "High", "high": "High",
+    "minor": "Medium", "medium": "Medium",
+    "trivial": "Low", "low": "Low",
+}
+
+
 def build_candidate(row: dict, score_0_100: float, rank: int) -> dict:
     key = row.get("Key", "").strip()
     title = row.get("Title", "").strip()
@@ -96,6 +106,8 @@ def build_candidate(row: dict, score_0_100: float, rank: int) -> dict:
     fix_versions = row.get("Fix Versions", "")
     release_type = row.get("Release Type", "")
     status = row.get("Status", "")
+    jira_priority = row.get("Priority", "").strip().lower()
+    priority = JIRA_PRIORITY_MAP.get(jira_priority, "Medium")
 
     phase = derive_phase(target_version, fix_versions, score_0_100)
 
@@ -128,14 +140,18 @@ def build_candidate(row: dict, score_0_100: float, rank: int) -> dict:
 
     return {
         "key": key,
-        "title": title,
+        "summary": title,           # Org Pulse normalizer expects "summary" not "title"
         "basePlacement": phase,
         "rank": rank,
         "priorityScore": priority_score,
+        "priority": priority,       # Critical / High / Medium / Low
         "component": primary_component,
         "engComponents": comp_list,
         "currentTV": target_version,
         "productFamily": "RHOAI",
+        "assignee": "",             # requires Jira API — empty until connected
+        "pm": "",                   # requires Jira API — empty until connected
+        "bigRock": "",              # roadmap outcome — populated once ROADMAP_OUTCOMES wired in
         "humanSignoff": has_strat,
         "qg1Pass": has_qg1,
         "isDraft": is_draft,
@@ -210,8 +226,11 @@ def main():
 
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUT_FILE.write_text(json.dumps(output, indent=2))
+    OUT_FILE_COMBINED.parent.mkdir(parents=True, exist_ok=True)
+    OUT_FILE_COMBINED.write_text(json.dumps(output, indent=2))
 
-    print(f"\nWrote {OUT_FILE}")
+    print(f"\nWrote {OUT_FILE}  (Org Pulse pipeline path)")
+    print(f"Wrote {OUT_FILE_COMBINED}  (legacy combined path)")
     print(f"  Total candidates:  {summary['candidateCount']}")
     print(f"  Scheduled:         {summary['scheduled']}  (EA1={by_event['EA1']} EA2={by_event['EA2']} GA={by_event['GA']})")
     print(f"  Below cut:         {summary['belowCut']}")
