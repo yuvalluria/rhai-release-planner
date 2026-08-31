@@ -132,6 +132,7 @@ tr:hover td{background:#fafafa}
 .rt-none{background:#f5f5f5;color:#bbb}
 .risk-badge{display:inline-block;padding:2px 7px;border-radius:9px;font-size:10px;font-weight:700;white-space:nowrap}
 .risk-low{background:#e8f5e9;color:#2e7d32}
+.risk-med{background:#fff3e0;color:#e65100}
 .risk-high{background:#ffebee;color:#c62828}
 .br-35match{display:inline-block;background:#e3f2fd;color:#1565c0;border-radius:3px;padding:1px 5px;font-size:9px;font-weight:700;margin-left:4px;vertical-align:middle}
 
@@ -471,7 +472,7 @@ tr:hover td{background:#fafafa}
         <th onclick="sort('Rank')"># ↕</th>
         <th onclick="sort('Score')">SCORE ↕</th>
         <th onclick="sort('FPDoR')">FPDOR ↕</th>
-        <th title="FPDoR checklist readiness — all-or-nothing gate. 🟢 Ready: all 13/13 FPDoR items checked (zero failed). 🔴 Not Ready: even 1 item missing. No yellow — it's either complete or it isn't.">RISK ⓘ</th>
+        <th title="FPDoR risk tier (Erle's system, Aug 2026)&#10;🔴 HIGH: any CRITICAL fail (Components, Target Version, Delivery Owner), or 2+ HIGH fails (Release Type, Priority, Docs Impact, RICE)&#10;🟡 MEDIUM: exactly 1 HIGH fail, or any MEDIUM fail (Feature Sign-Off) — no critical fails&#10;🟢 LOW: all critical/high/medium items pass (only soft gaps remain)&#10;Hover each badge for the specific failing items.">RISK ⓘ</th>
         <th>PATH</th>
         <th>LABELS</th>
         <th>PLACEMENT</th>
@@ -959,6 +960,52 @@ const FPDOR_TIERS_DISPLAY = [
   { label:'Medium',   cls:'fd-med',  items:['Cross-team deps','PM','Feature human sign-off','Requirements clarity','Acceptance criteria','Risks & assumptions','Architectural alignment'] },
   { label:'Soft',     cls:'fd-soft', items:['UXD','Source RFE / AI SDLC'] },
 ];
+
+// ── FPDOR RISK TIER SCORING (Erle's Feature Risk Report system, Aug 2026) ──────
+// CRITICAL fail → HIGH risk immediately; HIGH 2+ fails → HIGH; HIGH 1 fail / any MEDIUM → MEDIUM; else LOW
+function computeFPDoRRisk(r) {
+  const labels    = (r['Labels'] || '').toLowerCase();
+  const tv        = (r['Target Version'] || r['Target Versions'] || '').trim();
+  const comps     = (r['Components'] || '').trim();
+  const releaseType = (r['Release Type'] || '').trim();
+  const priority  = (r['Priority'] || '').trim();
+  const docsField = (r['Product Documentation Required'] || '').trim().toLowerCase();
+  const assignee  = r['Assignee'] !== undefined ? (r['Assignee'] || '').trim() : null;
+
+  // CRITICAL — any fail = HIGH risk
+  const critFails = [];
+  if (!comps)                          critFails.push('Components');
+  if (!tv)                             critFails.push('Target Version');
+  if (assignee !== null && !assignee)  critFails.push('Delivery Owner');
+
+  // HIGH — 2+ fails = HIGH; 1 fail = MEDIUM
+  const highFails = [];
+  if (!releaseType)                                          highFails.push('Release Type');
+  if (!priority)                                             highFails.push('Priority');
+  if (!docsField || docsField === 'unknown')                 highFails.push('Docs Impact');
+  if (!labels.includes('rp-qg1-pass'))                       highFails.push('RICE score');
+
+  // MEDIUM — any fail (no critical) = MEDIUM
+  const medFails = [];
+  if (!labels.includes('strat-creator-human-sign-off'))      medFails.push('Feature Sign-Off');
+
+  // SOFT — margin only
+  const softFails = [];
+  if (!labels.includes('rp-qg1-pass') && !labels.includes('rfe-creator-autofix-rubric-pass'))
+    softFails.push('Source RFE/AI SDLC');
+
+  let riskLevel;
+  if (critFails.length > 0 || highFails.length >= 2) {
+    riskLevel = 'HIGH';
+  } else if (highFails.length === 1 || medFails.length > 0) {
+    riskLevel = 'MEDIUM';
+  } else {
+    riskLevel = 'LOW';
+  }
+
+  const ready = critFails.length === 0 && highFails.length === 0 && medFails.length === 0;
+  return { riskLevel, ready, critFails, highFails, medFails, softFails };
+}
 
 // ── CSV PARSER ─────────────────────────────────────────────────────────────────
 function parseCSV(txt){
@@ -2031,6 +2078,10 @@ function schedule(rows){
     // Weighted FPDoR score (0–100): penalise each failed item by its tier weight
     const wPenalty = r._failedItems.reduce((sum,item)=>sum+(FPDOR_WEIGHTS[item]||3),0);
     r._wFPDoR = Math.max(0, 100 - wPenalty);
+    // Erle's weighted tier risk (CRITICAL/HIGH/MEDIUM/SOFT → HIGH/MEDIUM/LOW)
+    const _riskResult = computeFPDoRRisk(r);
+    r._riskLevel = _riskResult.riskLevel;
+    r._riskFails = _riskResult;
     // Arjay's feature sizing (component count → Fibonacci pts)
     const _nComps=(r['Components']||'').split(';').filter(c=>c.trim()).length;
     r._featurePts=_nComps>=3?13:_nComps===2?8:_nComps===1?5:3;
@@ -2424,7 +2475,18 @@ function renderTbl(rows){
       <td style="color:#bbb">${r['Rank']||'—'}</td>
       <td><span class="score">${r['Score']}</span></td>
       <td><div class="fpdor-cell"><span class="rp ${rCls}" title="${fpdorTooltip}">${r['FPDoR']||'—'}</span><span class="fpdor-w">w:${r._wFPDoR}</span>${breakdownHtml}</div></td>
-      <td>${r._path==='legacy'?(()=>{const allPass=r._fNum===13&&(!r._failedItems||r._failedItems.length===0);return `<span class="risk-badge risk-${allPass?'low':'high'}">${allPass?'🟢 Ready':'🔴 Not Ready'}</span>`;})():'<span style="color:#bbb;font-size:11px" title="AI-First path — quality gates via rp-qg1-pass label, not FPDoR checklist">—</span>'}</td>
+      <td>${(()=>{
+        const rl=r._riskLevel||'HIGH';
+        const rf=r._riskFails||{};
+        const tipParts=[];
+        if((rf.critFails||[]).length) tipParts.push('CRITICAL: '+rf.critFails.join(', '));
+        if((rf.highFails||[]).length) tipParts.push('HIGH: '+rf.highFails.join(', '));
+        if((rf.medFails||[]).length)  tipParts.push('MEDIUM: '+rf.medFails.join(', '));
+        if((rf.softFails||[]).length) tipParts.push('SOFT: '+rf.softFails.join(', '));
+        if(!tipParts.length) tipParts.push('All critical/high/medium items pass');
+        const icon=rl==='HIGH'?'🔴':rl==='MEDIUM'?'🟡':'🟢';
+        return `<span class="risk-badge risk-${rl.toLowerCase()}" title="${tipParts.join('\n')}">${icon} ${rl}</span>`;
+      })()}</td>
       <td>${pathHtml}</td>
       <td style="max-width:160px;font-size:10px;color:#555;white-space:normal;line-height:1.4">${[...r._labels].join('<br>') || '—'}</td>
       <td><span class="pp ${pCls}">${r._place}</span></td>
