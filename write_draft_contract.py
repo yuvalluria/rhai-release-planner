@@ -1,0 +1,221 @@
+#!/usr/bin/env python3
+"""
+write_draft_contract.py
+Converts our ML inference output into the Org Pulse Draft Plans data contract JSON.
+
+Input:
+  merged_ml_scores.json  — {RHAISTRAT-XXXX: score_0_to_100}
+  index.html             — embedded CSV with all 3.6 features
+
+Output:
+  releases/draft-plans/drafts/combined/3.6.json
+
+Run after: python3 merge_scores.py
+"""
+
+import csv
+import io
+import json
+import re
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+HERE = Path(__file__).parent
+SCORES_FILE = HERE / "merged_ml_scores.json"
+HTML_FILE = HERE / "index.html"
+OUT_FILE = HERE / "releases" / "draft-plans" / "drafts" / "combined" / "3.6.json"
+
+DEFAULT_SCORE = 65  # 0-100; used when key not in merged_ml_scores
+
+
+def load_scores() -> dict:
+    if not SCORES_FILE.exists():
+        print(f"[WARN] {SCORES_FILE.name} not found — using default score {DEFAULT_SCORE} for all features",
+              file=sys.stderr)
+        return {}
+    with open(SCORES_FILE) as f:
+        return json.load(f)
+
+
+def extract_csv(html_path: Path) -> list[dict]:
+    html = html_path.read_text(encoding="utf-8")
+    # Primary: find the embedded template literal starting with the CSV header
+    m = re.search(r"`(Rank,Key,Title.*?)`", html, re.DOTALL)
+    if m:
+        csv_text = m.group(1)
+    else:
+        # Fallback: reconstruct from individual data lines
+        header_m = re.search(r"(Rank,Key,Title[^\n]+)", html)
+        header = header_m.group(1) if header_m else "Rank,Key,Title,Score,Components,Labels,Target Version,Fix Versions,Release Type,Status"
+        data_lines = [l for l in html.split("\n") if re.match(r"\s*\d+,RHAISTRAT-", l)]
+        csv_text = header + "\n" + "\n".join(l.strip() for l in data_lines)
+
+    reader = csv.DictReader(io.StringIO(csv_text))
+    return list(reader)
+
+
+def feature_size(ncomps: int) -> tuple[int, str]:
+    if ncomps >= 3:
+        return 13, "XL"
+    if ncomps == 2:
+        return 8, "L"
+    if ncomps == 1:
+        return 5, "M"
+    return 3, "S"
+
+
+def derive_phase(target_version: str, fix_versions: str, score: float) -> str:
+    tv = (target_version or "").upper()
+    fv = (fix_versions or "").upper()
+    combined = tv + " " + fv
+    if score < 50:
+        return "Below cut"
+    if "EA1" in combined:
+        return "EA1"
+    if "EA2" in combined:
+        return "EA2"
+    if "GA" in combined:
+        return "GA"
+    return "EA2"  # most common default
+
+
+def build_candidate(row: dict, score_0_100: float, rank: int) -> dict:
+    key = row.get("Key", "").strip()
+    title = row.get("Title", "").strip()
+    title_lower = title.lower()
+    labels = row.get("Labels", "")
+    labels_lower = labels.lower()
+    components_raw = row.get("Components", "")
+    comp_list = [c.strip() for c in components_raw.split(";") if c.strip()]
+    ncomps = len(comp_list)
+    feature_pts, size_cat = feature_size(ncomps)
+    primary_component = comp_list[0] if comp_list else ""
+
+    target_version = row.get("Target Version", "")
+    fix_versions = row.get("Fix Versions", "")
+    release_type = row.get("Release Type", "")
+    status = row.get("Status", "")
+
+    phase = derive_phase(target_version, fix_versions, score_0_100)
+
+    is_draft = "[draft]" in title_lower
+    has_qg1 = "rp-qg1-pass" in labels_lower
+    has_strat = "strat-creator-human-sign-off" in labels_lower
+
+    fpdor_ok = (
+        "fpdor-complete" in labels_lower
+        or (release_type.strip() and fix_versions.strip() and not is_draft)
+    )
+
+    hard_reasons: list[str] = []
+    if not fix_versions.strip():
+        hard_reasons.append("Fix Version not set")
+    if not release_type.strip():
+        hard_reasons.append("Release Type not set")
+
+    soft_warnings: list[str] = []
+    if score_0_100 < 70:
+        soft_warnings.append(f"Low confidence (score: {round(score_0_100)}%)")
+    if is_draft:
+        soft_warnings.append("Feature is still in DRAFT status")
+    if not has_qg1:
+        soft_warnings.append("QG1 not passed")
+    if not has_strat:
+        soft_warnings.append("No strat-creator human sign-off")
+
+    priority_score = round(score_0_100 / 100, 4)
+
+    return {
+        "key": key,
+        "title": title,
+        "basePlacement": phase,
+        "rank": rank,
+        "priorityScore": priority_score,
+        "component": primary_component,
+        "engComponents": comp_list,
+        "currentTV": target_version,
+        "productFamily": "RHOAI",
+        "humanSignoff": has_strat,
+        "qg1Pass": has_qg1,
+        "isDraft": is_draft,
+        "releaseType": release_type,
+        "status": status,
+        "readiness": {
+            "structuralOk": fpdor_ok,
+            "hardReasons": hard_reasons,
+            "softWarnings": soft_warnings,
+        },
+        "ready": "Plan-ready" if fpdor_ok else "Not ready",
+        "readyBool": fpdor_ok,
+        "cycleBudget": feature_pts,
+        "featureSize": size_cat,
+    }
+
+
+def main():
+    scores = load_scores()
+    print(f"Loaded {len(scores)} ML scores")
+
+    all_rows = extract_csv(HTML_FILE)
+    print(f"Extracted {len(all_rows)} rows from index.html")
+
+    # Filter to 3.6 features
+    rows_36 = [
+        r for r in all_rows
+        if "3.6" in r.get("Target Version", "") or "3.6" in r.get("Fix Versions", "")
+    ]
+    print(f"Filtered to {len(rows_36)} 3.6-targeted features")
+
+    # Score each feature
+    scored = []
+    for r in rows_36:
+        key = r.get("Key", "").strip()
+        raw_score = scores.get(key, DEFAULT_SCORE)
+        scored.append((r, float(raw_score)))
+
+    # Sort by score descending before ranking
+    scored.sort(key=lambda x: x[1], reverse=True)
+
+    candidates = [
+        build_candidate(row, score, rank=i + 1)
+        for i, (row, score) in enumerate(scored)
+    ]
+
+    # Summary
+    by_event: dict[str, int] = {"EA1": 0, "EA2": 0, "GA": 0}
+    below_cut = 0
+    for c in candidates:
+        p = c["basePlacement"]
+        if p in by_event:
+            by_event[p] += 1
+        else:
+            below_cut += 1
+
+    scheduled = sum(by_event.values())
+    summary = {
+        "candidateCount": len(candidates),
+        "scheduled": scheduled,
+        "belowCut": below_cut,
+        "byEvent": by_event,
+    }
+
+    output = {
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "version": "3.6",
+        "createdBy": "rhai-release-planner",
+        "summary": summary,
+        "candidates": candidates,
+    }
+
+    OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    OUT_FILE.write_text(json.dumps(output, indent=2))
+
+    print(f"\nWrote {OUT_FILE}")
+    print(f"  Total candidates:  {summary['candidateCount']}")
+    print(f"  Scheduled:         {summary['scheduled']}  (EA1={by_event['EA1']} EA2={by_event['EA2']} GA={by_event['GA']})")
+    print(f"  Below cut:         {summary['belowCut']}")
+
+
+if __name__ == "__main__":
+    main()

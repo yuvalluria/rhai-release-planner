@@ -10,3 +10,6 @@ __pycache__/
 inference_*.json
 merged_ml_scores.json
 ml_scores_snippet.js
+
+# Org Pulse contract output — belongs in release-planning-data, not this repo
+releases/
