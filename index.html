@@ -379,7 +379,7 @@ tr:hover td{background:#fafafa}
     </div>
     <div class="pulse-tile" style="border-color:#bbdefb">
       <div class="pulse-lbl">EA2 Scope</div>
-      <div class="pulse-val" style="color:#1565c0">73</div>
+      <div class="pulse-val" style="color:#1565c0">96</div>
       <div class="pulse-sub">90% aligned · RHAII 85% · RHOAI 93%</div>
     </div>
     <div class="pulse-tile" style="border-color:#fff9c4">
@@ -971,11 +971,13 @@ function computeFPDoRRisk(r) {
   const priority  = (r['Priority'] || '').trim();
   const docsField = (r['Product Documentation Required'] || '').trim().toLowerCase();
   const assignee  = r['Assignee'] !== undefined ? (r['Assignee'] || '').trim() : null;
+  const fv        = (r['Fix Version'] || r['Fix Versions'] || '').trim();
 
-  // CRITICAL — any fail = HIGH risk
+  // CRITICAL — any fail = HIGH risk (Aug 31 sync: Child Epics, Components, Delivery Owner, Target Version, Fix Version)
   const critFails = [];
   if (!comps)                          critFails.push('Components');
   if (!tv)                             critFails.push('Target Version');
+  if (!fv)                             critFails.push('Fix Version');
   if (assignee !== null && !assignee)  critFails.push('Delivery Owner');
 
   // HIGH — 2+ fails = HIGH; 1 fail = MEDIUM
