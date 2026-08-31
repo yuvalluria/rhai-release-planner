@@ -24,11 +24,20 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 SCORES_FILE = HERE / "merged_ml_scores.json"
+ROADMAP_FILE = HERE / "roadmap_outcomes.json"
 HTML_FILE = HERE / "index.html"
 OUT_FILE = HERE / "releases" / "draft-plans" / "drafts" / "RHOAI" / "3.6.json"
 OUT_FILE_COMBINED = HERE / "releases" / "draft-plans" / "drafts" / "combined" / "3.6.json"
 
 DEFAULT_SCORE = 65  # 0-100; used when key not in merged_ml_scores
+
+
+def load_roadmap() -> dict:
+    if not ROADMAP_FILE.exists():
+        return {}
+    with open(ROADMAP_FILE) as f:
+        data = json.load(f)
+    return {k: v.get("bigRock", "") for k, v in data.items()}
 
 
 def load_scores() -> dict:
@@ -90,7 +99,7 @@ JIRA_PRIORITY_MAP = {
 }
 
 
-def build_candidate(row: dict, score_0_100: float, rank: int) -> dict:
+def build_candidate(row: dict, score_0_100: float, rank: int, roadmap: dict = None) -> dict:
     key = row.get("Key", "").strip()
     title = row.get("Title", "").strip()
     title_lower = title.lower()
@@ -137,6 +146,7 @@ def build_candidate(row: dict, score_0_100: float, rank: int) -> dict:
         soft_warnings.append("No strat-creator human sign-off")
 
     priority_score = round(score_0_100 / 100, 4)
+    big_rock = (roadmap or {}).get(key, "")
 
     return {
         "key": key,
@@ -151,7 +161,7 @@ def build_candidate(row: dict, score_0_100: float, rank: int) -> dict:
         "productFamily": "RHOAI",
         "assignee": "",             # requires Jira API — empty until connected
         "pm": "",                   # requires Jira API — empty until connected
-        "bigRock": "",              # roadmap outcome — populated once ROADMAP_OUTCOMES wired in
+        "bigRock": big_rock,        # from roadmap_outcomes.json (259 features covered)
         "humanSignoff": has_strat,
         "qg1Pass": has_qg1,
         "isDraft": is_draft,
@@ -171,7 +181,8 @@ def build_candidate(row: dict, score_0_100: float, rank: int) -> dict:
 
 def main():
     scores = load_scores()
-    print(f"Loaded {len(scores)} ML scores")
+    roadmap = load_roadmap()
+    print(f"Loaded {len(scores)} ML scores, {len(roadmap)} roadmap Big Rock labels")
 
     all_rows = extract_csv(HTML_FILE)
     print(f"Extracted {len(all_rows)} rows from index.html")
@@ -194,7 +205,7 @@ def main():
     scored.sort(key=lambda x: x[1], reverse=True)
 
     candidates = [
-        build_candidate(row, score, rank=i + 1)
+        build_candidate(row, score, rank=i + 1, roadmap=roadmap)
         for i, (row, score) in enumerate(scored)
     ]
 
