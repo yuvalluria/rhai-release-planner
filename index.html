@@ -2625,6 +2625,7 @@ function renderCapacityMix(data){
 
   panel.innerHTML=`<div class="mix-title">📊 40/40/20 Rule — Current Plan Mix
     <span style="font-size:10px;font-weight:400;color:#888;text-transform:none;letter-spacing:0">Bugs/Tech Debt 40% → New Features 40% → Learning/Research 20% &nbsp;·&nbsp; dashed line = target</span>
+    <div style="font-size:10px;color:#b71c1c;font-weight:500;margin-top:4px;text-transform:none;letter-spacing:0">P0/P1 customer-reported bugs load before feature budget. Remaining capacity splits 40/40/20.</div>
   </div>
   <div class="mix-bars">${bars}</div>${alertHtml}${johnNote}`;
   panel.style.display='';
@@ -2763,8 +2764,8 @@ function toggleSummary(){
 function renderScheduleStrip(){
   const strip=document.getElementById('sched-strip');
   if(!strip) return;
-  // All dates are 2026; today = Aug 25 2026
-  const today=new Date('2026-08-25');
+  // All dates are 2026; today = Aug 31 2026
+  const today=new Date('2026-08-31');
   const milestones=[
     // 3.6 EA2
     {lbl:'3.6 EA2 Freeze',date:'2026-08-26',urgent:true},
@@ -2776,11 +2777,11 @@ function renderScheduleStrip(){
     {lbl:'3.6 EA2 Release',date:'2026-10-14'},
     {lbl:'OCP5',date:'2026-10-15',cap:true,dot:'#cc0000'},
     {lbl:'GA Code ❄',date:'2026-10-23'},
-    {lbl:'3.6 GA Release',date:'2026-11-18'},
+    {lbl:'3.6 GA Release',date:'2026-11-18',badge:'Informational launch',badgeColor:'#2e7d32'},
     // 3.7 (EA1 skipped)
     {lbl:'3.7 Planning',date:'2026-11-17',sep:true},
     {lbl:'3.7 EA2+GA Freeze',date:'2026-12-02'},
-    {lbl:'3.7 EA2 Release',date:'2027-01-20'},
+    {lbl:'3.7 EA2 Release',date:'2027-01-20',badge:'Mandatory from here',badgeColor:'#e65100'},
     {lbl:'3.7 GA Release',date:'2027-02-17'},
     // 3.8
     {lbl:'3.8 GA Summit',date:'2027-05-27',sep38:true},
@@ -2801,7 +2802,8 @@ function renderScheduleStrip(){
     if(m.sep38){
       return `<div class="sched-sep"></div><div style="font-size:9px;color:#3a2a5a;background:#100d1a;border:1px solid #2a1e4a;border-radius:3px;padding:2px 8px;margin:0 8px;white-space:nowrap;flex-shrink:0">3.8</div><div class="sm ${cls}"><div class="sm-lbl">${m.lbl}</div><div class="sm-date">${fmt(dt)}</div><div class="sm-badge">${badge}</div></div>`;
     }
-    return `<div class="sm ${cls}"><div class="sm-lbl">${m.lbl}</div><div class="sm-date">${fmt(dt)}</div><div class="sm-badge">${badge}</div></div>`;
+    const rolloutBadge=m.badge?`<div style="margin-top:3px;font-size:9px;font-weight:700;color:#fff;background:${m.badgeColor||'#555'};border-radius:3px;padding:1px 5px;white-space:nowrap">${m.badge}</div>`:'';
+    return `<div class="sm ${cls}"><div class="sm-lbl">${m.lbl}</div><div class="sm-date">${fmt(dt)}</div><div class="sm-badge">${badge}</div>${rolloutBadge}</div>`;
   }).join('');
 }
 renderScheduleStrip();
