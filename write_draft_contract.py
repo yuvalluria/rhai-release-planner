@@ -51,17 +51,10 @@ def load_scores() -> dict:
 
 def extract_csv(html_path: Path) -> list[dict]:
     html = html_path.read_text(encoding="utf-8")
-    # Primary: find the embedded template literal starting with the CSV header
-    m = re.search(r"`(Rank,Key,Title.*?)`", html, re.DOTALL)
-    if m:
-        csv_text = m.group(1)
-    else:
-        # Fallback: reconstruct from individual data lines
-        header_m = re.search(r"(Rank,Key,Title[^\n]+)", html)
-        header = header_m.group(1) if header_m else "Rank,Key,Title,Score,Components,Labels,Target Version,Fix Versions,Release Type,Status"
-        data_lines = [l for l in html.split("\n") if re.match(r"\s*\d+,RHAISTRAT-", l)]
-        csv_text = header + "\n" + "\n".join(l.strip() for l in data_lines)
-
+    header_m = re.search(r"(Rank,Key,Title[^\n]+)", html)
+    header = header_m.group(1) if header_m else "Rank,Key,Title,Score,FPDoR,Failed FPDoR Items,Outcome,Target Versions,Fix Version,Components,Team,Status,Priority,Confidence,Labels"
+    data_lines = [l for l in html.split("\n") if re.match(r"\s*\d+,RHAISTRAT-", l)]
+    csv_text = header + "\n" + "\n".join(l.strip() for l in data_lines)
     reader = csv.DictReader(io.StringIO(csv_text))
     return list(reader)
 
@@ -111,8 +104,8 @@ def build_candidate(row: dict, score_0_100: float, rank: int, roadmap: dict = No
     feature_pts, size_cat = feature_size(ncomps)
     primary_component = comp_list[0] if comp_list else ""
 
-    target_version = row.get("Target Version", "")
-    fix_versions = row.get("Fix Versions", "")
+    target_version = row.get("Target Versions", row.get("Target Version", ""))
+    fix_versions = row.get("Fix Version", row.get("Fix Versions", ""))
     release_type = row.get("Release Type", "")
     status = row.get("Status", "")
     jira_priority = row.get("Priority", "").strip().lower()
@@ -187,10 +180,11 @@ def main():
     all_rows = extract_csv(HTML_FILE)
     print(f"Extracted {len(all_rows)} rows from index.html")
 
-    # Filter to 3.6 features
+    # Filter to 3.6 features (column names vary: "Target Versions" / "Fix Version")
     rows_36 = [
         r for r in all_rows
-        if "3.6" in r.get("Target Version", "") or "3.6" in r.get("Fix Versions", "")
+        if "3.6" in r.get("Target Versions", r.get("Target Version", ""))
+        or "3.6" in r.get("Fix Version", r.get("Fix Versions", ""))
     ]
     print(f"Filtered to {len(rows_36)} 3.6-targeted features")
 
@@ -198,7 +192,9 @@ def main():
     scored = []
     for r in rows_36:
         key = r.get("Key", "").strip()
-        raw_score = scores.get(key, DEFAULT_SCORE)
+        raw = scores.get(key, DEFAULT_SCORE)
+        # merged_ml_scores.json values are either float or {"score": float, ...}
+        raw_score = raw.get("score", DEFAULT_SCORE) if isinstance(raw, dict) else raw
         scored.append((r, float(raw_score)))
 
     # Sort by score descending before ranking
