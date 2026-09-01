@@ -660,8 +660,37 @@ tr:hover td{background:#fafafa}
       </table>
     </div>
   </div>
-  <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:6px;padding:10px;margin-bottom:18px;font-size:10px;color:#2e7d32">
-    <strong>📌 Post-freeze A/B test setup:</strong> This snapshot is the ground truth baseline. After 3.6 GA release (Nov 18), compare the committed list against actual delivered features — every discrepancy becomes a labeled training example for v10.
+  <div class="ap-sec">🔬 A/B Calibration — Post-Freeze Analysis</div>
+  <div class="ap-note">Ground truth unlocked Sep 1: Sarah Finn (sfinn@redhat.com) shared the EA2 committed features Jira filter. We can now compare our pre-freeze ML predictions vs. what actually committed — closing the loop for the first time on RHOAI 3.6 EA2.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+    <div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:6px;padding:14px">
+      <div style="font-size:10px;font-weight:700;color:#0d47a1;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">A/B Calibration</div>
+      <div style="font-size:11px;color:#222;line-height:1.6">Compare our pre-freeze ML predictions (ranked into EA2) vs. the actual committed list from Sarah's Jira filter. Every feature we predicted correctly = validation signal. Every miss = labeled training example for v10.</div>
+      <div style="margin-top:10px;display:flex;align-items:center;gap:6px"><span style="background:#1565c0;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px">IN PROGRESS</span><span style="font-size:9px;color:#555">Running this week</span></div>
+    </div>
+    <div style="background:#f3e5f5;border:1px solid #ce93d8;border-radius:6px;padding:14px">
+      <div style="font-size:10px;font-weight:700;color:#6a1b9a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">v10 Training</div>
+      <div style="font-size:11px;color:#222;line-height:1.6">First closed-loop signal: model trained on 3.4+3.5 history, now scored against 3.6 EA2 actuals. A/B discrepancies → new labeled rows. Signals that gain weight: <code style="font-size:10px">has_qg1_pass</code>, <code style="font-size:10px">strat_signoff</code>, <code style="font-size:10px">is_draft</code>.</div>
+      <div style="margin-top:10px;display:flex;align-items:center;gap:6px"><span style="background:#7b1fa2;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px">PLANNED</span><span style="font-size:9px;color:#555">After A/B results</span></div>
+    </div>
+    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:14px">
+      <div style="font-size:10px;font-weight:700;color:#e65100;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Sept 23 GA Freeze</div>
+      <div style="font-size:11px;color:#222;line-height:1.6">With A/B results in hand, deliver a calibrated model by <strong>Sept 17</strong> — not just predictions, but confidence intervals backed by actual recall numbers. PMs/DMs consult output before the GA planning freeze.</div>
+      <div style="margin-top:10px;display:flex;align-items:center;gap:6px"><span style="background:#e65100;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px">DEADLINE</span><span style="font-size:9px;color:#555">Sept 17 — 16 days</span></div>
+    </div>
+  </div>
+
+  <div style="background:#fafafa;border:1px solid #e0e0e0;border-radius:6px;padding:12px;margin-bottom:18px">
+    <div style="font-size:10px;font-weight:700;color:#333;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Next Steps</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:10px">
+      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">①</span><span>Pull RHAISTRAT keys from Sarah's Jira filter (EA2 committed list)</span></div>
+      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">②</span><span>Cross-reference against <code>merged_ml_scores.json</code> — compute precision/recall per phase</span></div>
+      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">③</span><span>Label discrepancies (predicted EA2, committed elsewhere) as training rows</span></div>
+      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">④</span><span>Train v10 with 3.6 EA2 post-freeze labels + tighten ECE calibration</span></div>
+      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">⑤</span><span>Deliver calibrated schedule with confidence intervals by <strong>Sept 17</strong> for GA freeze consultation</span></div>
+      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">⑥</span><span>Require AI Scheduler as first-draft for <strong>3.7 EA Planning Freeze Oct 23</strong> — PMs adjust inputs, not the output</span></div>
+    </div>
   </div>
 
   <div class="ap-sec">🤖 ML Model — Training & Performance</div>
