@@ -667,17 +667,58 @@ tr:hover td{background:#fafafa}
     <div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:6px;padding:14px">
       <div style="font-size:10px;font-weight:700;color:#0d47a1;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">A/B Calibration</div>
       <div style="font-size:11px;color:#222;line-height:1.6">Compare our pre-freeze ML predictions (ranked into EA2) vs. the actual committed list from Sarah's Jira filter. Every feature we predicted correctly = validation signal. Every miss = labeled training example for v10.</div>
-      <div style="margin-top:10px;display:flex;align-items:center;gap:6px"><span style="background:#1565c0;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px">IN PROGRESS</span><span style="font-size:9px;color:#555">Running this week</span></div>
+      <div style="margin-top:10px;display:flex;align-items:center;gap:6px"><span style="background:#2e7d32;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px">DONE</span><span style="font-size:9px;color:#555">Sep 1 — F1 39.4%</span></div>
     </div>
     <div style="background:#f3e5f5;border:1px solid #ce93d8;border-radius:6px;padding:14px">
       <div style="font-size:10px;font-weight:700;color:#6a1b9a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">v10 Training</div>
       <div style="font-size:11px;color:#222;line-height:1.6">First closed-loop signal: model trained on 3.4+3.5 history, now scored against 3.6 EA2 actuals. A/B discrepancies → new labeled rows. Signals that gain weight: <code style="font-size:10px">has_qg1_pass</code>, <code style="font-size:10px">strat_signoff</code>, <code style="font-size:10px">is_draft</code>.</div>
-      <div style="margin-top:10px;display:flex;align-items:center;gap:6px"><span style="background:#7b1fa2;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px">PLANNED</span><span style="font-size:9px;color:#555">After A/B results</span></div>
+      <div style="margin-top:10px;display:flex;align-items:center;gap:6px"><span style="background:#2e7d32;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px">DONE</span><span style="font-size:9px;color:#555">Sep 1 — AUC 85.7%</span></div>
     </div>
     <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:14px">
       <div style="font-size:10px;font-weight:700;color:#e65100;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Sept 23 GA Freeze</div>
       <div style="font-size:11px;color:#222;line-height:1.6">With A/B results in hand, deliver a calibrated model by <strong>Sept 17</strong> — not just predictions, but confidence intervals backed by actual recall numbers. PMs/DMs consult output before the GA planning freeze.</div>
       <div style="margin-top:10px;display:flex;align-items:center;gap:6px"><span style="background:#e65100;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px">DEADLINE</span><span style="font-size:9px;color:#555">Sept 17 — 16 days</span></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:14px;margin-bottom:14px">
+    <div style="font-size:10px;font-weight:700;color:#333;margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em">Results — Sep 1, 2026 (ab_calibration.py run)</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px">
+      <div style="text-align:center;background:#f3f4f6;border-radius:6px;padding:10px">
+        <div style="font-size:22px;font-weight:700;color:#1565c0">93</div>
+        <div style="font-size:9px;color:#555;text-transform:uppercase;margin-top:2px">Committed (ground truth)</div>
+      </div>
+      <div style="text-align:center;background:#f3f4f6;border-radius:6px;padding:10px">
+        <div style="font-size:22px;font-weight:700;color:#555">95</div>
+        <div style="font-size:9px;color:#555;text-transform:uppercase;margin-top:2px">Our EA2 predictions</div>
+      </div>
+      <div style="text-align:center;background:#e8f5e9;border-radius:6px;padding:10px">
+        <div style="font-size:22px;font-weight:700;color:#2e7d32">37</div>
+        <div style="font-size:9px;color:#555;text-transform:uppercase;margin-top:2px">True Positives ✓</div>
+      </div>
+      <div style="text-align:center;background:#fff8e1;border-radius:6px;padding:10px">
+        <div style="font-size:22px;font-weight:700;color:#f57c00">39.4%</div>
+        <div style="font-size:9px;color:#555;text-transform:uppercase;margin-top:2px">F1 Score</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div>
+        <div style="font-size:10px;color:#555;margin-bottom:6px;font-weight:600">Precision / Recall / F1</div>
+        <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span>Precision</span><span style="font-weight:700;color:#f57c00">38.9%</span></div><div style="height:7px;background:#eee;border-radius:4px"><div style="height:100%;width:38.9%;background:#f57c00;border-radius:4px"></div></div></div>
+        <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span>Recall</span><span style="font-weight:700;color:#f57c00">39.8%</span></div><div style="height:7px;background:#eee;border-radius:4px"><div style="height:100%;width:39.8%;background:#f57c00;border-radius:4px"></div></div></div>
+        <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span>F1 Score</span><span style="font-weight:700;color:#f57c00">39.4%</span></div><div style="height:7px;background:#eee;border-radius:4px"><div style="height:100%;width:39.4%;background:#f57c00;border-radius:4px"></div></div></div>
+        <div style="font-size:9px;color:#666;margin-top:6px;line-height:1.5">v10 A/B: r=−0.348 (p&lt;0.0001). High-confidence features (avg 85.6%) were NOT committed; TP features averaged 61.6%. Model ranks readiness — PMs commit strategy.</div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:#555;margin-bottom:6px;font-weight:600">Missed features (FN=56) by our bucket</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:10px">
+          <div style="background:#ffebee;border-radius:4px;padding:6px;text-align:center"><div style="font-weight:700;color:#c62828;font-size:16px">22</div><div style="font-size:9px;color:#555">Not in model<br><span style="color:#888">(post-Aug-12 adds)</span></div></div>
+          <div style="background:#fff3e0;border-radius:4px;padding:6px;text-align:center"><div style="font-weight:700;color:#e65100;font-size:16px">13</div><div style="font-size:9px;color:#555">We put in GA</div></div>
+          <div style="background:#fff3e0;border-radius:4px;padding:6px;text-align:center"><div style="font-weight:700;color:#e65100;font-size:16px">12</div><div style="font-size:9px;color:#555">We put in EA1</div></div>
+          <div style="background:#fce4ec;border-radius:4px;padding:6px;text-align:center"><div style="font-weight:700;color:#880e4f;font-size:16px">9</div><div style="font-size:9px;color:#555">Below cut</div></div>
+        </div>
+        <div style="font-size:9px;color:#555;margin-top:6px;background:#e3f2fd;border-radius:4px;padding:6px;line-height:1.5"><strong>Key finding:</strong> 22/56 misses were features created after our Aug 12 CSV freeze — the model literally couldn't see them. Add <code>days_since_created</code> as a recency signal for v11.</div>
+      </div>
     </div>
   </div>
 
