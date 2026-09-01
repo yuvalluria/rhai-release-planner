@@ -110,6 +110,7 @@ def fmt_conf(score_0_1: float) -> str:
 
 def main():
     csv_path = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_CSV
+    target_phase = sys.argv[2] if len(sys.argv) > 2 else "EA2"
     if not csv_path.exists():
         sys.exit(f"ERROR: committed CSV not found at {csv_path}")
     if not DRAFT_JSON.exists():
@@ -125,23 +126,25 @@ def main():
     predicted_ga    = {k for k, v in predictions.items() if v["basePlacement"] == "GA"}
     predicted_below = {k for k, v in predictions.items() if v["basePlacement"] == "Below cut"}
 
-    # Core confusion matrix for EA2 prediction
-    tp = committed_keys & predicted_ea2        # we said EA2, they committed EA2 ✅
-    fp = predicted_ea2 - committed_keys        # we said EA2, not committed ❌
-    fn = committed_keys - predicted_ea2        # committed EA2, we didn't predict EA2 ❌
+    predicted_phase = {"EA1": predicted_ea1, "EA2": predicted_ea2, "GA": predicted_ga}.get(target_phase, predicted_ea2)
 
-    precision = len(tp) / len(predicted_ea2) if predicted_ea2 else 0
+    # Core confusion matrix for target phase prediction
+    tp = committed_keys & predicted_phase
+    fp = predicted_phase - committed_keys
+    fn = committed_keys - predicted_phase
+
+    precision = len(tp) / len(predicted_phase) if predicted_phase else 0
     recall    = len(tp) / len(committed_keys) if committed_keys else 0
     f1        = (2 * precision * recall / (precision + recall)) if (precision + recall) else 0
 
     print("\n" + "="*70)
-    print("  A/B CALIBRATION — RHOAI 3.6 EA2")
-    print("  Pre-freeze predictions vs. Sarah's committed list (Sep 1, 2026)")
+    print(f"  A/B CALIBRATION — RHOAI 3.6 {target_phase}")
+    print(f"  Pre-freeze predictions vs. committed {target_phase} list")
     print("="*70)
     print(f"\n  Committed features (ground truth):  {len(committed_keys)}")
-    print(f"  Our EA2 predictions (pre-freeze):   {len(predicted_ea2)}")
-    print(f"\n  True Positives  (TP):  {len(tp):3d}  — predicted EA2, committed ✅")
-    print(f"  False Positives (FP):  {len(fp):3d}  — predicted EA2, NOT committed ❌")
+    print(f"  Our {target_phase} predictions (pre-freeze):   {len(predicted_phase)}")
+    print(f"\n  True Positives  (TP):  {len(tp):3d}  — predicted {target_phase}, committed ✅")
+    print(f"  False Positives (FP):  {len(fp):3d}  — predicted {target_phase}, NOT committed ❌")
     print(f"  False Negatives (FN):  {len(fn):3d}  — committed, we MISSED ❌")
     print(f"\n  Precision:  {precision:.1%}")
     print(f"  Recall:     {recall:.1%}")

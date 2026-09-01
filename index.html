@@ -722,13 +722,54 @@ tr:hover td{background:#fafafa}
     </div>
   </div>
 
+  <div style="background:#fff;border:1px solid #c8e6c9;border-radius:6px;padding:14px;margin-bottom:14px">
+    <div style="font-size:10px;font-weight:700;color:#2e7d32;margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em">EA1 Calibration — Sep 1, 2026 (59 committed features)</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px">
+      <div style="text-align:center;background:#f3f4f6;border-radius:6px;padding:10px">
+        <div style="font-size:22px;font-weight:700;color:#1565c0">59</div>
+        <div style="font-size:9px;color:#555;text-transform:uppercase;margin-top:2px">Committed (ground truth)</div>
+      </div>
+      <div style="text-align:center;background:#f3f4f6;border-radius:6px;padding:10px">
+        <div style="font-size:22px;font-weight:700;color:#555">108</div>
+        <div style="font-size:9px;color:#555;text-transform:uppercase;margin-top:2px">Our EA1 predictions</div>
+      </div>
+      <div style="text-align:center;background:#e8f5e9;border-radius:6px;padding:10px">
+        <div style="font-size:22px;font-weight:700;color:#2e7d32">56</div>
+        <div style="font-size:9px;color:#555;text-transform:uppercase;margin-top:2px">True Positives ✓</div>
+      </div>
+      <div style="text-align:center;background:#e8f5e9;border-radius:6px;padding:10px">
+        <div style="font-size:22px;font-weight:700;color:#2e7d32">94.9%</div>
+        <div style="font-size:9px;color:#555;text-transform:uppercase;margin-top:2px">Recall</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div>
+        <div style="font-size:10px;color:#555;margin-bottom:6px;font-weight:600">Precision / Recall / F1</div>
+        <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span>Precision</span><span style="font-weight:700;color:#f57c00">51.9%</span></div><div style="height:7px;background:#eee;border-radius:4px"><div style="height:100%;width:51.9%;background:#f57c00;border-radius:4px"></div></div></div>
+        <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span>Recall</span><span style="font-weight:700;color:#2e7d32">94.9%</span></div><div style="height:7px;background:#eee;border-radius:4px"><div style="height:100%;width:94.9%;background:#2e7d32;border-radius:4px"></div></div></div>
+        <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:2px"><span>F1 Score</span><span style="font-weight:700;color:#1565c0">67.1%</span></div><div style="height:7px;background:#eee;border-radius:4px"><div style="height:100%;width:67.1%;background:#1565c0;border-radius:4px"></div></div></div>
+        <div style="font-size:9px;color:#666;margin-top:6px;line-height:1.5">EA1 recall 2.4× better than EA2 (94.9% vs 39.8%). Features locked into EA1 are further along in readiness — model's FPDoR signals align well with actual PM commits.</div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:#555;margin-bottom:6px;font-weight:600">3 misses (FN) — all strategic infrastructure</div>
+        <div style="background:#ffebee;border-radius:4px;padding:8px;font-size:9px;line-height:1.6;color:#555">
+          All 3 were put in <strong>Below cut</strong> (~42% confidence) by the model:<br>
+          • <strong>RHAISTRAT-2150</strong> — Intel Gaudi Support (AIPCC EA1)<br>
+          • <strong>RHAISTRAT-2170</strong> — AMD ROCm Continuous Delivery (AIPCC EA1)<br>
+          • <strong>RHAISTRAT-2366</strong> — CUDA 12.9 Support<br>
+          <span style="margin-top:4px;display:block;color:#c62828;font-weight:600">These were committed on hardware partnership timelines, not FPDoR readiness. Classic strategic commit — expected model blind spot. v11 signal: hardware_partnership flag.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div style="background:#fafafa;border:1px solid #e0e0e0;border-radius:6px;padding:12px;margin-bottom:18px">
     <div style="font-size:10px;font-weight:700;color:#333;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Next Steps</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:10px">
-      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">①</span><span>Pull RHAISTRAT keys from Sarah's Jira filter (EA2 committed list)</span></div>
-      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">②</span><span>Cross-reference against <code>merged_ml_scores.json</code> — compute precision/recall per phase</span></div>
-      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">③</span><span>Label discrepancies (predicted EA2, committed elsewhere) as training rows</span></div>
-      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">④</span><span>Train v10 with 3.6 EA2 post-freeze labels + tighten ECE calibration</span></div>
+      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#2e7d32;font-weight:700;flex-shrink:0">✓</span><span style="color:#888;text-decoration:line-through">Pull RHAISTRAT keys from Sarah's Jira filter (EA2 + EA1 committed lists)</span></div>
+      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#2e7d32;font-weight:700;flex-shrink:0">✓</span><span style="color:#888;text-decoration:line-through">Cross-reference against predictions — compute precision/recall per phase (EA1 94.9% recall, EA2 39.8%)</span></div>
+      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#2e7d32;font-weight:700;flex-shrink:0">✓</span><span style="color:#888;text-decoration:line-through">Label discrepancies — 262 training rows generated (EA1 + EA2)</span></div>
+      <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#2e7d32;font-weight:700;flex-shrink:0">✓</span><span style="color:#888;text-decoration:line-through">Train v10 — AUC 85.7% (+2.0% vs v9)</span></div>
       <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">⑤</span><span>Deliver calibrated schedule with confidence intervals by <strong>Sept 17</strong> for GA freeze consultation</span></div>
       <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">⑥</span><span>Require AI Scheduler as first-draft for <strong>3.7 EA Planning Freeze Oct 23</strong> — PMs adjust inputs, not the output</span></div>
     </div>
@@ -769,8 +810,11 @@ tr:hover td{background:#fafafa}
     <strong>Formula:</strong> <code>real_capacity = p75_throughput − (open_issues × 3 pts)</code><br>
     Flat estimate of 3 story points per issue (per Saiesh Prabhu). Will be replaced by Arjay's weighted prioritizer once validated.
   </div>
-  <div style="background:#f3e5f5;border:1px solid #ce93d8;border-radius:6px;padding:10px;margin-bottom:18px;font-size:10px">
+  <div style="background:#f3e5f5;border:1px solid #ce93d8;border-radius:6px;padding:10px;margin-bottom:8px;font-size:10px">
     <strong>Arjay's weighted prioritizer (in testing):</strong> Production Down (100) &gt; SLA Risk (80) &gt; Customer Escalation (50) &gt; Focus Customer (60) &gt; SFDC/Flare (40) &gt; Severity (30). Will replace flat estimate and enable per-issue weighted capacity reduction.
+  </div>
+  <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:6px;padding:10px;margin-bottom:18px;font-size:10px">
+    <strong>📈 AI Adoption signal (Tiffany's llm-d data — Org Pulse AI Adoption Report):</strong> llm-d +1733% throughput · Serving Orchestration +404% · overall AI adoption 17% → 67% (3.4 → 3.5 GA). Per-component AI adoption rates queued as <strong>v11 training signal</strong> (<code>component_ai_adoption_rate</code>) — components shipping at higher AI adoption rates carry higher baseline confidence. ⚠ llm-d TEAM_CAP p75 is stale: actual throughput is ~7× the historical estimate used in current capacity ceiling.
   </div>
 
   <div class="ap-sec">🤖 ML Model — Training & Performance</div>
