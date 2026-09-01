@@ -732,6 +732,45 @@ tr:hover td{background:#fafafa}
       <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">⑤</span><span>Deliver calibrated schedule with confidence intervals by <strong>Sept 17</strong> for GA freeze consultation</span></div>
       <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">⑥</span><span>Require AI Scheduler as first-draft for <strong>3.7 EA Planning Freeze Oct 23</strong> — PMs adjust inputs, not the output</span></div>
     </div>
+    <div style="margin-top:10px;padding-top:8px;border-top:1px solid #e0e0e0;font-size:10px;color:#555">
+      <strong>📋 PM/DM feedback calls (Arjay + Yuval, this week):</strong> What data do you trust? What at a glance vs. click through? What can we drop? High-risk features with dependency count? Big Rock % complete view? Outcomes vs Big Rocks hierarchy (following up with Adam on definitions)?
+    </div>
+  </div>
+
+  <div class="ap-sec">🐛 Field &amp; BU Feedback — Bug Debt by Component (Sep 1, 2026)</div>
+  <div class="ap-note">283 BU/SSA issues from Org Pulse Field and BU Feedback tab (Saiesh Prabhu). Source API: team-tracker Org Pulse. Resolution rate: 47.3% · 90-day throughput: 87 closed · 81 unassigned · 45 stale (&gt;90d).</div>
+  <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+    <div style="background:#fff3e0;border:1px solid #ffb74d;border-radius:6px;padding:10px 14px;text-align:center;min-width:80px">
+      <div style="font-size:20px;font-weight:700;color:#e65100">149</div><div style="font-size:9px;color:#555;text-transform:uppercase">Total Open</div></div>
+    <div style="background:#fce4ec;border:1px solid #f48fb1;border-radius:6px;padding:10px 14px;text-align:center;min-width:80px">
+      <div style="font-size:20px;font-weight:700;color:#880e4f">101d</div><div style="font-size:9px;color:#555;text-transform:uppercase">Avg Open Age</div></div>
+    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:10px 14px;text-align:center;min-width:80px">
+      <div style="font-size:20px;font-weight:700;color:#f57c00">47.3%</div><div style="font-size:9px;color:#555;text-transform:uppercase">Resolution Rate</div></div>
+    <div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:6px;padding:10px 14px;text-align:center;min-width:80px">
+      <div style="font-size:20px;font-weight:700;color:#1565c0">63</div><div style="font-size:9px;color:#555;text-transform:uppercase">WIP (In Progress)</div></div>
+  </div>
+  <table style="width:100%;font-size:11px;border-collapse:collapse;margin-bottom:12px">
+    <thead><tr style="background:#f5f5f5">
+      <th style="padding:4px 6px;text-align:left;color:#555">Component</th>
+      <th style="padding:4px 6px;text-align:right;color:#555">Open</th>
+      <th style="padding:4px 6px;text-align:right;color:#555">Avg Age</th>
+      <th style="padding:4px 6px;text-align:right;color:#555">Bug Debt (3pts×open)</th>
+      <th style="padding:4px 6px;text-align:center;color:#555">Capacity Impact</th>
+    </tr></thead>
+    <tbody>
+      <tr style="border-bottom:1px solid #eee"><td style="padding:4px 6px;font-weight:600">Model as a Service</td><td style="padding:4px 6px;text-align:right;color:#c62828;font-weight:700">33</td><td style="padding:4px 6px;text-align:right;color:#555">62.3d</td><td style="padding:4px 6px;text-align:right;font-weight:700">99 pts</td><td style="padding:4px 6px;text-align:center"><span style="background:#ffebee;color:#c62828;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:700">HIGH</span></td></tr>
+      <tr style="border-bottom:1px solid #eee"><td style="padding:4px 6px;font-weight:600">AI Core Dashboard</td><td style="padding:4px 6px;text-align:right;color:#c62828;font-weight:700">29</td><td style="padding:4px 6px;text-align:right;color:#e65100;font-weight:700">141.4d ⚠</td><td style="padding:4px 6px;text-align:right;font-weight:700">87 pts</td><td style="padding:4px 6px;text-align:center"><span style="background:#ffebee;color:#c62828;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:700">HIGH</span></td></tr>
+      <tr style="border-bottom:1px solid #eee"><td style="padding:4px 6px;font-weight:600">Documentation</td><td style="padding:4px 6px;text-align:right;color:#c62828;font-weight:700">27</td><td style="padding:4px 6px;text-align:right;color:#555">61.3d</td><td style="padding:4px 6px;text-align:right;font-weight:700">81 pts</td><td style="padding:4px 6px;text-align:center"><span style="background:#ffebee;color:#c62828;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:700">HIGH</span></td></tr>
+      <tr style="border-bottom:1px solid #eee"><td style="padding:4px 6px;font-weight:600">Serving Orchestration</td><td style="padding:4px 6px;text-align:right;color:#f57c00;font-weight:700">19</td><td style="padding:4px 6px;text-align:right;color:#e65100;font-weight:700">134.9d ⚠</td><td style="padding:4px 6px;text-align:right;font-weight:700">57 pts</td><td style="padding:4px 6px;text-align:center"><span style="background:#fff8e1;color:#f57c00;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:700">MEDIUM</span></td></tr>
+      <tr><td style="padding:4px 6px;font-weight:600">AI Safety</td><td style="padding:4px 6px;text-align:right;color:#f57c00;font-weight:700">19</td><td style="padding:4px 6px;text-align:right;color:#555">80.8d</td><td style="padding:4px 6px;text-align:right;font-weight:700">57 pts</td><td style="padding:4px 6px;text-align:center"><span style="background:#fff8e1;color:#f57c00;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:700">MEDIUM</span></td></tr>
+    </tbody>
+  </table>
+  <div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:6px;padding:10px;margin-bottom:8px;font-size:10px">
+    <strong>Formula:</strong> <code>real_capacity = p75_throughput − (open_issues × 3 pts)</code><br>
+    Flat estimate of 3 story points per issue (per Saiesh Prabhu). Will be replaced by Arjay's weighted prioritizer once validated.
+  </div>
+  <div style="background:#f3e5f5;border:1px solid #ce93d8;border-radius:6px;padding:10px;margin-bottom:18px;font-size:10px">
+    <strong>Arjay's weighted prioritizer (in testing):</strong> Production Down (100) &gt; SLA Risk (80) &gt; Customer Escalation (50) &gt; Focus Customer (60) &gt; SFDC/Flare (40) &gt; Severity (30). Will replace flat estimate and enable per-issue weighted capacity reduction.
   </div>
 
   <div class="ap-sec">🤖 ML Model — Training & Performance</div>
@@ -2465,20 +2504,27 @@ function toggleRoadmapView(){
 function renderRoadmapTimeline(data){
   const phases = ['EA1','EA2','GA'];
   const grid = {};
-  BIG_ROCKS.forEach(br=>{ grid[br.name]={EA1:{c:0,s:0},EA2:{c:0,s:0},GA:{c:0,s:0},No:{c:0,s:0}}; });
+  BIG_ROCKS.forEach(br=>{ grid[br.name]={EA1:{c:0,s:0,done:0,wip:0},EA2:{c:0,s:0,done:0,wip:0},GA:{c:0,s:0,done:0,wip:0},No:{c:0,s:0,done:0,wip:0}}; });
   data.forEach(r=>{
     if(!r._bigRocks||!r._bigRocks.length) return;
     const ph = phases.includes(r._place) ? r._place : 'No';
+    const st = (r._status||r['Status']||'').toLowerCase();
+    const done = /done|closed|released|release pending/.test(st);
+    const wip  = /in progress|review|testing/.test(st);
     r._bigRocks.forEach(name=>{
       if(!grid[name]) return;
       grid[name][ph].c++;
       grid[name][ph].s += (r._conf||0);
+      if(done) grid[name][ph].done++;
+      else if(wip) grid[name][ph].wip++;
     });
   });
   function bgColor(c,avg){ if(!c) return '#fafafa'; if(avg>=70) return '#e8f5e9'; if(avg>=50) return '#fff8e1'; return '#ffebee'; }
-  function cell(c,s){
+  function cell(c,s,done,wip){
     if(!c) return '<span style="color:#ccc">—</span>';
-    return `<strong>${c}</strong><br><span style="font-size:10px;color:#555">${Math.round(s/c)}% avg</span>`;
+    const notStarted = c - done - wip;
+    const statusLine = `<span style="font-size:9px;color:#555">✅${done} 🔄${wip} ○${notStarted}</span>`;
+    return `<strong>${c}</strong><br><span style="font-size:10px;color:#555">${Math.round(s/c)}% avg</span><br>${statusLine}`;
   }
   let rows='';
   BIG_ROCKS.forEach(br=>{
@@ -2488,11 +2534,11 @@ function renderRoadmapTimeline(data){
     rows+=`<tr><td style="font-weight:600;white-space:nowrap">${br.name}</td>
       <td style="text-align:center;font-size:11px;color:#777;white-space:nowrap">${br.pillar}</td>`;
     phases.forEach(p=>{
-      const {c,s}=g[p];
-      rows+=`<td style="text-align:center;background:${bgColor(c,c?s/c:0)}">${cell(c,s)}</td>`;
+      const {c,s,done,wip}=g[p];
+      rows+=`<td style="text-align:center;background:${bgColor(c,c?s/c:0)}">${cell(c,s,done,wip)}</td>`;
     });
-    const {c:nc,s:ns}=g.No;
-    rows+=`<td style="text-align:center;background:${nc?'#ffebee':'#fafafa'}">${cell(nc,ns)}</td></tr>`;
+    const {c:nc,s:ns,done:nd,wip:nw}=g.No;
+    rows+=`<td style="text-align:center;background:${nc?'#ffebee':'#fafafa'}">${cell(nc,ns,nd,nw)}</td></tr>`;
   });
   document.getElementById('roadmap-timeline-view').innerHTML=
     `<div style="padding:10px 0 8px;font-size:11px;color:#666">Big Rock × Release Phase — shows only Big Rocks with ≥1 feature. Count + avg ML confidence per cell. Color: <span style="background:#e8f5e9;padding:1px 6px;border-radius:3px">≥70% green</span> <span style="background:#fff8e1;padding:1px 6px;border-radius:3px">50–69% amber</span> <span style="background:#ffebee;padding:1px 6px;border-radius:3px">&lt;50% red</span></div>
@@ -2862,11 +2908,14 @@ function renderCapacityMix(data){
     Apply 40% of observed team velocity to new feature planning. Reserve the remaining 60% for bug remediation and research — even when that work is not yet visible in this view. If the current plan exceeds the feature target, reweight capacity estimates or defer lower-priority features.
   </div>`;
 
+  const bugDebtNote=`<div style="background:#fff3e0;border:1px solid #ffb74d;border-radius:4px;padding:6px 10px;font-size:10px;color:#e65100;margin-top:8px">
+    ⚠ <strong>Bug debt signal now available (Sep 1):</strong> 149 open BU/SSA issues across components (Saiesh Prabhu). Top: MaaS (33 open, 99pts debt) · AI Core Dashboard (29 open, avg 141d stale) · Docs (27 open, 81pts). Arjay's prioritizer pipeline in testing — will power dynamic bug loading once validated.
+  </div>`;
   panel.innerHTML=`<div class="mix-title">📊 40/40/20 Rule — Current Plan Mix
     <span style="font-size:10px;font-weight:400;color:#888;text-transform:none;letter-spacing:0">Bugs/Tech Debt 40% → New Features 40% → Learning/Research 20% &nbsp;·&nbsp; dashed line = target</span>
     <div style="font-size:10px;color:#b71c1c;font-weight:500;margin-top:4px;text-transform:none;letter-spacing:0">P0/P1 customer-reported bugs load before feature budget. Remaining capacity splits 40/40/20.</div>
   </div>
-  <div class="mix-bars">${bars}</div>${alertHtml}${johnNote}`;
+  <div class="mix-bars">${bars}</div>${alertHtml}${bugDebtNote}${johnNote}`;
   panel.style.display='';
 }
 
