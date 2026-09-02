@@ -242,7 +242,14 @@ tr:hover td{background:#fafafa}
 <div id="sched-strip" class="sched-strip"></div>
 <div style="background:#0d1a2a;border-bottom:1px solid #1e3a5a;padding:4px 24px;display:flex;align-items:center;gap:16px;font-size:10px;flex-wrap:wrap">
   <span style="color:#2a6a9a;font-weight:700;letter-spacing:.04em;text-transform:uppercase">⚡ 3.7 Planning Insight</span>
-  <span style="color:#5a8aaa">EA1 skipped (holidays) — EA2 <em>and</em> GA scope locked in a <strong style="color:#ffb347">single freeze on Dec 2</strong>. No warm-up window. First release where automated planning is not optional.</span>
+  <span id="planning-banner-text" contenteditable="true" spellcheck="false"
+    title="Click to edit — changes save to your browser. To reset, clear browser storage."
+    style="color:#5a8aaa;outline:none;border-bottom:1px dashed transparent;cursor:text"
+    onmouseenter="this.style.borderBottomColor='#2a6a9a'"
+    onmouseleave="this.style.borderBottomColor='transparent'"
+    oninput="saveBannerText()"
+    onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+  >EA1 skipped (holidays) — EA2 <em>and</em> GA scope locked in a <strong style="color:#ffb347">single freeze on Dec 2</strong>. No warm-up window. First release where automated planning is not optional.</span>
   <span style="margin-left:auto;color:#2a5a7a;font-style:italic">3.7 EA2 Release: Jan 20 · GA: Feb 17</span>
 </div>
 
@@ -463,6 +470,7 @@ tr:hover td{background:#fafafa}
     <select id="f-assign" onchange="run()"><option value="">All Owners</option></select>
     <select id="f-pri" onchange="run()"><option value="">All Priorities</option><option>Blocker</option><option>Critical</option><option>Major</option><option>Normal</option></select>
     <label style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="f-bigrock" onchange="run()"> 🪨 Big Rocks only</label>
+    <label title="Score column hidden by default — can be gamed. Shows raw FPDoR priority score." style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap;color:#888"><input type="checkbox" id="f-show-score" onchange="toggleScoreCol()"> Show Score</label>
     <select id="f-fail" onchange="run()">
       <option value="">Any Failed FPDoR</option>
       <option>Acceptance criteria</option><option>RICE</option><option>UXD</option>
@@ -476,7 +484,7 @@ tr:hover td{background:#fafafa}
     <table>
       <thead><tr>
         <th onclick="sort('Rank')"># ↕</th>
-        <th onclick="sort('Score')">SCORE ↕</th>
+        <th onclick="sort('Score')" id="th-score" class="score-col" style="display:none">SCORE ↕</th>
         <th onclick="sort('FPDoR')">FPDOR ↕</th>
         <th title="FPDoR risk tier (Erle's system, Aug 2026)&#10;🔴 HIGH: any CRITICAL fail (Components, Target Version, Delivery Owner), or 2+ HIGH fails (Release Type, Priority, Docs Impact, RICE)&#10;🟡 MEDIUM: exactly 1 HIGH fail, or any MEDIUM fail (Feature Sign-Off) — no critical fails&#10;🟢 LOW: all critical/high/medium items pass (only soft gaps remain)&#10;Hover each badge for the specific failing items.">RISK ⓘ</th>
         <th>PATH</th>
@@ -2513,7 +2521,18 @@ function detectEvt(s){
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let allData=[], sortCol='Rank', sortAsc=true;
 
+function saveBannerText(){
+  const el = document.getElementById('planning-banner-text');
+  if(el) localStorage.setItem('planningBannerText', el.innerHTML);
+}
+function restoreBannerText(){
+  const saved = localStorage.getItem('planningBannerText');
+  const el = document.getElementById('planning-banner-text');
+  if(saved && el) el.innerHTML = saved;
+}
+
 window.onload=()=>{
+  restoreBannerText();
   allData=parseCSV(SAMPLE).map(r=>({...r}));
   schedule(allData);
   populateFilters();
@@ -2547,6 +2566,11 @@ function setOpts(id,vals,ph){
   const s=document.getElementById(id);
   const cur=s.value;
   s.innerHTML=`<option value="">${ph}</option>`+vals.map(v=>`<option${v===cur?' selected':''}>${v}</option>`).join('');
+}
+
+function toggleScoreCol(){
+  const show = document.getElementById('f-show-score').checked;
+  document.querySelectorAll('.score-col').forEach(el => el.style.display = show ? '' : 'none');
 }
 
 let _roadmapVisible = false;
@@ -2754,7 +2778,7 @@ function renderTbl(rows){
     const isSwing=r._place!=='No'&&conf>=50&&conf<70;
     return cutLine+`<tr style="${isSwing?'background:#fffde7;':''}" title="${isSwing?'Swing feature — confidence borderline (50–69%), worth discussing at freeze':''}">
       <td style="color:#bbb">${r['Rank']||'—'}</td>
-      <td><span class="score">${r['Score']}</span></td>
+      <td class="score-col" style="display:none"><span class="score">${r['Score']}</span></td>
       <td><div class="fpdor-cell"><span class="rp ${rCls}" title="${fpdorTooltip}">${r['FPDoR']||'—'}</span><span class="fpdor-w">w:${r._wFPDoR}</span>${breakdownHtml}</div></td>
       <td>${(()=>{
         const rl=r._riskLevel||'HIGH';
