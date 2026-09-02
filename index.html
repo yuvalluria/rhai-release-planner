@@ -460,6 +460,7 @@ tr:hover td{background:#fafafa}
     <select id="f-tv" onchange="run()"><option value="">All Target Versions</option></select>
     <select id="f-comp" onchange="run()"><option value="">All Components</option></select>
     <select id="f-team" onchange="run()"><option value="">All Teams</option></select>
+    <select id="f-assign" onchange="run()"><option value="">All Owners</option></select>
     <select id="f-pri" onchange="run()"><option value="">All Priorities</option><option>Blocker</option><option>Critical</option><option>Major</option><option>Normal</option></select>
     <label style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="f-bigrock" onchange="run()"> 🪨 Big Rocks only</label>
     <select id="f-fail" onchange="run()">
@@ -900,7 +901,7 @@ const CAP = {
   'AI Core Dashboard':            {EA1:4,  EA2:1,  GA:14},
   'AI Evaluations':               {EA1:2,  EA2:0,  GA:0},
   'AI Core Platform':             {EA1:1,  EA2:1,  GA:3},
-  'llm-d':                        {EA1:0,  EA2:3,  GA:2},
+  'llm-d':                        {EA1:9,  EA2:9,  GA:9},  // updated Sep 2: 75 shipped / ~6 events = 12.5 avg; p75 ≈ 9 per cycle
   'AI Safety':                    {EA1:1,  EA2:0,  GA:2},
   'AgentOps':                     {EA1:1,  EA2:0,  GA:0},
   'AI Navigator':                 {EA1:0,  EA2:0,  GA:0},
@@ -1170,7 +1171,16 @@ const FPDOR_TIERS_DISPLAY = [
 
 // ── FPDOR RISK TIER SCORING (Erle's Feature Risk Report system, Aug 2026) ──────
 // CRITICAL fail → HIGH risk immediately; HIGH 2+ fails → HIGH; HIGH 1 fail / any MEDIUM → MEDIUM; else LOW
+// Fix (Sep 2): short-circuit on Failed FPDoR Items; remove rp-qg1-pass as RICE proxy (wrong signal)
 function computeFPDoRRisk(r) {
+  const failedItems = (r['Failed FPDoR Items'] || '').trim();
+  const fpdorScore  = (r['FPDoR'] || '').trim();
+
+  // Short-circuit: Org Pulse says all items pass → LOW risk, no further checks needed
+  if (fpdorScore && failedItems === '') {
+    return { riskLevel: 'LOW', ready: true, critFails: [], highFails: [], medFails: [], softFails: [] };
+  }
+
   const labels    = (r['Labels'] || '').toLowerCase();
   const tv        = (r['Target Version'] || r['Target Versions'] || '').trim();
   const comps     = (r['Components'] || '').trim();
@@ -1180,7 +1190,7 @@ function computeFPDoRRisk(r) {
   const assignee  = r['Assignee'] !== undefined ? (r['Assignee'] || '').trim() : null;
   const fv        = (r['Fix Version'] || r['Fix Versions'] || '').trim();
 
-  // CRITICAL — any fail = HIGH risk (Aug 31 sync: Child Epics, Components, Delivery Owner, Target Version, Fix Version)
+  // CRITICAL — any fail = HIGH risk
   const critFails = [];
   if (!comps)                          critFails.push('Components');
   if (!tv)                             critFails.push('Target Version');
@@ -1189,10 +1199,11 @@ function computeFPDoRRisk(r) {
 
   // HIGH — 2+ fails = HIGH; 1 fail = MEDIUM
   const highFails = [];
-  if (!releaseType)                                          highFails.push('Release Type');
-  if (!priority)                                             highFails.push('Priority');
-  if (!docsField || docsField === 'unknown')                 highFails.push('Docs Impact');
-  if (!labels.includes('rp-qg1-pass'))                       highFails.push('RICE score');
+  if (!releaseType)                                                              highFails.push('Release Type');
+  if (!priority)                                                                 highFails.push('Priority');
+  if (!docsField || docsField === 'unknown')                                     highFails.push('Docs Impact');
+  // RICE: only flag if Failed FPDoR Items explicitly lists it (not a label proxy)
+  if (failedItems && failedItems.toLowerCase().includes('rice'))                 highFails.push('RICE score');
 
   // MEDIUM — any fail (no critical) = MEDIUM
   const medFails = [];
@@ -2530,6 +2541,7 @@ function populateFilters(){
   setOpts('f-tv',standardTVs,'All Target Versions');
   setOpts('f-comp',comps,'All Components');
   setOpts('f-team',uniq('Team'),'All Teams');
+  setOpts('f-assign',uniq('Assignee').filter(a=>a&&a.toLowerCase()!=='unassigned'),'All Owners');
 }
 function setOpts(id,vals,ph){
   const s=document.getElementById(id);
@@ -2599,6 +2611,7 @@ function run(){
   const rel   = v('f-rel'), read  = v('f-read'), place = v('f-place');
   const out   = v('f-outcome'), tv = v('f-tv'),   comp  = v('f-comp');
   const team  = v('f-team'), pri  = v('f-pri'),   fail  = v('f-fail');
+  const assign = v('f-assign');
   const bigRockOnly = document.getElementById('f-bigrock').checked;
 
   let rows=allData.filter(r=>{
@@ -2610,6 +2623,7 @@ function run(){
     if(tv&&r['Target Versions']!==tv) return false;
     if(comp&&!(r['Components']||'').includes(comp)) return false;
     if(team&&r['Team']!==team) return false;
+    if(assign&&(r['Assignee']||'').trim()!==assign) return false;
     if(pri&&r['Priority']!==pri) return false;
     if(fail&&!(r['Failed FPDoR Items']||'').includes(fail)) return false;
     if(bigRockOnly&&!r._isBigRock) return false;
