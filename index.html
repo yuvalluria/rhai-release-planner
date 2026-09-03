@@ -462,7 +462,7 @@ tr:hover td{background:#fafafa}
   <div id="br-panel" class="br-panel" style="display:none"></div>
   <div class="filters">
     <select id="f-read" onchange="run()"><option value="">All Readiness</option><option value="committed">Ready</option><option value="not-ready">Not Ready</option></select>
-    <select id="f-place" onchange="run()"><option value="">All Placements</option><option>EA1</option><option>EA2</option><option>GA</option><option>No</option></select>
+    <select id="f-place" onchange="run()" title="'Below cut' = model confidence too low or cycle capacity full. Not blocked — revisit at next planning freeze."><option value="">All Placements</option><option>EA1</option><option>EA2</option><option>GA</option><option title="Confidence too low or capacity full for this cycle — not blocked permanently">No (Below cut)</option></select>
     <select id="f-outcome" onchange="run()"><option value="">All Outcomes</option></select>
     <select id="f-tv" onchange="run()"><option value="">All Target Versions</option></select>
     <select id="f-comp" onchange="run()"><option value="">All Components</option></select>
@@ -487,9 +487,9 @@ tr:hover td{background:#fafafa}
         <th onclick="sort('Score')" id="th-score" class="score-col" style="display:none">SCORE ↕</th>
         <th onclick="sort('FPDoR')">FPDOR ↕</th>
         <th title="FPDoR risk tier (Erle's system, Aug 2026)&#10;🔴 HIGH: any CRITICAL fail (Components, Target Version, Delivery Owner), or 2+ HIGH fails (Release Type, Priority, Docs Impact, RICE)&#10;🟡 MEDIUM: exactly 1 HIGH fail, or any MEDIUM fail (Feature Sign-Off) — no critical fails&#10;🟢 LOW: all critical/high/medium items pass (only soft gaps remain)&#10;Hover each badge for the specific failing items.">RISK ⓘ</th>
-        <th>PATH</th>
-        <th>LABELS</th>
-        <th>PLACEMENT</th>
+        <th title="AI-First path: features using STRAT-CREATOR + QG1 gates. Legacy: manually planned features from prior releases.">PATH ⓘ</th>
+        <th title="Key AI SDLC labels: rp-qg1-pass (Quality Gate 1), strat-creator-human-sign-off, rfe-creator-autofix-rubric-pass">AI SDLC ⓘ</th>
+        <th title="EA1/EA2/GA = scheduled for that release milestone. Below cut = confidence too low or capacity full — not blocked, just not planned for this cycle. Use the Roadmap view to see cross-cycle picture.">PLACEMENT ⓘ</th>
         <th title="Release Type: DP=Dev Preview (+8% confidence) · TP=Tech Preview (+5%) · GA=General Availability (0%) — from PR #1394 Release Type column">TYPE ⓘ</th>
         <th title="AI Delivery Signal — how many of 10 similar features shipped on time in RHOAI 3.5.&#10;&#10;🤖 High (80%+): 8-9 of 10 similar features shipped as planned. 🤖 Medium (55–79%): 5-7 of 10 — watch the FPDoR gaps and slip history. Low (&lt;55%): 3-5 of 10 — needs data fixes before freeze.&#10;&#10;Trained on 134 RHOAI 3.4+3.5 committed features (122 shipped, 12 slipped). Key signals: prior slip record · FPDoR completeness · component delivery history · RICE priority. Shows counterfactual fix where confidence is below High.">CONFIDENCE ⓘ</th>
         <th>REASON</th>
@@ -2993,12 +2993,27 @@ function renderCapacityMix(data){
   const bugDebtNote=`<div style="background:#fff3e0;border:1px solid #ffb74d;border-radius:4px;padding:6px 10px;font-size:10px;color:#e65100;margin-top:8px">
     ⚠ <strong>Bug debt signal now available (Sep 1):</strong> 149 open BU/SSA issues across components (Saiesh Prabhu). Top: MaaS (33 open, 99pts debt) · AI Core Dashboard (29 open, avg 141d stale) · Docs (27 open, 81pts). Arjay's prioritizer pipeline in testing — will power dynamic bug loading once validated.
   </div>`;
-  panel.innerHTML=`<div class="mix-title">📊 40/40/20 Rule — Current Plan Mix
-    <span style="font-size:10px;font-weight:400;color:#888;text-transform:none;letter-spacing:0">Bugs/Tech Debt 40% → New Features 40% → Learning/Research 20% &nbsp;·&nbsp; dashed line = target</span>
-    <div style="font-size:10px;color:#b71c1c;font-weight:500;margin-top:4px;text-transform:none;letter-spacing:0">P0/P1 customer-reported bugs load before feature budget. Remaining capacity splits 40/40/20.</div>
+  panel.innerHTML=`
+  <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="toggleCapacityMix()">
+    <div class="mix-title" style="margin:0">📊 40/40/20 Rule — Current Plan Mix
+      <span style="font-size:10px;font-weight:400;color:#888;text-transform:none;letter-spacing:0">Bugs/Tech Debt 40% → New Features 40% → Learning/Research 20%</span>
+    </div>
+    <button id="mix-toggle-btn" style="border:none;background:none;cursor:pointer;font-size:12px;color:#888;padding:0 4px;flex-shrink:0" title="Expand 40/40/20 panel">▼ Show</button>
   </div>
-  <div class="mix-bars">${bars}</div>${alertHtml}${bugDebtNote}${johnNote}`;
+  <div id="mix-body" style="display:none;margin-top:10px">
+    <div style="font-size:10px;color:#b71c1c;font-weight:500;margin-bottom:8px">P0/P1 customer-reported bugs load before feature budget. Remaining capacity splits 40/40/20.</div>
+    <div class="mix-bars">${bars}</div>${alertHtml}${bugDebtNote}${johnNote}
+  </div>`;
   panel.style.display='';
+}
+
+function toggleCapacityMix(){
+  const body=document.getElementById('mix-body');
+  const btn=document.getElementById('mix-toggle-btn');
+  if(!body||!btn) return;
+  const open=body.style.display==='none';
+  body.style.display=open?'':'none';
+  btn.textContent=open?'▲ Hide':'▼ Show';
 }
 
 function renderBigRocks(data){
