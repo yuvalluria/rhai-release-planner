@@ -268,7 +268,7 @@ tr:hover td{background:#fafafa}
       <div class="pipeline-col col-human" style="max-width:210px">
         <div class="col-label">Human Approved Inputs</div>
         <div class="chip"><span class="dot dot-gold"></span>Engineering Capacity Metrics</div>
-        <div class="chip"><span class="dot dot-gold"></span>Big Rocks</div>
+        <div class="chip"><span class="dot dot-gold"></span>Priority Outcomes</div>
         <div class="chip"><span class="dot dot-gold"></span>Component Dependency Mapping</div>
         <div class="chip"><span class="dot dot-gold"></span>AI Product Strategy</div>
         <div class="chip"><span class="dot dot-gold"></span>Product Marketing Strategy</div>
@@ -291,7 +291,7 @@ tr:hover td{background:#fafafa}
         <div class="step-box">
           <div class="snum">Steps ④–⑥</div>
           Roadmap Generation
-          <div class="ssub">Phase 1: Committed (bypass capacity) · Phase 2: Big Rocks first, then fill by score · EA1/EA2/GA/No</div>
+          <div class="ssub">Phase 1: Committed (bypass capacity) · Phase 2: Priority Outcomes first, then fill by score · EA1/EA2/GA/No</div>
         </div>
         <div class="step-box loop-s" style="margin-top:6px">
           <div class="snum">Iterative loop</div>
@@ -441,6 +441,22 @@ tr:hover td{background:#fafafa}
     </div>
     <div id="cap-detail" style="font-size:10px;color:#7ec8e3;margin-top:5px"></div>
   </div>
+  <div id="cve-panel" style="margin-top:10px;padding:10px 16px;background:#fff3e0;border-radius:8px;border:1px solid #ffb74d;display:none">
+    <div style="font-size:11px;font-weight:700;color:#e65100;margin-bottom:6px;letter-spacing:.05em">🛡 CVE &amp; QUALITY CAPACITY RESERVE</div>
+    <div style="display:flex;gap:20px;font-size:10px;color:#555;line-height:1.7">
+      <div style="flex:1">
+        <div><strong style="color:#c62828">−20%</strong> CVE reserve — spiky, unpredictable; daily Konflux scans create blocker Jiras automatically</div>
+        <div><strong style="color:#e65100">−5%</strong> Embargoed security issues — invisible until lifted; need-to-know only (Prodsec)</div>
+        <div style="margin-top:4px;font-weight:700;color:#2e7d32">= 75% net planning capacity available per cycle</div>
+      </div>
+      <div style="flex:1;border-left:1px solid #ffe082;padding-left:16px">
+        <div style="font-weight:700;color:#555;margin-bottom:3px">Top CVE exposure by component (35 GA scan):</div>
+        <div>📦 Notebook images — <strong>2,730 CVEs</strong></div>
+        <div>📊 AI Core Dashboard — <strong>912 CVEs</strong></div>
+        <div style="margin-top:4px;font-size:9px;color:#888">Source: Dana Gutride (QE) · Sep 4, 2026 · AI scanning (Mythos) raised baseline volume significantly — all treated as real (zero customer tolerance)</div>
+      </div>
+    </div>
+  </div>
   </div><!-- /summary-detail -->
   <div id="summary-collapsed" style="display:none;padding:6px 16px;font-size:11px;color:#aaa;background:#1a1a2e;border-bottom:1px solid #333">
     <span id="collapsed-stats">— features · — in-plan · — no</span>
@@ -457,6 +473,7 @@ tr:hover td{background:#fafafa}
     <button class="btn btn-red" onclick="run()">↻ Refresh</button>
     <button class="btn" onclick="doExport()">Export CSV</button>
     <button class="btn" id="btn-roadmap" onclick="toggleRoadmapView()" style="background:#1565c0;color:#fff;border-color:#1565c0">📅 Roadmap View</button>
+    <button class="btn" id="btn-exec-view" onclick="toggleExecView()" style="background:#4a148c;color:#fff;border-color:#4a148c">📊 Executive View</button>
   </div>
 
   <div id="br-panel" class="br-panel" style="display:none"></div>
@@ -469,7 +486,7 @@ tr:hover td{background:#fafafa}
     <select id="f-team" onchange="run()"><option value="">All Teams</option></select>
     <select id="f-assign" onchange="run()"><option value="">All Owners</option></select>
     <select id="f-pri" onchange="run()"><option value="">All Priorities</option><option>Blocker</option><option>Critical</option><option>Major</option><option>Normal</option></select>
-    <label style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="f-bigrock" onchange="run()"> 🪨 Big Rocks only</label>
+    <label style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="f-bigrock" onchange="run()"> 🎯 Priority Outcomes only</label>
     <label title="Score column hidden by default — can be gamed. Shows raw FPDoR priority score." style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap;color:#888"><input type="checkbox" id="f-show-score" onchange="toggleScoreCol()"> Show Score</label>
     <select id="f-fail" onchange="run()">
       <option value="">Any Failed FPDoR</option>
@@ -480,7 +497,9 @@ tr:hover td{background:#fafafa}
     </select>
   </div>
 
-  <div class="tbl-wrap">
+  <div id="exec-view" style="display:none;padding:16px 0"></div>
+
+  <div id="pm-tbl-wrap" class="tbl-wrap">
     <table>
       <thead><tr>
         <th onclick="sort('Rank')"># ↕</th>
@@ -563,10 +582,10 @@ tr:hover td{background:#fafafa}
     <thead><tr><th>Input</th><th>Source</th><th>Status</th><th>Owner</th></tr></thead>
     <tbody>
       <tr><td>Engineering Capacity Metrics</td><td>Org Pulse / historical features delivered</td><td>Approximated</td><td>Engineering</td></tr>
-      <tr><td>Big Rocks</td><td>RHAISTRAT Big Rocks page</td><td>Manual</td><td>Planning Domain</td></tr>
+      <tr><td>Priority Outcomes</td><td>RHAISTRAT Priority Outcomes page</td><td>Manual</td><td>Planning Domain</td></tr>
       <tr><td>Component Dependency Mapping</td><td>Feature children / Jira links</td><td>Partial</td><td>Engineering</td></tr>
       <tr><td>FPDoR Readiness (QG1)</td><td>QG1 labels from agentic-ci + rubric score</td><td>Live</td><td>Engineering</td></tr>
-      <tr><td>Priority Score</td><td>RICE + Big Rock + Target Version + Jira Priority</td><td>Live</td><td>Org Pulse</td></tr>
+      <tr><td>Priority Score</td><td>RICE + Outcome alignment + Target Version + Jira Priority</td><td>Live</td><td>Org Pulse</td></tr>
       <tr><td style="font-weight:600;color:#2e7d32">Per-feature delivery labels (3.5)</td><td>fpdor-and-phase-labels — committedPhase/deliveredPhase/slips · 205 features · n=34 never-delivered</td><td style="color:#2e7d32;font-weight:600">Ready ✓</td><td>Planning Domain</td></tr>
       <tr><td style="font-weight:600;color:#2e7d32">FPDoR at planning freeze (3.5 + 3.6 EA1)</td><td>fpdor-dataset — all 205 3.5 features + 3.6 EA1 freeze baseline · FPDoR joined per row</td><td style="color:#2e7d32;font-weight:600">Ready ✓</td><td>Planning Domain</td></tr>
       <tr><td>Customer Support Insights</td><td>Customer Support</td><td>Future</td><td>—</td></tr>
@@ -583,13 +602,13 @@ tr:hover td{background:#fafafa}
     <thead><tr><th>Component</th><th>Weight</th><th>How it's computed</th></tr></thead>
     <tbody>
       <tr><td><strong>RICE score</strong></td><td style="font-weight:700;color:#1565c0">30%</td><td>Raw RICE normalized to [0,1] relative to min/max across all features in the plan. Missing RICE → median substituted.</td></tr>
-      <tr><td><strong>Big Rock alignment</strong></td><td style="font-weight:700;color:#1565c0">30%</td><td>0 if not aligned. If aligned: <code>max(0.3, 1.0 − (rank−1)×0.1)</code> — position 1=100, position 2=90 ... position 8+=30.</td></tr>
+      <tr><td><strong>Outcome alignment</strong></td><td style="font-weight:700;color:#1565c0">30%</td><td>0 if not aligned. If aligned: <code>max(0.3, 1.0 − (rank−1)×0.1)</code> — position 1=100, position 2=90 ... position 8+=30.</td></tr>
       <tr><td><strong>Target Version</strong></td><td style="font-weight:700;color:#1565c0">25%</td><td>Current release=100 · next release=60 · release after=20 · unrecognized TV=10 · no TV=0.</td></tr>
       <tr><td><strong>Jira Priority</strong></td><td style="font-weight:700;color:#1565c0">15%</td><td>Blocker=100 · Critical=80 · Major=60 · Normal=40 · Minor=20.</td></tr>
     </tbody>
   </table></div>
   <div style="font-size:11px;color:#555;line-height:1.6;margin-bottom:4px">
-    <strong>Why this matters for explainability:</strong> Score 77 vs 76 is a tiny difference — usually a single Big Rock position or one Jira priority tier. Two features with similar scores can have very different delivery risk.
+    <strong>Why this matters for explainability:</strong> Score 77 vs 76 is a tiny difference — usually a single Priority Outcome position or one Jira priority tier. Two features with similar scores can have very different delivery risk.
     The ML confidence score (this tool) adds the missing risk dimension: a feature with Score=77 but 9/17 FPDoR and a prior slip is more likely to miss than one with Score=76, 16/17 FPDoR, and no slips.
   </div>
   <div style="font-size:11px;color:#555;line-height:1.6;margin-bottom:4px">
@@ -783,7 +802,7 @@ tr:hover td{background:#fafafa}
       <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">⑥</span><span>Require AI Scheduler as first-draft for <strong>3.7 EA Planning Freeze Oct 23</strong> — PMs adjust inputs, not the output</span></div>
     </div>
     <div style="margin-top:10px;padding-top:8px;border-top:1px solid #e0e0e0;font-size:10px;color:#555">
-      <strong>📋 PM/DM feedback calls (Arjay + Yuval, this week):</strong> What data do you trust? What at a glance vs. click through? What can we drop? High-risk features with dependency count? Big Rock % complete view? Outcomes vs Big Rocks hierarchy (following up with Adam on definitions)?
+      <strong>📋 PM/DM feedback calls (Arjay + Yuval, this week):</strong> What data do you trust? What at a glance vs. click through? What can we drop? High-risk features with dependency count? Priority Outcomes % complete view? Priority Outcomes hierarchy (following up with Adam on definitions)?
     </div>
   </div>
 
@@ -886,7 +905,7 @@ tr:hover td{background:#fafafa}
       <tr><td style="color:#2e7d32;font-weight:600">AI Delivery Signal — all features</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>638 features scored: 70 🤖 (real slip history) + 568 ~🤖 (slip_count=0 imputed, capped 85%).</td><td>ML Pipeline</td></tr>
       <tr><td style="color:#2e7d32;font-weight:600">FPDoR RISK column — Legacy only</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>13/13 all-or-nothing gate. AI-First path shows — (uses QG1 label gate instead).</td><td>Planning Domain</td></tr>
       <tr><td style="color:#2e7d32;font-weight:600">FPDoR weighted score (w:) — Org Pulse name alignment</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Fixed Aug 20</span></td><td>The <strong>w:</strong> score is the explainability layer — it shows exactly which checklist failures are costing points (e.g. "Child epics −25, Delivery Owner −25 → w:50"). Before this fix, weight keys used internal names that didn't match Org Pulse CSV strings, so almost every failure fell back to a 3-pt default penalty instead of the intended 25/10/5/2. Keys were renamed to match Org Pulse exactly (Child Epics→Child epics, Assignee→Delivery Owner, RICE Score→RICE, Documentation→Docs impact, etc.). Removed Scope Defined (not a real Org Pulse item). Scores are now stricter and honest — fewer features show as high readiness when important items are still failing. <strong>Note: the ML confidence score (🤖) is unaffected — it uses FPDoR pass rates, not the weighted penalty.</strong></td><td>Planning Domain</td></tr>
-      <tr><td style="color:#2e7d32;font-weight:600">Big Rock confidence rollup</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>OKR thresholds: 70%+ Confident · 40–70% Lagging · &lt;40% At Risk. All excluded features shown (no cap).</td><td>ML Pipeline</td></tr>
+      <tr><td style="color:#2e7d32;font-weight:600">Priority Outcomes coverage</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>OKR thresholds: 70%+ Confident · 40–70% Lagging · &lt;40% At Risk. All excluded features shown (no cap).</td><td>ML Pipeline</td></tr>
       <tr><td style="color:#2e7d32;font-weight:600">Historical delivery rates</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>3.4 + 3.5 actuals by event (EA1/EA2/GA). Component throughput from capacity-v2 dataset.</td><td>Planning Domain</td></tr>
       <tr><td style="color:#2e7d32;font-weight:600">Counterfactual fix lines</td><td><span style="background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">✓ Live</span></td><td>"→ Fix: complete [item] to raise confidence" for any in-plan feature below 80%.</td><td>ML Pipeline</td></tr>
       <tr><td style="font-weight:600;color:#e65100">Predictive bucket assignment — legacy unversioned features</td><td><span style="background:#fff3e0;color:#e65100;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">Next Phase</span></td><td><strong>Legacy path only</strong> — on AI-First, PMs set Target Version at RFE creation (triggers STRAT-CREATOR), so no-TV features don't exist there. "No bucket" count is a proxy for remaining legacy surface area and self-resolves as AI SDLC adoption grows. Next phase: triage tool to predict which legacy backlog features are worth re-routing through STRAT-CREATOR vs. leaving out. Requires 3.4+3.5+3.6 outcome data.</td><td>Engineering</td></tr>
@@ -2621,9 +2640,9 @@ function renderRoadmapTimeline(data){
     rows+=`<td style="text-align:center;background:${nc?'#ffebee':'#fafafa'}">${cell(nc,ns,nd,nw)}</td></tr>`;
   });
   document.getElementById('roadmap-timeline-view').innerHTML=
-    `<div style="padding:10px 0 8px;font-size:11px;color:#666">Big Rock × Release Phase — shows only Big Rocks with ≥1 feature. Count + avg ML confidence per cell. Color: <span style="background:#e8f5e9;padding:1px 6px;border-radius:3px">≥70% green</span> <span style="background:#fff8e1;padding:1px 6px;border-radius:3px">50–69% amber</span> <span style="background:#ffebee;padding:1px 6px;border-radius:3px">&lt;50% red</span></div>
+    `<div style="padding:10px 0 8px;font-size:11px;color:#666">Outcome × Release Phase — shows only Priority Outcomes with ≥1 feature. Count + avg ML confidence per cell. Color: <span style="background:#e8f5e9;padding:1px 6px;border-radius:3px">≥70% green</span> <span style="background:#fff8e1;padding:1px 6px;border-radius:3px">50–69% amber</span> <span style="background:#ffebee;padding:1px 6px;border-radius:3px">&lt;50% red</span></div>
     <div style="overflow-x:auto"><table class="rt-table"><thead><tr>
-      <th style="text-align:left">Big Rock</th><th style="text-align:center">Pillar</th>
+      <th style="text-align:left">Outcome</th><th style="text-align:center">Pillar</th>
       <th style="text-align:center;color:#1565c0">EA1</th>
       <th style="text-align:center;color:#6a1b9a">EA2</th>
       <th style="text-align:center;color:#2e7d32">GA</th>
@@ -2701,6 +2720,8 @@ function renderCards(rows){
     const zone=totalPts<=MED?'Conservative (≤39pt)':totalPts<=WARN?'Typical–Aggressive (40–80pt)':'High risk (>80pt) — 90% CI ceiling 140pt';
     document.getElementById('cap-detail').textContent=`EA2-qualified: ${ea2Pts}pt · All in-plan: ${totalPts}pt · Zone: ${zone} · Median 28pt · Mean 39pt`;
     capPanel.style.display='block';
+    const cvePanel=document.getElementById('cve-panel');
+    if(cvePanel) cvePanel.style.display='';
   }
 
   // Executive summary strip
@@ -3056,7 +3077,7 @@ function renderBigRocks(data){
     const linkTag=br.links!==null?`<div style="font-size:9px;margin-top:2px;color:${poorlyDefined?'#c0392b':'#888'}" title="First-level Jira links in dependency report — <3 means teams haven't decomposed this outcome yet">${poorlyDefined?'⚠ ':''}${br.links} dep link${br.links!==1?'s':''} in Jira${poorlyDefined?' — poorly defined':''}</div>`:'';
     const newChildTag=br.newChildren>0?`<div style="font-size:9px;margin-top:2px;color:#e67e22;font-weight:600" title="Child issues with New/To Do status — not started, delivery at risk">⬤ ${br.newChildren} child issue${br.newChildren>1?'s':''} not started</div>`:'';
     const extDepTag=br.externalDeps&&br.externalDeps.length?br.externalDeps.map(d=>`<div style="font-size:9px;margin-top:2px;color:#c0392b" title="External team dependency — slippage is outside RHOAI control">↗ Ext dep: ${d}</div>`).join(''):'';
-    const sharedDepTag=br.sharedDep?`<div style="font-size:9px;color:#8e44ad;margin-top:2px" title="Shared dependency — slippage affects multiple Big Rocks">⚑ Shared dep: ${br.sharedDep}</div>`:'';
+    const sharedDepTag=br.sharedDep?`<div style="font-size:9px;color:#8e44ad;margin-top:2px" title="Shared dependency — slippage affects multiple outcomes">⚑ Shared dep: ${br.sharedDep}</div>`:'';
     const isSel=window._selectedBR===br.name;
     const safeN=br.name.replace(/'/g,"\\'");
     const has35match=br.outcomeKeys&&br.outcomeKeys.some(k=>BR_35_MATCHES.has(k));
@@ -3072,17 +3093,17 @@ function renderBigRocks(data){
   const poorlyDefinedRocks=BIG_ROCKS.filter(br=>br.links!==null&&br.links<3).map(br=>br.name);
   const sharedDepRocks=BIG_ROCKS.filter(br=>br.sharedDep);
   const capacityBanner=`<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:5px;padding:8px 12px;margin:8px 0;font-size:11px;color:#856404">
-    <strong>⚠ Capacity Overrun Risk</strong> — 3.6 has <strong>18 Big Rocks vs 3.4's 13 (38% more work)</strong>. Similarity analysis projects
+    <strong>⚠ Capacity Overrun Risk</strong> — 3.6 has <strong>18 Priority Outcomes vs 3.4's 13 (38% more work)</strong>. Similarity analysis projects
     <strong>1,400–2,800 child issues</strong> (3.4 delivered ~2,300 across 13 rocks). Current Jira: 147 first-level links — <strong>10x–19x growth projected</strong> as teams decompose.
     ${poorlyDefinedRocks.length?`<br><strong style="color:#c0392b">⚠ Poorly defined (&lt;3 Jira links):</strong> ${poorlyDefinedRocks.join(', ')} — these outcomes haven't been decomposed yet.`:''}
-    ${sharedDepRocks.length?`<br><strong style="color:#8e44ad">⚑ Shared dependencies:</strong> MCP Connectivity (RHAISTRAT-932) is shared between BYOA and AI Hub — slippage here risks two rocks simultaneously. AutoRAG ↔ AutoML share architectural pattern.`:''}
+    ${sharedDepRocks.length?`<br><strong style="color:#8e44ad">⚑ Shared dependencies:</strong> MCP Connectivity (RHAISTRAT-932) is shared between BYOA and AI Hub — slippage here risks two outcomes simultaneously. AutoRAG ↔ AutoML share architectural pattern.`:''}
   </div>
   <div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:5px;padding:8px 12px;margin:6px 0;font-size:11px;color:#1565c0">
     <strong>↪ 3.5→3.6 Similarity: 78%</strong> — Analogy-based analysis (2026-08-13).
     <strong>14 of 3.5's 31 outcomes carry into 3.6 directly</strong> (same RHAISTRAT ID) — tiles marked <span class="br-35match">↪ 3.5</span>.
-    4 outcomes are 3.6-only. Workload projection: 3.6 substantially similar to 3.5 (~3,887 resolved issues in 3.5, despite only 609 directly linked to Big Rocks — linking gap is the risk, not capacity).
+    4 outcomes are 3.6-only. Workload projection: 3.6 substantially similar to 3.5 (~3,887 resolved issues in 3.5, despite only 609 directly linked to Priority Outcomes — linking gap is the risk, not capacity).
   </div>`;
-  panel.innerHTML=`<div class="br-title">🪨 Big Rocks Coverage — 3.6 (18 rocks)${gapped>0?` — <span style="color:#c0392b">${gapped} Big Rock${gapped>1?'s':''} with gaps</span>`:''}<span style="font-size:10px;color:#aaa;font-weight:400;margin-left:8px">click a tile to filter table · P# = priority</span></div>${capacityBanner}${filterBar}<div class="br-grid">${items}</div>`;
+  panel.innerHTML=`<div class="br-title">🎯 Priority Outcomes — 3.6 (18 outcomes)${gapped>0?` — <span style="color:#c0392b">${gapped} Outcome${gapped>1?'s':''} with gaps</span>`:''}<span style="font-size:10px;color:#aaa;font-weight:400;margin-left:8px">click a tile to filter table · P# = priority</span></div>${capacityBanner}${filterBar}<div class="br-grid">${items}</div>`;
 }
 
 function filterToBigRock(name){
@@ -3105,6 +3126,179 @@ function toggleBRDetail(idx){
   const open=detail.style.display!=='none';
   detail.style.display=open?'none':'';
   btn.textContent=(open?'▶':'▼')+btn.textContent.slice(1);
+}
+
+let _execViewOpen=false;
+function toggleExecView(){
+  _execViewOpen=!_execViewOpen;
+  document.getElementById('exec-view').style.display=_execViewOpen?'':'none';
+  document.getElementById('pm-tbl-wrap').style.display=_execViewOpen?'none':'';
+  document.getElementById('btn-exec-view').style.background=_execViewOpen?'#7b1fa2':'#4a148c';
+  document.getElementById('btn-exec-view').textContent=_execViewOpen?'✕ Back to PM View':'📊 Executive View';
+  if(_execViewOpen) renderExecView();
+}
+
+function renderExecView(){
+  const el=document.getElementById('exec-view');
+  if(!el||!allData.length) return;
+
+  const inPlan=allData.filter(r=>r._place!=='No');
+  const total=allData.length;
+  const totalInPlan=inPlan.length;
+
+  const avgConf=totalInPlan>0?Math.round(inPlan.reduce((s,r)=>s+(r._conf||0),0)/totalInPlan):0;
+  const confColor=avgConf>=70?'#2e7d32':avgConf>=50?'#f57f17':'#c62828';
+  const confLabel=avgConf>=70?'On Track':avgConf>=50?'At Risk':'Critical';
+
+  const s={};
+  BIG_ROCKS.forEach(br=>{s[br.name]={inPlan:0,total:0,confSum:0};});
+  allData.forEach(r=>{
+    if(!r._bigRocks) return;
+    r._bigRocks.forEach(name=>{
+      if(!s[name]) return;
+      s[name].total++;
+      if(r._place!=='No'){s[name].inPlan++;s[name].confSum+=(r._conf||0);}
+    });
+  });
+  BIG_ROCKS.forEach(br=>{
+    const d=s[br.name];
+    d.avgConf=d.inPlan>0?Math.round(d.confSum/d.inPlan):0;
+  });
+  const coveredOutcomes=BIG_ROCKS.filter(br=>s[br.name].inPlan>0).length;
+  const gappedOutcomes=BIG_ROCKS.filter(br=>s[br.name].total>0&&s[br.name].inPlan===0).length;
+
+  const topRisks=inPlan
+    .filter(r=>r._riskLevel==='CRITICAL'||r._riskLevel==='HIGH')
+    .sort((a,b)=>(a._riskLevel==='CRITICAL'?0:1)-(b._riskLevel==='CRITICAL'?0:1))
+    .slice(0,8);
+
+  const counts={features:0,bugs:0,research:0};
+  inPlan.forEach(r=>counts[classifyFeature(r)]++);
+
+  const outcomeRows=BIG_ROCKS.map(br=>{
+    const d=s[br.name];
+    if(d.total===0) return '';
+    const statusIcon=d.inPlan===0?'✗':d.avgConf>=70?'✓':'⚠';
+    const statusColor=d.inPlan===0?'#c62828':d.avgConf>=70?'#2e7d32':'#f57f17';
+    const pillarColor={'Platform':'#6a1b9a','Inference':'#1565c0','Agents':'#2e7d32','Data':'#b8860b'}[br.pillar]||'#888';
+    return `<tr style="border-bottom:1px solid #f0f0f0">
+      <td style="padding:6px 10px;font-size:13px;font-weight:700;color:${statusColor}">${statusIcon}</td>
+      <td style="padding:6px 10px;font-size:10px;font-weight:700;color:${pillarColor}">${br.pillar}</td>
+      <td style="padding:6px 10px;font-size:11px;font-weight:600">P${br.priority} ${br.name}</td>
+      <td style="padding:6px 10px;font-size:11px;text-align:center">${d.inPlan}/${d.total}</td>
+      <td style="padding:6px 10px;font-size:12px;text-align:center;color:${d.inPlan===0?'#bbb':d.avgConf>=70?'#2e7d32':d.avgConf>=50?'#f57f17':'#c62828'};font-weight:700">${d.inPlan>0?d.avgConf+'%':'—'}</td>
+      <td style="padding:6px 10px;font-size:10px;color:#888">${d.inPlan===0&&d.total>0?'<span style="color:#c62828;font-weight:600">No features in plan</span>':d.avgConf>=70?'Confident':d.avgConf>=40?'Lagging':'At Risk'}</td>
+    </tr>`;
+  }).join('');
+
+  const riskRows=topRisks.map(r=>{
+    const rl=r._riskLevel||'HIGH';
+    const rColor=rl==='CRITICAL'?'#c62828':'#e65100';
+    return `<tr style="border-bottom:1px solid #f5f5f5">
+      <td style="padding:5px 10px"><span style="background:${rColor};color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px">${rl}</span></td>
+      <td style="padding:5px 10px;font-size:11px;font-weight:600">${r['Key']||''}</td>
+      <td style="padding:5px 10px;font-size:11px">${(r['Title']||'').slice(0,60)}${(r['Title']||'').length>60?'…':''}</td>
+      <td style="padding:5px 10px;font-size:10px;color:#888">${r._place||''}</td>
+      <td style="padding:5px 10px;font-size:10px;color:#888">${r['Assignee']||'Unassigned'}</td>
+    </tr>`;
+  }).join('');
+
+  const workMixHtml=['features','bugs','research'].map(k=>{
+    const pct=totalInPlan?Math.round(counts[k]/totalInPlan*100):0;
+    const target={features:40,bugs:40,research:20}[k];
+    const color={features:'#1565c0',bugs:'#c62828',research:'#2e7d32'}[k];
+    const label={features:'New Features',bugs:'Bugs / CVEs / Tech Debt',research:'Research / Spikes'}[k];
+    const onTarget=Math.abs(pct-target)<=5;
+    return `<div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px">
+        <span style="color:${color};font-weight:600">${label}</span>
+        <span style="color:#666">${counts[k]} · ${pct}% <span style="color:${onTarget?'#2e7d32':'#c62828'}">(target ${target}%)</span></span>
+      </div>
+      <div style="height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden">
+        <div style="width:${Math.min(pct,100)}%;height:100%;background:${color};opacity:.75;border-radius:4px"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML=`
+  <div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border-radius:10px;padding:20px 24px;margin-bottom:18px;color:#fff">
+    <div style="font-size:13px;font-weight:700;color:#7ec8e3;letter-spacing:.08em;margin-bottom:16px">RHOAI 3.6 — EXECUTIVE DELIVERY SUMMARY</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:14px 16px;text-align:center">
+        <div style="font-size:30px;font-weight:800;color:${confColor}">${avgConf}%</div>
+        <div style="font-size:11px;font-weight:700;color:${confColor};margin:2px 0">${confLabel}</div>
+        <div style="font-size:10px;color:#aaa">Delivery Confidence</div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:14px 16px;text-align:center">
+        <div style="font-size:30px;font-weight:800;color:#7ec8e3">${coveredOutcomes}<span style="font-size:15px;color:#aaa">/${BIG_ROCKS.length}</span></div>
+        <div style="font-size:11px;font-weight:700;color:${gappedOutcomes>0?'#f57f17':'#7ec8e3'};margin:2px 0">${gappedOutcomes>0?gappedOutcomes+' gapped':'All covered'}</div>
+        <div style="font-size:10px;color:#aaa">Priority Outcomes</div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:14px 16px;text-align:center">
+        <div style="font-size:30px;font-weight:800;color:#fff">${totalInPlan}<span style="font-size:15px;color:#aaa">/${total}</span></div>
+        <div style="font-size:11px;font-weight:700;color:#aaa;margin:2px 0">${total-totalInPlan} below cut</div>
+        <div style="font-size:10px;color:#aaa">Features In Plan</div>
+      </div>
+      <div style="background:rgba(255,100,50,.12);border:1px solid rgba(255,120,60,.3);border-radius:8px;padding:14px 16px;text-align:center">
+        <div style="font-size:30px;font-weight:800;color:#ff8a65">25%</div>
+        <div style="font-size:11px;font-weight:700;color:#ff8a65;margin:2px 0">CVE 20% + Embargoed 5%</div>
+        <div style="font-size:10px;color:#aaa">Quality Reserve</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:18px">
+    <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">🎯 Priority Outcomes Coverage</div>
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr style="border-bottom:2px solid #f0f0f0">
+          <th style="text-align:left;padding:4px 10px;font-size:10px;color:#888;font-weight:600"></th>
+          <th style="text-align:left;padding:4px 10px;font-size:10px;color:#888;font-weight:600">PILLAR</th>
+          <th style="text-align:left;padding:4px 10px;font-size:10px;color:#888;font-weight:600">OUTCOME</th>
+          <th style="text-align:center;padding:4px 10px;font-size:10px;color:#888;font-weight:600">IN PLAN</th>
+          <th style="text-align:center;padding:4px 10px;font-size:10px;color:#888;font-weight:600">CONFIDENCE</th>
+          <th style="text-align:left;padding:4px 10px;font-size:10px;color:#888;font-weight:600">STATUS</th>
+        </tr></thead>
+        <tbody>${outcomeRows}</tbody>
+      </table>
+    </div>
+    <div>
+      <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:16px;margin-bottom:12px">
+        <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">🛡 Quality Capacity Model</div>
+        <div style="font-size:11px;color:#555;line-height:1.7">
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f5f5f5"><span>CVE reserve (daily scans → blocker Jira)</span><span style="font-weight:700;color:#c62828">−20%</span></div>
+          <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f5f5f5"><span>Embargoed security issues (invisible until lifted)</span><span style="font-weight:700;color:#e65100">−5%</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-top:2px solid #e0e0e0;margin-top:2px"><span style="font-weight:700">Net available capacity</span><span style="font-weight:800;color:#2e7d32;font-size:15px">75%</span></div>
+        </div>
+        <div style="font-size:10px;color:#888;margin-top:8px;border-top:1px solid #f0f0f0;padding-top:6px">
+          Source: Dana Gutride (QE) + John Graham sync · Sep 3–4, 2026<br>
+          CVE spike: Notebook images 2,730 CVEs · AI Core Dashboard 912 CVEs
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:16px">
+        <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">📊 Work Mix (In-Plan)</div>
+        ${workMixHtml}
+      </div>
+    </div>
+  </div>
+
+  ${topRisks.length?`<div style="background:#fff;border:1px solid #ffcdd2;border-radius:8px;padding:16px;margin-bottom:18px">
+    <div style="font-size:12px;font-weight:700;color:#c62828;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">⚠ Top Risks — Features Needing Attention (${topRisks.length})</div>
+    <table style="width:100%;border-collapse:collapse">
+      <thead><tr style="border-bottom:2px solid #f5f5f5">
+        <th style="text-align:left;padding:4px 10px;font-size:10px;color:#888;font-weight:600">RISK</th>
+        <th style="text-align:left;padding:4px 10px;font-size:10px;color:#888;font-weight:600">KEY</th>
+        <th style="text-align:left;padding:4px 10px;font-size:10px;color:#888;font-weight:600">FEATURE</th>
+        <th style="text-align:left;padding:4px 10px;font-size:10px;color:#888;font-weight:600">PHASE</th>
+        <th style="text-align:left;padding:4px 10px;font-size:10px;color:#888;font-weight:600">OWNER</th>
+      </tr></thead>
+      <tbody>${riskRows}</tbody>
+    </table>
+  </div>`:''}
+
+  <div style="font-size:10px;color:#aaa;text-align:center;padding:8px 0 4px">
+    AI-First Release Planner · RHOAI 3.6 · Model v10 (AUC 85.7%) · Data from Org Pulse CSV export
+  </div>`;
 }
 
 function doExport(){
