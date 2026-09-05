@@ -450,10 +450,21 @@ tr:hover td{background:#fafafa}
         <div style="margin-top:4px;font-weight:700;color:#2e7d32">= 75% net planning capacity available per cycle</div>
       </div>
       <div style="flex:1;border-left:1px solid #ffe082;padding-left:16px">
-        <div style="font-weight:700;color:#555;margin-bottom:3px">Top CVE exposure by component (35 GA scan):</div>
-        <div>📦 Notebook images — <strong>2,730 CVEs</strong></div>
-        <div>📊 AI Core Dashboard — <strong>912 CVEs</strong></div>
-        <div style="margin-top:4px;font-size:9px;color:#888">Source: Dana Gutride (QE) · Sep 4, 2026 · AI scanning (Mythos) raised baseline volume significantly — all treated as real (zero customer tolerance)</div>
+        <div style="font-weight:700;color:#555;margin-bottom:6px;font-size:10px">CVE RISK BY STAGE</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:10px">
+          <div>
+            <div style="font-weight:700;color:#1565c0;margin-bottom:3px">Pre-release (CLA / Konflux)</div>
+            <div style="color:#555">Caught before GA · blocker Jira auto-created</div>
+            <div style="margin-top:4px;color:#333">📦 Notebook images <strong>2,730</strong></div>
+            <div style="color:#333">📊 AI Core Dashboard <strong>912</strong></div>
+          </div>
+          <div>
+            <div style="font-weight:700;color:#c62828;margin-bottom:3px">Post-release (Prodsec)</div>
+            <div style="color:#555">Found after GA · customer-facing · zero tolerance</div>
+            <div style="margin-top:4px;color:#888;font-size:9px">Pull historical Jira CVE data by component + release to establish baseline (Arjay · action item)</div>
+          </div>
+        </div>
+        <div style="margin-top:6px;font-size:9px;color:#888">Source: Dana Gutride (QE) · Sep 4, 2026</div>
       </div>
     </div>
   </div>
@@ -495,6 +506,10 @@ tr:hover td{background:#fafafa}
       <option>Docs impact</option><option>Delivery Owner</option><option>Child epics</option>
       <option>Cross-team deps</option><option>Source RFE / AI SDLC</option><option>PM</option>
     </select>
+    <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#888;white-space:nowrap">
+      <span title="Set your component — auto-filters the view on load">👤 My view:</span>
+      <select id="f-mycomp" onchange="saveMyComp()" style="font-size:11px;max-width:140px"><option value="">All (default)</option></select>
+    </div>
   </div>
 
   <div id="exec-view" style="display:none;padding:16px 0"></div>
@@ -2555,6 +2570,7 @@ window.onload=()=>{
   allData=parseCSV(SAMPLE).map(r=>({...r}));
   schedule(allData);
   populateFilters();
+  restoreMyComp();
   run();
 };
 
@@ -2565,6 +2581,7 @@ function loadCSV(e){
     allData=parseCSV(ev.target.result).map(r=>({...r}));
     schedule(allData);
     populateFilters();
+    restoreMyComp();
     run();
     document.getElementById('data-status').textContent=f.name+' ('+allData.length+' features)';
   };
@@ -2580,6 +2597,26 @@ function populateFilters(){
   setOpts('f-comp',comps,'All Components');
   setOpts('f-team',uniq('Team'),'All Teams');
   setOpts('f-assign',uniq('Assignee').filter(a=>a&&a.toLowerCase()!=='unassigned'),'All Owners');
+  const myCompSel=document.getElementById('f-mycomp');
+  if(myCompSel){
+    const saved=localStorage.getItem('myComp')||'';
+    myCompSel.innerHTML='<option value="">All (default)</option>'+comps.map(c=>`<option value="${c}"${c===saved?' selected':''}>${c}</option>`).join('');
+  }
+}
+
+function saveMyComp(){
+  const v=document.getElementById('f-mycomp').value;
+  if(v) localStorage.setItem('myComp',v); else localStorage.removeItem('myComp');
+  document.getElementById('f-comp').value=v;
+  run();
+}
+function restoreMyComp(){
+  const saved=localStorage.getItem('myComp');
+  if(!saved) return;
+  const myCompSel=document.getElementById('f-mycomp');
+  const compSel=document.getElementById('f-comp');
+  if(myCompSel) myCompSel.value=saved;
+  if(compSel) compSel.value=saved;
 }
 function setOpts(id,vals,ph){
   const s=document.getElementById(id);
@@ -2603,7 +2640,8 @@ function toggleRoadmapView(){
 function renderRoadmapTimeline(data){
   const phases = ['EA1','EA2','GA'];
   const grid = {};
-  BIG_ROCKS.forEach(br=>{ grid[br.name]={EA1:{c:0,s:0,done:0,wip:0},EA2:{c:0,s:0,done:0,wip:0},GA:{c:0,s:0,done:0,wip:0},No:{c:0,s:0,done:0,wip:0}}; });
+  window._drilldownMap={};
+  BIG_ROCKS.forEach(br=>{ grid[br.name]={EA1:{c:0,s:0,done:0,wip:0,feats:[]},EA2:{c:0,s:0,done:0,wip:0,feats:[]},GA:{c:0,s:0,done:0,wip:0,feats:[]},No:{c:0,s:0,done:0,wip:0,feats:[]}}; });
   data.forEach(r=>{
     if(!r._bigRocks||!r._bigRocks.length) return;
     const ph = phases.includes(r._place) ? r._place : 'No';
@@ -2616,6 +2654,7 @@ function renderRoadmapTimeline(data){
       grid[name][ph].s += (r._conf||0);
       if(done) grid[name][ph].done++;
       else if(wip) grid[name][ph].wip++;
+      grid[name][ph].feats.push({key:r['Key']||'',title:(r['Title']||r['Summary']||''),conf:Math.round(r._conf||0)});
     });
   });
   function bgColor(c,avg){ if(!c) return '#fafafa'; if(avg>=70) return '#e8f5e9'; if(avg>=50) return '#fff8e1'; return '#ffebee'; }
@@ -2633,14 +2672,20 @@ function renderRoadmapTimeline(data){
     rows+=`<tr><td style="font-weight:600;white-space:nowrap">${br.name}</td>
       <td style="text-align:center;font-size:11px;color:#777;white-space:nowrap">${br.pillar}</td>`;
     phases.forEach(p=>{
-      const {c,s,done,wip}=g[p];
-      rows+=`<td style="text-align:center;background:${bgColor(c,c?s/c:0)}">${cell(c,s,done,wip)}</td>`;
+      const {c,s,done,wip,feats}=g[p];
+      const cellId=`${br.name}|||${p}`;
+      window._drilldownMap[cellId]=feats;
+      const clickAttr=c?` data-cell-id="${cellId}" onclick="showRoadmapDrilldown(event)"`:'';
+      rows+=`<td style="text-align:center;background:${bgColor(c,c?s/c:0)}${c?';cursor:pointer':''}"${clickAttr}>${cell(c,s,done,wip)}</td>`;
     });
-    const {c:nc,s:ns,done:nd,wip:nw}=g.No;
-    rows+=`<td style="text-align:center;background:${nc?'#ffebee':'#fafafa'}">${cell(nc,ns,nd,nw)}</td></tr>`;
+    const {c:nc,s:ns,done:nd,wip:nw,feats:nf}=g.No;
+    const noId=`${br.name}|||No`;
+    window._drilldownMap[noId]=nf;
+    const noClick=nc?` data-cell-id="${noId}" onclick="showRoadmapDrilldown(event)"`:'';
+    rows+=`<td style="text-align:center;background:${nc?'#ffebee':'#fafafa'}${nc?';cursor:pointer':''}"${noClick}>${cell(nc,ns,nd,nw)}</td></tr>`;
   });
   document.getElementById('roadmap-timeline-view').innerHTML=
-    `<div style="padding:10px 0 8px;font-size:11px;color:#666">Outcome × Release Phase — shows only Priority Outcomes with ≥1 feature. Count + avg ML confidence per cell. Color: <span style="background:#e8f5e9;padding:1px 6px;border-radius:3px">≥70% green</span> <span style="background:#fff8e1;padding:1px 6px;border-radius:3px">50–69% amber</span> <span style="background:#ffebee;padding:1px 6px;border-radius:3px">&lt;50% red</span></div>
+    `<div style="padding:10px 0 8px;font-size:11px;color:#666">Outcome × Release Phase — shows only Priority Outcomes with ≥1 feature. Count + avg ML confidence per cell. <strong>Click any cell to see features.</strong> Color: <span style="background:#e8f5e9;padding:1px 6px;border-radius:3px">≥70% green</span> <span style="background:#fff8e1;padding:1px 6px;border-radius:3px">50–69% amber</span> <span style="background:#ffebee;padding:1px 6px;border-radius:3px">&lt;50% red</span></div>
     <div style="overflow-x:auto"><table class="rt-table"><thead><tr>
       <th style="text-align:left">Outcome</th><th style="text-align:center">Pillar</th>
       <th style="text-align:center;color:#1565c0">EA1</th>
@@ -2648,6 +2693,36 @@ function renderRoadmapTimeline(data){
       <th style="text-align:center;color:#2e7d32">GA</th>
       <th style="text-align:center;color:#c62828">Not Planned</th>
     </tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function showRoadmapDrilldown(e){
+  let pop=document.getElementById('roadmap-drilldown-pop');
+  if(!pop){
+    pop=document.createElement('div');
+    pop.id='roadmap-drilldown-pop';
+    pop.style.cssText='display:none;position:fixed;background:#fff;border:1px solid #ccc;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.15);padding:10px 14px;font-size:11px;z-index:9999;max-width:360px;max-height:280px;overflow-y:auto';
+    document.body.appendChild(pop);
+    document.addEventListener('click',()=>{pop.style.display='none';pop.dataset.lastCell='';});
+  }
+  e.stopPropagation();
+  const cellId=e.currentTarget.dataset.cellId||'';
+  if(pop.dataset.lastCell===cellId){pop.style.display='none';pop.dataset.lastCell='';return;}
+  pop.dataset.lastCell=cellId;
+  const features=window._drilldownMap[cellId]||[];
+  if(!features.length){pop.style.display='none';return;}
+  const rowsHtml=features.map(f=>{
+    const cc=f.conf>=70?'#2e7d32':f.conf>=50?'#f57f17':'#c62828';
+    return `<div style="padding:3px 0;border-bottom:1px solid #f5f5f5;display:flex;gap:8px;align-items:baseline">
+      <a href="https://redhat.atlassian.net/browse/${f.key}" target="_blank" style="color:#1565c0;font-weight:600;white-space:nowrap;font-size:10px">${f.key}</a>
+      <span style="color:#333;font-size:11px;flex:1">${(f.title||'').slice(0,50)}${(f.title||'').length>50?'…':''}</span>
+      <span style="color:${cc};font-weight:700;white-space:nowrap;font-size:10px">${f.conf}%</span>
+    </div>`;
+  }).join('');
+  pop.innerHTML=`<div style="font-weight:700;font-size:11px;color:#333;margin-bottom:6px;border-bottom:2px solid #f0f0f0;padding-bottom:4px">${features.length} feature${features.length!==1?'s':''}</div>${rowsHtml}`;
+  const rect=e.currentTarget.getBoundingClientRect();
+  pop.style.display='';
+  pop.style.left=Math.min(rect.left,window.innerWidth-380)+'px';
+  pop.style.top=(rect.bottom+4)+'px';
 }
 
 function run(){
