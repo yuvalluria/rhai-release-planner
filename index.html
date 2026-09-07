@@ -171,6 +171,12 @@ tr:hover td{background:#fafafa}
 
 /* ── 40/40/20 Capacity Mix panel ── */
 .mix-panel{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:12px 16px;margin-bottom:12px}
+.main-tab-bar{display:flex;gap:0;border-bottom:2px solid #e0e0e0;margin-bottom:0;background:#fff;position:sticky;top:0;z-index:100}
+.main-tab{padding:10px 20px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:none;color:#888;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;letter-spacing:.02em}
+.main-tab:hover{color:#333}
+.main-tab.active{color:#1565c0;border-bottom-color:#1565c0}
+.tab-pane{display:none;padding:0}
+.tab-pane.active{display:block}
 .mix-title{font-size:11px;font-weight:700;color:#444;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .mix-bars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:6px}
 .mix-bar-wrap{display:flex;flex-direction:column;gap:3px}
@@ -420,9 +426,24 @@ tr:hover td{background:#fafafa}
     </div>
   </div>
 
-  <div style="display:flex;justify-content:flex-end;padding:0 16px 4px">
-    <button onclick="toggleSummary()" id="summary-toggle-btn" style="font-size:10px;background:none;border:1px solid #555;color:#aaa;border-radius:4px;padding:2px 10px;cursor:pointer">▲ Collapse summary</button>
+  <div class="main-tab-bar" id="main-tab-bar">
+    <button class="main-tab active" data-tab="outcomes" onclick="switchTab('outcomes')">🎯 Priority Outcomes</button>
+    <button class="main-tab" data-tab="features" onclick="switchTab('features')">📋 Features</button>
+    <button class="main-tab" data-tab="roadmap" onclick="switchTab('roadmap')">📅 Roadmap</button>
+    <button class="main-tab" data-tab="executive" onclick="switchTab('executive')">📊 Executive</button>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;padding:4px 12px">
+      <select id="f-rel" onchange="run()" style="font-size:11px"><option value="">All Releases</option><option>3.5</option><option>3.6</option></select>
+      <span id="st-total" style="color:#666;font-size:11px">— features</span>
+      <span style="color:#ccc">·</span>
+      <span id="st-in" style="color:#1a7f37;font-weight:600;font-size:11px">— in-plan</span>
+      <span id="st-no" style="display:none"></span>
+      <button class="btn btn-red" onclick="run()" style="font-size:11px;padding:3px 10px">↻</button>
+      <button class="btn" onclick="doExport()" style="font-size:11px;padding:3px 10px">Export</button>
+    </div>
   </div>
+
+  <!-- TAB 1: Priority Outcomes (default) -->
+  <div class="tab-pane active" id="tab-outcomes">
   <div id="summary-detail">
   <div class="cards">
     <div class="card c1"><div class="card-lbl">EA1</div><div class="card-n" id="cnt-ea1">—</div><div class="card-s">Highest confidence</div></div>
@@ -430,9 +451,15 @@ tr:hover td{background:#fafafa}
     <div class="card c3"><div class="card-lbl">GA</div><div class="card-n" id="cnt-ga">—</div><div class="card-s">General availability</div></div>
     <div class="card c4"><div class="card-lbl">No</div><div class="card-n" id="cnt-no">—</div><div class="card-s">Fix inputs to requalify</div></div>
   </div>
+  </div><!-- /summary-detail -->
+  <div id="br-panel" class="br-panel" style="display:none"></div>
+  </div><!-- /tab-outcomes -->
+
+  <!-- TAB 2: Features -->
+  <div class="tab-pane" id="tab-features">
   <div id="mix-panel" class="mix-panel" style="display:none"></div>
   <div id="capacity-panel" style="margin-top:10px;padding:10px 16px;background:#0d1a2a;border-radius:8px;border:1px solid #1e3a5f;display:none">
-    <div style="font-size:11px;font-weight:700;color:#7ec8e3;margin-bottom:6px;letter-spacing:.05em">CAPACITY LOAD — Arjay's Model (90% CI · 41 releases · ceiling 140 pts)</div>
+    <div style="font-size:11px;font-weight:700;color:#7ec8e3;margin-bottom:6px;letter-spacing:.05em">CAPACITY LOAD (90% CI · 41 releases · ceiling 140 pts)</div>
     <div style="display:flex;align-items:center;gap:10px">
       <div id="cap-bar-wrap" style="flex:1;height:14px;background:#1e3a5f;border-radius:7px;overflow:hidden">
         <div id="cap-bar-fill" style="height:100%;border-radius:7px;transition:width .4s"></div>
@@ -468,26 +495,6 @@ tr:hover td{background:#fafafa}
       </div>
     </div>
   </div>
-  </div><!-- /summary-detail -->
-  <div id="summary-collapsed" style="display:none;padding:6px 16px;font-size:11px;color:#aaa;background:#1a1a2e;border-bottom:1px solid #333">
-    <span id="collapsed-stats">— features · — in-plan · — no</span>
-    &nbsp;·&nbsp;<button onclick="toggleSummary()" style="font-size:10px;background:none;border:1px solid #555;color:#aaa;border-radius:4px;padding:1px 8px;cursor:pointer">▼ Expand</button>
-  </div>
-
-  <div class="topbar">
-    <select id="f-rel" onchange="run()"><option value="">All Releases</option><option>3.5</option><option>3.6</option></select>
-    <div class="stat-row">
-      <span id="st-total" style="color:#666">— features</span>·
-      <span id="st-in" style="color:#1a7f37;font-weight:600">— in-plan</span>·
-      <span id="st-no" style="color:#c0392b;font-weight:600">— no</span>
-    </div>
-    <button class="btn btn-red" onclick="run()">↻ Refresh</button>
-    <button class="btn" onclick="doExport()">Export CSV</button>
-    <button class="btn" id="btn-roadmap" onclick="toggleRoadmapView()" style="background:#1565c0;color:#fff;border-color:#1565c0">📅 Roadmap View</button>
-    <button class="btn" id="btn-exec-view" onclick="toggleExecView()" style="background:#4a148c;color:#fff;border-color:#4a148c">📊 Executive View</button>
-  </div>
-
-  <div id="br-panel" class="br-panel" style="display:none"></div>
   <div class="filters">
     <select id="f-read" onchange="run()"><option value="">All Readiness</option><option value="committed">Ready</option><option value="not-ready">Not Ready</option></select>
     <select id="f-place" onchange="run()" title="'Below cut' = model confidence too low or cycle capacity full. Not blocked — revisit at next planning freeze."><option value="">All Placements</option><option>EA1</option><option>EA2</option><option>GA</option><option title="Confidence too low or capacity full for this cycle — not blocked permanently">No (Below cut)</option></select>
@@ -511,9 +518,6 @@ tr:hover td{background:#fafafa}
       <select id="f-mycomp" onchange="saveMyComp()" style="font-size:11px;max-width:140px"><option value="">All (default)</option></select>
     </div>
   </div>
-
-  <div id="exec-view" style="display:none;padding:16px 0"></div>
-
   <div id="pm-tbl-wrap" class="tbl-wrap">
     <table>
       <thead><tr>
@@ -538,7 +542,18 @@ tr:hover td{background:#fafafa}
       <tbody id="tbody"></tbody>
     </table>
   </div>
-  <div id="roadmap-timeline-view" style="display:none;padding:0 0 16px"></div>
+  </div><!-- /tab-features -->
+
+  <!-- TAB 3: Roadmap -->
+  <div class="tab-pane" id="tab-roadmap">
+  <div id="roadmap-timeline-view" style="padding:0 0 16px"></div>
+  </div><!-- /tab-roadmap -->
+
+  <!-- TAB 4: Executive -->
+  <div class="tab-pane" id="tab-executive">
+  <div id="exec-view" style="padding:16px 0"></div>
+  </div><!-- /tab-executive -->
+
 </div>
 
 <!-- ═══ APPENDIX ═══ -->
@@ -2629,12 +2644,13 @@ function toggleScoreCol(){
 }
 
 let _roadmapVisible = false;
-function toggleRoadmapView(){
-  _roadmapVisible = !_roadmapVisible;
-  document.querySelector('.tbl-wrap').style.display = _roadmapVisible ? 'none' : 'block';
-  document.getElementById('roadmap-timeline-view').style.display = _roadmapVisible ? 'block' : 'none';
-  document.getElementById('btn-roadmap').textContent = _roadmapVisible ? '📋 Table View' : '📅 Roadmap View';
-  if(_roadmapVisible) renderRoadmapTimeline(allData);
+function toggleRoadmapView(){ switchTab('roadmap'); }
+
+function switchTab(name){
+  document.querySelectorAll('.main-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.toggle('active',p.id==='tab-'+name));
+  if(name==='roadmap'){window._roadmapVisible=true;if(typeof renderRoadmapTimeline==='function')renderRoadmapTimeline(allData);}
+  if(name==='executive'){renderExecView();}
 }
 function renderRoadmapTimeline(data){
   const phases = ['EA1','EA2','GA'];
@@ -2762,6 +2778,8 @@ function run(){
     r._bigRocks.forEach(name=>{if(r._place==='No') window._brGapMap[name]=(window._brGapMap[name]||0)+1;});
   });
   renderTbl(rows); renderCards(rows); renderCapacityMix(allData); renderBigRocks(allData); renderAppendix(allData);
+  if(document.getElementById('tab-roadmap')?.classList.contains('active')) renderRoadmapTimeline(allData);
+  if(document.getElementById('tab-executive')?.classList.contains('active')) renderExecView();
 }
 function v(id){return document.getElementById(id).value;}
 function sort(col){sortCol===col?sortAsc=!sortAsc:(sortCol=col,sortAsc=true);run();}
@@ -3183,7 +3201,7 @@ function filterToBigRock(name){
   window._selectedBR=(window._selectedBR===name)?null:name;
   document.getElementById('f-bigrock').checked=window._selectedBR!==null;
   run();
-  if(window._selectedBR) setTimeout(()=>document.querySelector('.tbl-wrap').scrollIntoView({behavior:'smooth'}),80);
+  if(window._selectedBR){ switchTab('features'); setTimeout(()=>document.getElementById('pm-tbl-wrap')?.scrollIntoView({behavior:'smooth'}),120); }
 }
 
 function clearBRFilter(){
@@ -3202,14 +3220,7 @@ function toggleBRDetail(idx){
 }
 
 let _execViewOpen=false;
-function toggleExecView(){
-  _execViewOpen=!_execViewOpen;
-  document.getElementById('exec-view').style.display=_execViewOpen?'':'none';
-  document.getElementById('pm-tbl-wrap').style.display=_execViewOpen?'none':'';
-  document.getElementById('btn-exec-view').style.background=_execViewOpen?'#7b1fa2':'#4a148c';
-  document.getElementById('btn-exec-view').textContent=_execViewOpen?'✕ Back to PM View':'📊 Executive View';
-  if(_execViewOpen) renderExecView();
-}
+function toggleExecView(){ switchTab('executive'); }
 
 function renderExecView(){
   const el=document.getElementById('exec-view');
