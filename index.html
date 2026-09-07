@@ -6,28 +6,27 @@
 <title>AI-First Release Planner — RHAI</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f0f0;color:#1a1a1a;font-size:13px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;background:#f8fafc;color:#1e293b;font-size:13px}
 
 /* Header */
-.hdr{background:#1a1a1a;padding:10px 24px;display:flex;align-items:center;justify-content:space-between}
-.hdr-title{font-size:15px;font-weight:700;color:#fff;letter-spacing:.02em}
-.hdr-right{display:flex;align-items:center;gap:12px;font-size:11px;color:#888}
-.hdr-right label{background:#cc0000;color:#fff;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:11px;font-weight:600}
-.hdr-right label:hover{background:#a80000}
+.hdr{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.hdr-title{font-size:15px;font-weight:700;color:#0f172a;letter-spacing:-.01em}
+.hdr-right{display:flex;align-items:center;gap:12px;font-size:11px;color:#64748b}
+.hdr-right label{background:#1d4ed8;color:#fff;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:11px;font-weight:600;transition:background .15s}
+.hdr-right label:hover{background:#1e40af}
 #csv-file{display:none}
 
-/* Pipeline banner */
-.pipe{background:#111;border-bottom:1px solid #222;padding:7px 24px;display:flex;align-items:center;gap:0;overflow-x:auto;white-space:nowrap}
-.ps{padding:3px 9px;font-size:11px;border-radius:3px;color:#555}
-.ps.on{background:#cc0000;color:#fff;font-weight:600}
-.arr{color:#333;margin:0 3px;font-size:11px}
-.zone-tag{font-size:9px;border:1px solid #222;padding:1px 5px;border-radius:2px;color:#444;margin:0 6px;text-transform:uppercase;letter-spacing:.05em}
+/* Pipeline banner — hidden, kept in Architecture tab only */
+.pipe{display:none}
+.ps{display:none}
+.arr{display:none}
+.zone-tag{display:none}
 
 /* Tabs */
-.tabs{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 24px;display:flex}
-.tab{padding:10px 16px;cursor:pointer;color:#666;font-size:13px;border-bottom:2px solid transparent;white-space:nowrap}
-.tab.active{color:#cc0000;border-bottom-color:#cc0000;font-weight:600}
-.tab:hover:not(.active){background:#fafafa;color:#333}
+.tabs{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 24px;display:flex}
+.tab{padding:10px 16px;cursor:pointer;color:#64748b;font-size:13px;border-bottom:2px solid transparent;white-space:nowrap;font-weight:500}
+.tab.active{color:#1d4ed8;border-bottom-color:#1d4ed8;font-weight:600}
+.tab:hover:not(.active){background:#f8fafc;color:#334155}
 
 /* Tab panels */
 .panel{display:none;padding:20px 24px}
@@ -81,29 +80,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 /* ── Features tab ── */
 .topbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
 .stat-row{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px}
-.btn{padding:5px 13px;border-radius:4px;font-size:12px;cursor:pointer;border:1px solid #ddd;background:#fff}
-.btn-red{background:#cc0000;color:#fff;border-color:#cc0000}
-.btn-red:hover{background:#a80000}
-.btn:hover{background:#f0f0f0}
+.btn{padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid #e2e8f0;background:#fff;font-weight:500;color:#374151;transition:all .15s}
+.btn-red{background:#ef4444;color:#fff;border-color:#ef4444}
+.btn-red:hover{background:#dc2626;border-color:#dc2626}
+.btn:hover{background:#f8fafc;border-color:#cbd5e1}
 
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.card{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:12px 14px}
-.card-lbl{font-size:10px;color:#888;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
-.card-n{font-size:26px;font-weight:700;margin-top:3px}
-.card-s{font-size:10px;color:#888;margin-top:1px}
-.c1 .card-n{color:#1565c0} .c2 .card-n{color:#2e7d32} .c3 .card-n{color:#6a1b9a} .c4 .card-n{color:#757575}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card-lbl{font-size:10px;color:#64748b;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.card-n{font-size:30px;font-weight:800;line-height:1;margin-top:2px}
+.card-s{font-size:11px;color:#94a3b8;margin-top:4px}
+.c1 .card-n{color:#1d4ed8} .c2 .card-n{color:#7c3aed} .c3 .card-n{color:#0891b2} .c4 .card-n{color:#64748b}
 
-.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
-.filters select{border:1px solid #ddd;border-radius:4px;padding:4px 7px;font-size:12px;background:#fff;cursor:pointer;min-width:110px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.filters select{border:1px solid #e2e8f0;border-radius:6px;padding:5px 8px;font-size:12px;background:#fff;cursor:pointer;min-width:110px;color:#374151}
+.filters select:focus{outline:none;border-color:#93c5fd}
 
-.tbl-wrap{background:#fff;border:1px solid #e0e0e0;border-radius:6px;overflow-x:auto}
+.tbl-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow-x:auto;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 table{width:100%;border-collapse:collapse;font-size:12px}
-thead{background:#f8f8f8;position:sticky;top:0;z-index:1}
-th{padding:8px 9px;text-align:left;font-weight:600;color:#555;font-size:11px;letter-spacing:.03em;border-bottom:1px solid #e0e0e0;white-space:nowrap;cursor:pointer;user-select:none}
-th:hover{background:#f0f0f0}
-td{padding:7px 9px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+thead{background:#f8fafc;position:sticky;top:0;z-index:1}
+th{padding:8px 10px;text-align:left;font-weight:600;color:#64748b;font-size:10px;letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid #e2e8f0;white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{background:#f1f5f9}
+td{padding:7px 10px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:#fafafa}
+tr:hover td{background:#f8fafc}
 
 .score{font-weight:700;font-size:14px}
 .rp{display:inline-block;padding:2px 6px;border-radius:9px;font-size:11px;font-weight:600;white-space:nowrap}
@@ -151,33 +151,33 @@ tr:hover td{background:#fafafa}
 .klink:hover{text-decoration:underline}
 .empty-row{text-align:center;padding:40px;color:#bbb}
 
-/* Big Rocks panel */
-.br-panel{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:12px 16px;margin-bottom:12px}
-.br-title{font-size:11px;font-weight:700;color:#444;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
-.br-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:7px}
-.br-item{border:1px solid #e0e0e0;border-radius:5px;padding:8px 10px}
-.br-item.br-ok{border-color:#c8e6c9;background:#f1f8e9}
-.br-item.br-warn{border-color:#ffe082;background:#fffde7}
-.br-item.br-miss{border-color:#ffcdd2;background:#fff5f5}
-.br-name{font-size:12px;font-weight:600;margin-bottom:2px}
-.br-stat{font-size:11px;color:#555}
-.br-risk{font-size:10px;color:#c0392b;margin-top:2px}
-.br-badge{display:inline-block;background:#1565c0;color:#fff;border-radius:3px;padding:1px 5px;font-size:9px;font-weight:700;white-space:nowrap;margin-right:4px;vertical-align:middle}
-.br-no-feat{font-size:10px;color:#888;padding:1px 0 0 2px;line-height:1.45}
-.br-clickable{cursor:pointer;transition:box-shadow .15s}
-.br-clickable:hover{box-shadow:0 2px 8px rgba(0,0,0,.15)}
-.br-selected{outline:2px solid #cc0000;outline-offset:-2px}
-.br-filter-bar{background:#fff5f5;border:1px solid #ffcdd2;border-radius:4px;padding:5px 10px;font-size:12px;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+/* Priority Outcomes panel */
+.br-panel{background:transparent;border:none;padding:0;margin-bottom:12px}
+.br-title{font-size:13px;font-weight:700;color:#0f172a;letter-spacing:-.01em;text-transform:none;margin-bottom:12px}
+.br-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.br-item{border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.br-item.br-ok{border-left:3px solid #22c55e}
+.br-item.br-warn{border-left:3px solid #f59e0b}
+.br-item.br-miss{border-left:3px solid #ef4444}
+.br-name{font-size:13px;font-weight:700;color:#0f172a;margin:4px 0}
+.br-stat{font-size:11px;color:#64748b}
+.br-risk{font-size:10px;color:#dc2626;margin-top:2px}
+.br-badge{display:inline-block;background:#1d4ed8;color:#fff;border-radius:4px;padding:1px 6px;font-size:9px;font-weight:700;white-space:nowrap;margin-right:4px;vertical-align:middle}
+.br-no-feat{font-size:10px;color:#94a3b8;padding:1px 0 0 2px;line-height:1.45}
+.br-clickable{cursor:pointer;transition:all .15s}
+.br-clickable:hover{border-color:#93c5fd;box-shadow:0 4px 12px rgba(29,78,216,.08);transform:translateY(-1px)}
+.br-selected{outline:2px solid #1d4ed8;outline-offset:-2px}
+.br-filter-bar{background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:5px 12px;font-size:12px;display:flex;align-items:center;gap:8px;margin-bottom:8px}
 
 /* ── 40/40/20 Capacity Mix panel ── */
-.mix-panel{background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:12px 16px;margin-bottom:12px}
-.main-tab-bar{display:flex;gap:0;border-bottom:2px solid #e0e0e0;margin-bottom:0;background:#fff;position:sticky;top:0;z-index:100}
-.main-tab{padding:10px 20px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:none;color:#888;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;letter-spacing:.02em}
-.main-tab:hover{color:#333}
-.main-tab.active{color:#1565c0;border-bottom-color:#1565c0}
-.tab-pane{display:none;padding:0}
+.mix-panel{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.main-tab-bar{display:flex;gap:0;border-bottom:1px solid #e2e8f0;margin-bottom:0;background:#fff;position:sticky;top:0;z-index:100;padding:0 24px}
+.main-tab{padding:12px 16px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:#64748b;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.main-tab:hover{color:#0f172a}
+.main-tab.active{color:#1d4ed8;border-bottom-color:#1d4ed8;font-weight:600}
+.tab-pane{display:none;padding:16px 24px 24px}
 .tab-pane.active{display:block}
-.mix-title{font-size:11px;font-weight:700;color:#444;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.mix-title{font-size:12px;font-weight:700;color:#0f172a;text-transform:none;letter-spacing:0;margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .mix-bars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:6px}
 .mix-bar-wrap{display:flex;flex-direction:column;gap:3px}
 .mix-bar-label{font-size:11px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
@@ -246,17 +246,17 @@ tr:hover td{background:#fafafa}
 </div>
 
 <div id="sched-strip" class="sched-strip"></div>
-<div style="background:#0d1a2a;border-bottom:1px solid #1e3a5a;padding:4px 24px;display:flex;align-items:center;gap:16px;font-size:10px;flex-wrap:wrap">
-  <span style="color:#2a6a9a;font-weight:700;letter-spacing:.04em;text-transform:uppercase">⚡ 3.7 Planning Insight</span>
+<div style="background:#fffbeb;border-bottom:1px solid #fde68a;padding:5px 24px;display:flex;align-items:center;gap:16px;font-size:11px;flex-wrap:wrap">
+  <span style="color:#92400e;font-weight:700;letter-spacing:.03em">3.7 Planning</span>
   <span id="planning-banner-text" contenteditable="true" spellcheck="false"
-    title="Click to edit — changes save to your browser. To reset, clear browser storage."
-    style="color:#5a8aaa;outline:none;border-bottom:1px dashed transparent;cursor:text"
-    onmouseenter="this.style.borderBottomColor='#2a6a9a'"
+    title="Click to edit — changes save to your browser."
+    style="color:#78350f;outline:none;border-bottom:1px dashed transparent;cursor:text"
+    onmouseenter="this.style.borderBottomColor='#d97706'"
     onmouseleave="this.style.borderBottomColor='transparent'"
     oninput="saveBannerText()"
     onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
-  >EA1 skipped (holidays) — EA2 <em>and</em> GA scope locked in a <strong style="color:#ffb347">single freeze on Dec 2</strong>. No warm-up window. First release where automated planning is not optional.</span>
-  <span style="margin-left:auto;color:#2a5a7a;font-style:italic">3.7 EA2 Release: Jan 20 · GA: Feb 17</span>
+  >EA1 skipped (holidays) — EA2 <em>and</em> GA scope locked in a <strong style="color:#b45309">single freeze on Dec 2</strong>. No warm-up window. First release where automated planning is not optional.</span>
+  <span style="margin-left:auto;color:#92400e;font-style:italic">3.7 EA2: Jan 20 · GA: Feb 17</span>
 </div>
 
 <div class="tabs">
@@ -366,28 +366,11 @@ tr:hover td{background:#fafafa}
 <!-- ═══ FEATURES ═══ -->
 <div id="tab-feat" class="panel active">
 
-  <!-- Executive summary strip -->
-  <div id="exec-strip" style="display:none;background:#1a1a2e;color:#fff;border-radius:8px;padding:14px 20px;margin-bottom:14px;display:flex;gap:0;align-items:stretch">
-    <div style="flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.15);padding:0 16px">
-      <div style="font-size:28px;font-weight:800;letter-spacing:-1px" id="ex-total">—</div>
-      <div style="font-size:11px;color:#aaa;margin-top:2px">Total Features</div>
-    </div>
-    <div style="flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.15);padding:0 16px">
-      <div style="font-size:28px;font-weight:800;letter-spacing:-1px;color:#4caf50" id="ex-inplan">—</div>
-      <div style="font-size:11px;color:#aaa;margin-top:2px">In-Plan Rate</div>
-    </div>
-    <div style="flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.15);padding:0 16px">
-      <div style="font-size:28px;font-weight:800;letter-spacing:-1px;color:#ff9800" id="ex-atrisk">—</div>
-      <div style="font-size:11px;color:#aaa;margin-top:2px">Need Action (No bucket)</div>
-    </div>
-    <div style="flex:1;text-align:center;padding:0 16px">
-      <div style="font-size:28px;font-weight:800;letter-spacing:-1px;color:#42a5f5" id="ex-avgconf">—</div>
-      <div style="font-size:11px;color:#aaa;margin-top:2px">Avg Confidence (in-plan)</div>
-    </div>
+  <!-- Org Pulse live KPI row (Aug 25 snapshot) — collapsed by default -->
+  <div style="padding:0 0 8px">
+    <button onclick="(function(b){var r=document.getElementById('pulse-row');var open=r.style.display!=='none';r.style.display=open?'none':'';b.textContent=open?'▼ Show release metrics':'▲ Hide release metrics'})(this)" style="font-size:11px;color:#64748b;background:none;border:1px solid #e2e8f0;border-radius:6px;padding:3px 12px;cursor:pointer">▼ Show release metrics</button>
   </div>
-
-  <!-- Org Pulse live KPI row (Aug 25 snapshot) -->
-  <div class="pulse-row" id="pulse-row">
+  <div class="pulse-row" id="pulse-row" style="display:none">
     <div class="pulse-tile" style="border-color:#c8e6c9">
       <div class="pulse-lbl">TV/FV Aligned <span class="pulse-badge">Org Pulse Aug 25</span></div>
       <div class="pulse-val" style="color:#2e7d32">89%</div>
@@ -444,7 +427,7 @@ tr:hover td{background:#fafafa}
 
   <!-- TAB 1: Priority Outcomes (default) -->
   <div class="tab-pane active" id="tab-outcomes">
-  <div id="summary-detail">
+  <div id="summary-detail" style="display:none">
   <div class="cards">
     <div class="card c1"><div class="card-lbl">EA1</div><div class="card-n" id="cnt-ea1">—</div><div class="card-s">Highest confidence</div></div>
     <div class="card c2"><div class="card-lbl">EA2</div><div class="card-n" id="cnt-ea2">—</div><div class="card-s">Early access 2</div></div>
@@ -3183,18 +3166,22 @@ function renderBigRocks(data){
   const filterBar=window._selectedBR?`<div class="br-filter-bar">Showing <strong>${window._selectedBR}</strong> only &nbsp;<button class="btn" style="padding:2px 8px;font-size:11px" onclick="clearBRFilter()">✕ Clear</button></div>`:'';
   const poorlyDefinedRocks=BIG_ROCKS.filter(br=>br.links!==null&&br.links<3).map(br=>br.name);
   const sharedDepRocks=BIG_ROCKS.filter(br=>br.sharedDep);
-  const capacityBanner=`<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:5px;padding:8px 12px;margin:8px 0;font-size:11px;color:#856404">
+  const capacityBannerInner=`<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin:6px 0;font-size:11px;color:#78350f">
     <strong>⚠ Capacity Overrun Risk</strong> — 3.6 has <strong>18 Priority Outcomes vs 3.4's 13 (38% more work)</strong>. Similarity analysis projects
     <strong>1,400–2,800 child issues</strong> (3.4 delivered ~2,300 across 13 rocks). Current Jira: 147 first-level links — <strong>10x–19x growth projected</strong> as teams decompose.
     ${poorlyDefinedRocks.length?`<br><strong style="color:#c0392b">⚠ Poorly defined (&lt;3 Jira links):</strong> ${poorlyDefinedRocks.join(', ')} — these outcomes haven't been decomposed yet.`:''}
     ${sharedDepRocks.length?`<br><strong style="color:#8e44ad">⚑ Shared dependencies:</strong> MCP Connectivity (RHAISTRAT-932) is shared between BYOA and AI Hub — slippage here risks two outcomes simultaneously. AutoRAG ↔ AutoML share architectural pattern.`:''}
   </div>
-  <div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:5px;padding:8px 12px;margin:6px 0;font-size:11px;color:#1565c0">
+  <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;margin:6px 0;font-size:11px;color:#1e40af">
     <strong>↪ 3.5→3.6 Similarity: 78%</strong> — Analogy-based analysis (2026-08-13).
     <strong>14 of 3.5's 31 outcomes carry into 3.6 directly</strong> (same RHAISTRAT ID) — tiles marked <span class="br-35match">↪ 3.5</span>.
-    4 outcomes are 3.6-only. Workload projection: 3.6 substantially similar to 3.5 (~3,887 resolved issues in 3.5, despite only 609 directly linked to Priority Outcomes — linking gap is the risk, not capacity).
+    4 outcomes are 3.6-only. Linking gap is the risk, not capacity.
   </div>`;
-  panel.innerHTML=`<div class="br-title">🎯 Priority Outcomes — 3.6 (18 outcomes)${gapped>0?` — <span style="color:#c0392b">${gapped} Outcome${gapped>1?'s':''} with gaps</span>`:''}<span style="font-size:10px;color:#aaa;font-weight:400;margin-left:8px">click a tile to filter table · P# = priority</span></div>${capacityBanner}${filterBar}<div class="br-grid">${items}</div>`;
+  const capacityBanner=`<div style="margin:8px 0">
+    <button onclick="(function(b){var d=b.nextElementSibling;var open=d.style.display!=='none';d.style.display=open?'none':'';b.textContent=open?'▼ Capacity &amp; similarity analysis':'▲ Hide analysis'})(this)" style="font-size:11px;color:#64748b;background:none;border:1px solid #e2e8f0;border-radius:6px;padding:3px 12px;cursor:pointer;width:100%;text-align:left">▼ Capacity &amp; similarity analysis</button>
+    <div style="display:none">${capacityBannerInner}</div>
+  </div>`;
+  panel.innerHTML=`<div class="br-title">🎯 Priority Outcomes — 3.6${gapped>0?` <span style="color:#ef4444;font-size:12px;font-weight:600">${gapped} with gaps</span>`:''} <span style="font-size:11px;color:#94a3b8;font-weight:400;margin-left:6px">click a tile to filter · P# = priority</span></div>${capacityBanner}${filterBar}<div class="br-grid">${items}</div>`;
 }
 
 function filterToBigRock(name){
