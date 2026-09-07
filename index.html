@@ -368,9 +368,9 @@ tr:hover td{background:#f8fafc}
 
   <!-- Org Pulse live KPI row (Aug 25 snapshot) — collapsed by default -->
   <div style="padding:0 0 8px">
-    <button onclick="(function(b){var r=document.getElementById('pulse-row');var open=r.style.display!=='none';r.style.display=open?'none':'';b.textContent=open?'▼ Show release metrics':'▲ Hide release metrics'})(this)" style="font-size:11px;color:#64748b;background:none;border:1px solid #e2e8f0;border-radius:6px;padding:3px 12px;cursor:pointer">▼ Show release metrics</button>
+    <button onclick="(function(b){var r=document.getElementById('pulse-row');var open=r.style.display!=='none';r.style.display=open?'none':'';b.textContent=open?'▼ Show release metrics':'▲ Hide release metrics'})(this)" style="font-size:11px;color:#64748b;background:none;border:1px solid #e2e8f0;border-radius:6px;padding:3px 12px;cursor:pointer">▲ Hide release metrics</button>
   </div>
-  <div class="pulse-row" id="pulse-row" style="display:none">
+  <div class="pulse-row" id="pulse-row" style="display:flex">
     <div class="pulse-tile" style="border-color:#c8e6c9">
       <div class="pulse-lbl">TV/FV Aligned <span class="pulse-badge">Org Pulse Aug 25</span></div>
       <div class="pulse-val" style="color:#2e7d32">89%</div>
@@ -427,7 +427,7 @@ tr:hover td{background:#f8fafc}
 
   <!-- TAB 1: Priority Outcomes (default) -->
   <div class="tab-pane active" id="tab-outcomes">
-  <div id="summary-detail" style="display:none">
+  <div id="summary-detail" style="display:block">
   <div class="cards">
     <div class="card c1"><div class="card-lbl">EA1</div><div class="card-n" id="cnt-ea1">—</div><div class="card-s">Highest confidence</div></div>
     <div class="card c2"><div class="card-lbl">EA2</div><div class="card-n" id="cnt-ea2">—</div><div class="card-s">Early access 2</div></div>
