@@ -493,7 +493,7 @@ tr:hover td{background:#fafafa}
     <select id="f-place" onchange="run()" title="'Below cut' = model confidence too low or cycle capacity full. Not blocked — revisit at next planning freeze."><option value="">All Placements</option><option>EA1</option><option>EA2</option><option>GA</option><option title="Confidence too low or capacity full for this cycle — not blocked permanently">No (Below cut)</option></select>
     <select id="f-outcome" onchange="run()"><option value="">All Outcomes</option></select>
     <select id="f-tv" onchange="run()"><option value="">All Target Versions</option></select>
-    <select id="f-comp" onchange="run()"><option value="">All Components</option></select>
+    <select id="f-comp" onchange="run()" title="Filter by component. For multiple components, use the 👤 My Components selector to set your default."><option value="">All Components</option></select>
     <select id="f-team" onchange="run()"><option value="">All Teams</option></select>
     <select id="f-assign" onchange="run()"><option value="">All Owners</option></select>
     <select id="f-pri" onchange="run()"><option value="">All Priorities</option><option>Blocker</option><option>Critical</option><option>Major</option><option>Normal</option></select>
@@ -525,13 +525,12 @@ tr:hover td{background:#fafafa}
         <th title="Key AI SDLC labels: rp-qg1-pass (Quality Gate 1), strat-creator-human-sign-off, rfe-creator-autofix-rubric-pass">AI SDLC ⓘ</th>
         <th title="EA1/EA2/GA = scheduled for that release milestone. Below cut = confidence too low or capacity full — not blocked, just not planned for this cycle. Use the Roadmap view to see cross-cycle picture.">PLACEMENT ⓘ</th>
         <th title="Release Type: DP=Dev Preview (+8% confidence) · TP=Tech Preview (+5%) · GA=General Availability (0%) — from PR #1394 Release Type column">TYPE ⓘ</th>
-        <th title="AI Delivery Signal — how many of 10 similar features shipped on time in RHOAI 3.5.&#10;&#10;🤖 High (80%+): 8-9 of 10 similar features shipped as planned. 🤖 Medium (55–79%): 5-7 of 10 — watch the FPDoR gaps and slip history. Low (&lt;55%): 3-5 of 10 — needs data fixes before freeze.&#10;&#10;Trained on 134 RHOAI 3.4+3.5 committed features (122 shipped, 12 slipped). Key signals: prior slip record · FPDoR completeness · component delivery history · RICE priority. Shows counterfactual fix where confidence is below High.">CONFIDENCE ⓘ</th>
+        <th title="How likely this feature ships as planned.&#10;High = 8-9 of 10 similar past features shipped on time.&#10;Medium = 5-7 of 10. Low = 3-5 of 10.&#10;&#10;Based on: prior shipping history, FPDoR completeness, component delivery record, RICE priority.&#10;Trained on 134 RHOAI 3.4+3.5 features (122 shipped, 12 slipped).">CONFIDENCE ⓘ</th>
         <th>REASON</th>
         <th>KEY</th>
         <th>TITLE</th>
         <th>OUTCOME</th>
-        <th>TARGET VERSION</th>
-        <th>FIX VERSION</th>
+        <th title="Target Version / Fix Version — the planned release milestone for this feature">VERSION</th>
         <th>COMPONENTS</th>
         <th title="Feature size from Arjay's capacity model: S=3pts(1 comp) M=5pts(1 comp) L=8pts(2 comps) XL=13pts(3+ comps). Ceiling: 140pts / release (90% CI, 41 releases)">SIZE ⓘ</th>
         <th>TEAM</th>
@@ -872,7 +871,7 @@ tr:hover td{background:#fafafa}
         <tr><td style="padding:3px 0;color:#555">Label</td><td style="font-weight:600;color:#222">Shipped as planned vs. slipped</td></tr>
         <tr><td style="padding:3px 0;color:#555">Class split</td><td style="font-weight:600;color:#222">280 shipped · 39 slipped → balanced 280/280</td></tr>
         <tr><td style="padding:3px 0;color:#555">AUC-ROC (CV tuning)</td><td style="font-weight:600;color:#2e7d32">85.4% ± 9.5% (10-fold CV — more realistic with 3× more slipped examples)</td></tr>
-        <tr><td style="padding:3px 0;color:#555">Confidence caps</td><td style="font-weight:600;color:#222">🤖 real history → max 95% · ~🤖 no slip record → max 85% minus FPDoR penalty<br><span style="font-weight:400;color:#666;font-size:10px">Why cap? Features with slip_count=0 cluster high. FPDoR penalty (0–15pts) restores differentiation: a feature at 9/17 FPDoR scores ~7pts lower than one at 16/17, even when both raw ML scores exceed 85.<br><strong>High FPDoR</strong> = a feature has completed most or all of the 17-item FPDoR readiness checklist (Feature Planning Document of Record) — covering: PM ownership, RICE priority, acceptance criteria, docs plan, release type, cross-team deps, and more. 17/17 = fully ready. The higher the FPDoR, the stronger the signal the feature is well-defined and likely to ship.</span></td></tr>
+        <tr><td style="padding:3px 0;color:#555">Confidence caps</td><td style="font-weight:600;color:#222">🤖 real history → max 95% · ~🤖 no shipping history → max 85% minus FPDoR penalty<br><span style="font-weight:400;color:#666;font-size:10px">Why cap? Features with slip_count=0 cluster high. FPDoR penalty (0–15pts) restores differentiation: a feature at 9/17 FPDoR scores ~7pts lower than one at 16/17, even when both raw ML scores exceed 85.<br><strong>High FPDoR</strong> = a feature has completed most or all of the 17-item FPDoR readiness checklist (Feature Planning Document of Record) — covering: PM ownership, RICE priority, acceptance criteria, docs plan, release type, cross-team deps, and more. 17/17 = fully ready. The higher the FPDoR, the stronger the signal the feature is well-defined and likely to ship.</span></td></tr>
         <tr><td style="padding:3px 0;color:#555">Applied to</td><td style="font-weight:600;color:#7b1fa2">All 638 in-plan features (🤖 70 w/slip history · ~🤖 568 imputed)</td></tr>
         <tr><td style="padding:3px 0;color:#555">Top signals</td><td style="font-weight:600;color:#222">Slip history 21% · Mandatory FPDoR rate 19% · FPDoR pass rate 9% · Release type 8% · Jira priority 8% · RICE 7%</td></tr>
       </table>
@@ -2893,12 +2892,11 @@ function renderTbl(rows){
       <td><span class="pp ${pCls}">${r._place}</span></td>
       <td>${r._releaseType?`<span class="rt-badge rt-${r._releaseType.toLowerCase()}">${r._releaseType}</span>`:'<span class="rt-badge rt-none">—</span>'}</td>
       <td><div class="cbar-wrap" title="${isPrecomp?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nTrained on RHOAI 3.4+3.5 history (134 committed · 122 shipped / 12 slipped). Includes prior slip record.`:isMl?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nApprox — no prior slip record available. Based on FPDoR completeness + priority + RICE.`:`Readiness estimate: ${conf}%\nBased on FPDoR completeness, labels, and component capacity.`}"><div class="cbar"><div class="cfill ${cCls}" style="width:${Math.min(conf,100)}%"></div></div><span class="cnum" style="font-weight:700">${confBand}</span><span class="cnum" style="color:#999;font-size:10px;margin-left:3px">${conf}%</span>${isPrecomp?'<span style="font-size:9px;font-weight:700;color:#7b1fa2;margin-left:4px" title="AI Delivery Signal — trained on 3.4+3.5 historical outcomes (includes slip record)">🤖</span>':isMl?'<span style="font-size:9px;font-weight:700;color:#9c27b0;margin-left:4px" title="AI Delivery Signal (approx) — FPDoR+priority+RICE only, no slip record">~🤖</span>':''}</div></td>
-      <td><span class="reason">${cleanReason}</span>${isMl?`<div style="font-size:9px;color:${isPrecomp?'#7b1fa2':'#9c27b0'};margin-top:2px;font-weight:600">${isPrecomp?'🤖 AI Signal - ML training (Random Forest)':`~🤖 No slip record — confidence capped at 85%`}</div>`:''}${counterfactual?`<div style="font-size:9px;color:#e65100;margin-top:2px;font-weight:600">→ ${counterfactual}</div>`:''}${r._teams?`<div style="font-size:9px;color:#7b68ee;margin-top:3px" title="Jira Team field — release-capacity-dataset">👥 ${r._teams.join(' · ')}</div>`:''}</td>
+      <td><span class="reason">${cleanReason}</span>${isMl?`<div style="font-size:9px;color:${isPrecomp?'#7b1fa2':'#9c27b0'};margin-top:2px;font-weight:600">${isPrecomp?'🤖 AI Signal - ML training (Random Forest)':`~🤖 No shipping history (new feature) — confidence capped at 85%`}</div>`:''}${counterfactual?`<div style="font-size:9px;color:#e65100;margin-top:2px;font-weight:600">→ ${counterfactual}</div>`:''}${r._teams?`<div style="font-size:9px;color:#7b68ee;margin-top:3px" title="Jira Team field — release-capacity-dataset">👥 ${r._teams.join(' · ')}</div>`:''}${r._place==='No'?`<div style="font-size:9px;color:#1565c0;margin-top:3px">${(()=>{const h=[];if(!(r['Fix Version']||'').trim())h.push('Set Fix Version');if(!(r['Target Versions']||'').trim())h.push('Set Target Version');if(!(r['Release Type']||'').trim()&&!(r['Labels']||'').toLowerCase().includes('release-type'))h.push('Add Release Type');return h.length?'→ To qualify: '+h.join(' · '):'';})()}</div>`:''}</td>
       <td><a class="klink" href="https://redhat.atlassian.net/browse/${r['Key']}" target="_blank">${r['Key']}</a></td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r['Title']}">${r['Title']}</td>
       <td style="max-width:140px;white-space:normal;line-height:1.4">${r._isBigRock?'<span class="br-badge">🪨 BR</span>':''}${brGapHtml}<span style="color:#555" title="${r['Outcome']||''}">${r['Outcome']||'—'}</span></td>
-      <td style="white-space:nowrap;font-size:11px;color:#555">${r['Target Versions']||'—'}</td>
-      <td style="white-space:nowrap;font-size:11px;color:#555">${r['Fix Version']||'—'}</td>
+      <td style="white-space:nowrap;font-size:11px;color:#555">${(()=>{const tv=(r['Target Versions']||'').trim(),fv=(r['Fix Version']||'').trim();return tv===fv||!fv?tv||fv||'—':(tv&&fv?tv+' / '+fv:tv||fv);})()}</td>
       <td title="${r['Components']}" style="max-width:160px;color:#444">${compsStr||'—'}${r._complexityWarn?`<div style="font-size:9px;color:#e65100;font-weight:700;margin-top:1px" title="${r._comps.length} components — cross-team delivery risk (spec: 6+ = complexity flag)">⚠ ${r._comps.length} comps</div>`:''}</td>
       <td style="white-space:nowrap;text-align:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:${r._featureSize==='XL'?'#4a1a4a':r._featureSize==='L'?'#1a3a4a':r._featureSize==='M'?'#1a3a1a':'#2a2a1a'};color:${r._featureSize==='XL'?'#e040fb':r._featureSize==='L'?'#40c4ff':r._featureSize==='M'?'#69f0ae':'#ffee58'}">${r._featureSize}</span><span style="font-size:9px;color:#888;margin-left:3px">${r._featurePts}pt</span></td>
       <td style="font-size:11px;color:#555;white-space:nowrap">${r['Team']||'—'}</td>
@@ -3426,7 +3424,7 @@ function renderScheduleStrip(){
     {lbl:'OpenShell',date:'2026-09-05',cap:true,dot:'#e67e22'},
     {lbl:'EA2 Code ❄',date:'2026-09-15'},
     {lbl:'RHOAI Code ❄',date:'2026-09-18'},
-    {lbl:'Bodies of Water',date:'2026-09-18',cap:true,dot:'#f57c00',capNote:'Eng. initiative',capTip:'Engineering initiative — pulls capacity from some component teams through EA2 dev cycle (Sarah Finn, Aug 26)'},
+    {lbl:'🌊 Pillars',date:'2026-09-18',cap:true,dot:'#f57c00',capNote:'Eng. initiative',capTip:'Engineering initiative (formerly "Bodies of Water") — pulls capacity from some component teams through EA2 dev cycle (Sarah Finn, Aug 26). Pillars group features by strategic area: Inference, Platform, Agents, Data.'},
     {lbl:'3.6 GA Freeze',date:'2026-09-23'},
     {lbl:'NVIDIA Voyager',date:'2026-09-29',cap:true,dot:'#76b900'},
     {lbl:'3.6 EA2 Release',date:'2026-10-14'},
