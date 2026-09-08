@@ -1063,14 +1063,14 @@ const BR_35_MATCHES = new Set([
   'RHAISTRAT-188','RHAISTRAT-1066','RHAISTRAT-1669','RHAISTRAT-1446'
 ]);
 
-// Big Rocks — updated 2026-08-11 from John Graham's br_3.6_dependency_report.html (18 outcomes)
+// Big Rocks — reconciled 2026-09-08 against Org Pulse official list (19 outcomes)
 // Keywords matched against Outcome column of Org Pulse CSV export.
 // outcomeKeys: actual RHAISTRAT Jira keys — enables live child fetch via org-pulse outcome-children-fetch.js
 //              JQL pattern: parent in (outcomeKeys) OR "Epic Link" in (outcomeKeys)
 // links: first-level Jira links from John's dependency report. <3 = "poorly defined."
 // newChildren: count of children with New/To Do status (not started = delivery risk).
 // externalDeps: dependencies on teams outside RHOAI — slippage is outside our control.
-// sharedDep: cross-outcome shared dependency — slippage risks multiple rocks.
+// sharedDep: cross-outcome shared dependency — slippage risks multiple outcomes.
 // projected: estimated descendant issue range from big-rocks-similarity-report.html.
 const BIG_ROCKS = [
   { priority:1,  pillar:'Platform',  name:'Upgrade Support',
@@ -1089,7 +1089,7 @@ const BIG_ROCKS = [
     keywords:['gen ai studio','prompt lab','vllm multimodal'],
     links:2, newChildren:1, externalDeps:[], projected:'100–200' },
 
-  { priority:4,  pillar:'Agents',    name:'Bring Your Own Agent',
+  { priority:4,  pillar:'Agents',    name:'Bring Your Own Agent / Agent Ops',
     outcomeKeys:['RHAISTRAT-155'],
     keywords:['bring your own agent','agentops','byoa','open agent core','openShell'],
     links:10, newChildren:2, externalDeps:['KATA-4728 (Agent Sandbox Operator — OpenShift Sandboxed Containers team)'],
@@ -1100,16 +1100,16 @@ const BIG_ROCKS = [
     keywords:['tool calling'],
     links:3, newChildren:0, externalDeps:[], projected:'~80' },
 
-  { priority:6,  pillar:'Inference', name:'llm-d Platform',
-    outcomeKeys:['RHAISTRAT-1979','RHAISTRAT-1981'],
-    keywords:['llm-d platform experience'],
-    links:14, newChildren:2, externalDeps:[], projected:'~80–120' },
+  { priority:6,  pillar:'Agents',    name:'From Tools to Swarms (MCP)',
+    outcomeKeys:['RHAISTRAT-1354','RHAISTRAT-1355','RHAISTRAT-932'],
+    keywords:['from tools to swarms','mcp','mcp connectivity','mcp trust','governance of agentic'],
+    links:null, newChildren:0, externalDeps:[], projected:'~60–100' },
 
-  { priority:7,  pillar:'Inference', name:'Unified RHAII on xKS',
-    outcomeKeys:['RHAISTRAT-1680','RHAISTRAT-2041'],
-    keywords:['llm-d on xks','inference on xks'],
-    links:20, newChildren:1, externalDeps:['HPSTRAT-210 (HP K8s team)'],
-    projected:'400–600' },
+  { priority:7,  pillar:'Inference', name:'llm-d on xKS',
+    outcomeKeys:['RHAISTRAT-1680','RHAISTRAT-1979','RHAISTRAT-1981','RHAISTRAT-2041'],
+    keywords:['llm-d on xks','llm-d platform','inference on xks','unified rhaii'],
+    links:20, newChildren:2, externalDeps:['HPSTRAT-210 (HP K8s team)'],
+    projected:'~80–600' },
 
   { priority:8,  pillar:'Data',      name:'Eval Hub',
     outcomeKeys:['RHAISTRAT-1498'],
@@ -1128,8 +1128,8 @@ const BIG_ROCKS = [
     links:12, newChildren:3, externalDeps:[], projected:'100–200' },
 
   { priority:11, pillar:'Platform',  name:'Multitenancy',
-    outcomeKeys:['RHAISTRAT-1471','RHAISTRAT-898'],
-    keywords:['multitenancy'],
+    outcomeKeys:['RHAISTRAT-1471','RHAISTRAT-898','RHAISTRAT-949'],
+    keywords:['multitenancy','rbac','role based access','hcp'],
     links:11, newChildren:6, externalDeps:[], projected:'80–120' },
 
   { priority:12, pillar:'Data',      name:'AutoRAG',
@@ -1138,9 +1138,9 @@ const BIG_ROCKS = [
     links:6, newChildren:0, externalDeps:[],
     projected:'80–120', sharedDep:'Mutual clone with AutoML (RHAISTRAT-1066) — shared architecture' },
 
-  { priority:13, pillar:'Platform',  name:'AI Safety x Model Validation',
+  { priority:13, pillar:'Platform',  name:'AI Safety x Model Validation Integration',
     outcomeKeys:['RHAISTRAT-1339'],
-    keywords:['ai safety','ai safety x model'],
+    keywords:['ai safety','ai safety x model','model validation'],
     links:null, newChildren:0, externalDeps:[], projected:'~60' },
 
   { priority:14, pillar:'Data',      name:'AutoML',
@@ -1149,26 +1149,31 @@ const BIG_ROCKS = [
     links:4, newChildren:0, externalDeps:[],
     projected:'100–150', sharedDep:'Mutual clone with AutoRAG (RHAISTRAT-188) — shared architecture' },
 
-  { priority:15, pillar:'Inference', name:'NVIDIA Rubin Day 0',
+  { priority:15, pillar:'Inference', name:'vLLM Omni',
+    outcomeKeys:['RHAISTRAT-1266'],
+    keywords:['vllm omni','vllm-omni','multimodal inference','audio','diffusion'],
+    links:null, newChildren:0, externalDeps:[], projected:'~40–80' },
+
+  { priority:16, pillar:'Inference', name:'llm-d Tool Calling Pass Through',
+    outcomeKeys:['RHAISTRAT-1971','RHAISTRAT-1357'],
+    keywords:['llm-d tool calling','tool calling pass through','api surface support on llm-d'],
+    links:null, newChildren:0, externalDeps:[], projected:'~30–60' },
+
+  { priority:17, pillar:'Inference', name:'Red Hat AI Factory with NVIDIA Rubin Day 0',
     outcomeKeys:['RHAISTRAT-1669'],
-    keywords:['nvidia rubin','red hat ai factory','red hat al factory'],
+    keywords:['nvidia rubin','red hat ai factory','rubin day 0'],
     links:2, newChildren:1, externalDeps:['AIPCC-14312 (AI Platform Customer Co-Eng)'],
     projected:'30–60' },
 
-  { priority:16, pillar:'Platform',  name:'GPUaaS',
+  { priority:18, pillar:'Platform',  name:'GPUaaS',
     outcomeKeys:['RHAISTRAT-1446'],
     keywords:['gpuaas'],
     links:1, newChildren:1, externalDeps:[], projected:'40–80' },
 
-  { priority:17, pillar:'Agents',    name:'Inference Server for Agents',
-    outcomeKeys:['RHAISTRAT-1357'],
-    keywords:['inference server','make red hat inference'],
-    links:3, newChildren:0, externalDeps:[], projected:'~80' },
-
-  { priority:18, pillar:'Platform',  name:'RBAC',
-    outcomeKeys:['RHAISTRAT-898'],
-    keywords:['rbac','role based access'],
-    links:14, newChildren:3, externalDeps:[], projected:'80–120' },
+  { priority:19, pillar:'Platform',  name:'Security Remediation',
+    outcomeKeys:['RHAISTRAT-2046'],
+    keywords:['security remediation','aipcc security','security policy compliance'],
+    links:null, newChildren:0, externalDeps:[], projected:'~20–50' },
 ];
 
 const PM_COMPONENTS = {
@@ -3196,7 +3201,7 @@ function renderBigRocks(data){
   const poorlyDefinedRocks=BIG_ROCKS.filter(br=>br.links!==null&&br.links<3).map(br=>br.name);
   const sharedDepRocks=BIG_ROCKS.filter(br=>br.sharedDep);
   const capacityBannerInner=`<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin:6px 0;font-size:11px;color:#78350f">
-    <strong>⚠ Capacity Overrun Risk</strong> — 3.6 has <strong>18 Priority Outcomes vs 3.4's 13 (38% more work)</strong>. Similarity analysis projects
+    <strong>⚠ Capacity Overrun Risk</strong> — 3.6 has <strong>19 Priority Outcomes vs 3.4's 13 (46% more work)</strong>. Similarity analysis projects
     <strong>1,400–2,800 child issues</strong> (3.4 delivered ~2,300 across 13 rocks). Current Jira: 147 first-level links — <strong>10x–19x growth projected</strong> as teams decompose.
     ${poorlyDefinedRocks.length?`<br><strong style="color:#c0392b">⚠ Poorly defined (&lt;3 Jira links):</strong> ${poorlyDefinedRocks.join(', ')} — these outcomes haven't been decomposed yet.`:''}
     ${sharedDepRocks.length?`<br><strong style="color:#8e44ad">⚑ Shared dependencies:</strong> MCP Connectivity (RHAISTRAT-932) is shared between BYOA and AI Hub — slippage here risks two outcomes simultaneously. AutoRAG ↔ AutoML share architectural pattern.`:''}
