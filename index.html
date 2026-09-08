@@ -496,9 +496,11 @@ tr:hover td{background:#f8fafc}
       <option>Docs impact</option><option>Delivery Owner</option><option>Child epics</option>
       <option>Cross-team deps</option><option>Source RFE / AI SDLC</option><option>PM</option>
     </select>
-    <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#888;white-space:nowrap">
-      <span title="Set your component — auto-filters the view on load">👤 My view:</span>
-      <select id="f-mycomp" onchange="saveMyComp()" style="font-size:11px;max-width:140px"><option value="">All (default)</option></select>
+    <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#555;white-space:nowrap;background:#f0f7ff;border:1px solid #bfdbfe;border-radius:6px;padding:3px 8px">
+      <span>👤</span>
+      <select id="f-pm-select" onchange="applyPmFilter()" style="font-size:11px;border:none;background:transparent;color:#1d4ed8;font-weight:600;cursor:pointer;max-width:160px">
+        <option value="">All PMs</option>
+      </select>
     </div>
   </div>
   <div id="pm-tbl-wrap" class="tbl-wrap">
@@ -1168,6 +1170,27 @@ const BIG_ROCKS = [
     keywords:['rbac','role based access'],
     links:14, newChildren:3, externalDeps:[], projected:'80–120' },
 ];
+
+const PM_COMPONENTS = {
+  'Adam Bellusci':    ['Model Serving Runtimes','Serving Orchestration','AI Hub'],
+  'William Caban':    ['AI Safety','EvalHub / Model Eval'],
+  'Jenny Yi':         ['AI Core Dashboard'],
+  'Peter Double':     ['GenAI Studio','Model Context Protocol'],
+  'Naina Singh':      ['llm-d'],
+  'Yuchen Fama':      ['vllm','PSAP','vLLM Runtime'],
+  'Rob Greenberg':    ['LLM Compressor','Optimized Models','Model Validation'],
+  'Erwan Gallen':     ['INFERENG Midstream'],
+  'Jonathan Zarecki': ['MaaS','AI Gateway','Feature Store'],
+  'Kezia Cook':       ['Notebooks Server','Notebook images and extensions'],
+  'Suhas Kashyap':    ['AutoRAG','Model and Agent Observability','AI Navigator'],
+  'Aditi Saluja':     ['AutoML','SDG','Training Hub','Fine Tuning / Kubeflow-Dev'],
+  'Jehlum Pandit':    ['Development platform','Data Processing','Agentic and AI Tooling Experience'],
+  'Adel Zaalouk':     ['AgentOps','AgentDev','OGX Core'],
+  'Myriam Fentanes Gutierrez': ['AI Pipelines','AI Core Platform','MLflow'],
+  'Christoph Görn':   ['KubeRay','Ray Training','Training Kubeflow'],
+  'Luke Inglis':      ['Inference-Time Techniques'],
+  'Christoph Goern':  ['GPUaaS'],
+};
 
 // FPDoR weighted penalty per failed item — from Erle's ranked list (2026-08-07), remapped to Confluence/Org Pulse names.
 // Keys must match Org Pulse "Failed FPDoR Items" CSV strings exactly (otherwise default penalty 3 applies).
@@ -2567,6 +2590,7 @@ window.onload=()=>{
   allData=parseCSV(SAMPLE).map(r=>({...r}));
   schedule(allData);
   populateFilters();
+  populatePmSelect();
   restoreMyComp();
   run();
 };
@@ -2594,26 +2618,29 @@ function populateFilters(){
   setOpts('f-comp',comps,'All Components');
   setOpts('f-team',uniq('Team'),'All Teams');
   setOpts('f-assign',uniq('Assignee').filter(a=>a&&a.toLowerCase()!=='unassigned'),'All Owners');
-  const myCompSel=document.getElementById('f-mycomp');
-  if(myCompSel){
-    const saved=localStorage.getItem('myComp')||'';
-    myCompSel.innerHTML='<option value="">All (default)</option>'+comps.map(c=>`<option value="${c}"${c===saved?' selected':''}>${c}</option>`).join('');
-  }
+  populatePmSelect();
 }
 
-function saveMyComp(){
-  const v=document.getElementById('f-mycomp').value;
-  if(v) localStorage.setItem('myComp',v); else localStorage.removeItem('myComp');
-  document.getElementById('f-comp').value=v;
+function populatePmSelect(){
+  const sel=document.getElementById('f-pm-select');
+  if(!sel) return;
+  const saved=localStorage.getItem('selectedPm')||'';
+  const opts=Object.keys(PM_COMPONENTS).sort().map(pm=>`<option value="${pm}"${pm===saved?' selected':''}>${pm}</option>`).join('');
+  sel.innerHTML='<option value="">All PMs</option>'+opts;
+}
+function applyPmFilter(){
+  const sel=document.getElementById('f-pm-select');
+  const pm=sel?sel.value:'';
+  if(pm) localStorage.setItem('selectedPm',pm); else localStorage.removeItem('selectedPm');
+  window._pmFilter=PM_COMPONENTS[pm]||[];
   run();
 }
 function restoreMyComp(){
-  const saved=localStorage.getItem('myComp');
+  const saved=localStorage.getItem('selectedPm');
   if(!saved) return;
-  const myCompSel=document.getElementById('f-mycomp');
-  const compSel=document.getElementById('f-comp');
-  if(myCompSel) myCompSel.value=saved;
-  if(compSel) compSel.value=saved;
+  const sel=document.getElementById('f-pm-select');
+  if(sel) sel.value=saved;
+  window._pmFilter=PM_COMPONENTS[saved]||[];
 }
 function setOpts(id,vals,ph){
   const s=document.getElementById(id);
@@ -2729,6 +2756,7 @@ function run(){
   const team  = v('f-team'), pri  = v('f-pri'),   fail  = v('f-fail');
   const assign = v('f-assign');
   const bigRockOnly = document.getElementById('f-bigrock').checked;
+  const pmComps = window._pmFilter||[];
 
   let rows=allData.filter(r=>{
     if(rel&&!((r['Target Versions']||'').includes(rel)||(r['Fix Version']||'').includes(rel))) return false;
@@ -2738,6 +2766,7 @@ function run(){
     if(out&&r['Outcome']!==out) return false;
     if(tv&&r['Target Versions']!==tv) return false;
     if(comp&&!(r['Components']||'').includes(comp)) return false;
+    if(pmComps.length&&!pmComps.some(c=>(r['Components']||'').includes(c))) return false;
     if(team&&r['Team']!==team) return false;
     if(assign&&(r['Assignee']||'').trim()!==assign) return false;
     if(pri&&r['Priority']!==pri) return false;
@@ -2785,14 +2814,14 @@ function renderCards(rows){
     const inPlanRows2=rows.filter(r=>r._place!=='No');
     const totalPts=inPlanRows2.reduce((s,r)=>s+(r._featurePts||0),0);
     const ea2Pts=rows.filter(r=>r._place==='EA1'||r._place==='EA2').reduce((s,r)=>s+(r._featurePts||0),0);
-    const CAP=140, WARN=80, MED=39;
+    const CAP=140;
     const pct=Math.min(100,Math.round(totalPts/CAP*100));
-    const fillColor=totalPts>WARN?'#e53935':totalPts>MED?'#fb8c00':'#43a047';
+    const fillColor=totalPts>CAP*1.2?'#ef4444':totalPts>CAP*0.8?'#f59e0b':'#22c55e';
     document.getElementById('cap-bar-fill').style.width=pct+'%';
     document.getElementById('cap-bar-fill').style.background=fillColor;
     document.getElementById('cap-label').textContent=totalPts+'pt / '+CAP+'pt ceiling';
     document.getElementById('cap-label').style.color=fillColor;
-    const zone=totalPts<=MED?'Conservative (≤39pt)':totalPts<=WARN?'Typical–Aggressive (40–80pt)':'High risk (>80pt) — 90% CI ceiling 140pt';
+    const zone=totalPts<=CAP*0.8?'Within capacity (≤80% of ceiling)':totalPts<=CAP*1.2?'Over ceiling — monitor closely':'Critical overrun (>120% of ceiling)';
     document.getElementById('cap-detail').textContent=`EA2-qualified: ${ea2Pts}pt · All in-plan: ${totalPts}pt · Zone: ${zone} · Median 28pt · Mean 39pt`;
     capPanel.style.display='block';
     const cvePanel=document.getElementById('cve-panel');
