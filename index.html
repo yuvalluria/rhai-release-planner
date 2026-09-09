@@ -1197,6 +1197,30 @@ const PM_COMPONENTS = {
   'Christoph Goern':  ['GPUaaS'],
 };
 
+// Maps Org Pulse Kerberos actor → PM name in PM_COMPONENTS.
+// When a PM first loads the planner via Org Pulse, their actor is passed as ?user=actor.
+// Update entries below when a PM confirms their username (check their Org Pulse profile).
+const PM_ACTORS = {
+  'abellusc':  'Adam Bellusci',
+  'wcaban':    'William Caban',
+  'jenyi':     'Jenny Yi',
+  'jyi':       'Jenny Yi',
+  'pdouble':   'Peter Double',
+  'nsingh':    'Naina Singh',
+  'yfama':     'Yuchen Fama',
+  'rgreenberg':'Rob Greenberg',
+  'egallen':   'Erwan Gallen',
+  'jzarecki':  'Jonathan Zarecki',
+  'kcook':     'Kezia Cook',
+  'skashyap':  'Suhas Kashyap',
+  'asaluja':   'Aditi Saluja',
+  'jpandit':   'Jehlum Pandit',
+  'azaalouk':  'Adel Zaalouk',
+  'mfentane':  'Myriam Fentanes Gutierrez',
+  'cgoern':    'Christoph Görn',
+  'linglis':   'Luke Inglis',
+};
+
 // FPDoR weighted penalty per failed item — from Erle's ranked list (2026-08-07), remapped to Confluence/Org Pulse names.
 // Keys must match Org Pulse "Failed FPDoR Items" CSV strings exactly (otherwise default penalty 3 applies).
 // Critical (25 pts each): Components, Child epics, Target Version, Delivery Owner
@@ -2590,13 +2614,28 @@ function restoreBannerText(){
   if(saved && el) el.innerHTML = saved;
 }
 
+// Receive logged-in user from Org Pulse parent iframe via postMessage.
+// Org Pulse sends { type: 'pm-user', actor: 'wcaban' } after the iframe loads.
+window.addEventListener('message', function(e){
+  if(!e.data || e.data.type !== 'pm-user') return;
+  const actor=(e.data.actor||'').split('@')[0].toLowerCase();
+  const pm=PM_ACTORS[actor];
+  if(!pm) return;
+  localStorage.setItem('selectedPm',pm);
+  window._pmFilter=PM_COMPONENTS[pm]||[];
+  populatePmSelect();
+  const sel=document.getElementById('f-pm-select');
+  if(sel) sel.value=pm;
+  run();
+});
+
 window.onload=()=>{
   restoreBannerText();
   allData=parseCSV(SAMPLE).map(r=>({...r}));
   schedule(allData);
   populateFilters();
   populatePmSelect();
-  restoreMyComp();
+  applyUrlUserParam() || restoreMyComp();
   run();
 };
 
@@ -2639,6 +2678,19 @@ function applyPmFilter(){
   if(pm) localStorage.setItem('selectedPm',pm); else localStorage.removeItem('selectedPm');
   window._pmFilter=PM_COMPONENTS[pm]||[];
   run();
+}
+function applyUrlUserParam(){
+  const params=new URLSearchParams(location.search);
+  const raw=params.get('user')||'';
+  if(!raw) return false;
+  const actor=raw.split('@')[0].toLowerCase();
+  const pm=PM_ACTORS[actor];
+  if(!pm) return false;
+  localStorage.setItem('selectedPm',pm);
+  window._pmFilter=PM_COMPONENTS[pm]||[];
+  const sel=document.getElementById('f-pm-select');
+  if(sel) sel.value=pm;
+  return true;
 }
 function restoreMyComp(){
   const saved=localStorage.getItem('selectedPm');
