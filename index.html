@@ -480,7 +480,7 @@ tr:hover td{background:#f8fafc}
   </div>
   <div class="filters">
     <select id="f-read" onchange="run()"><option value="">All Readiness</option><option value="committed">Ready</option><option value="not-ready">Not Ready</option></select>
-    <select id="f-place" onchange="run()" title="'Below cut' = model confidence too low or cycle capacity full. Not blocked — revisit at next planning freeze."><option value="">All Placements</option><option>EA1</option><option>EA2</option><option>GA</option><option title="Confidence too low or capacity full for this cycle — not blocked permanently">No (Below cut)</option></select>
+    <select id="f-place" onchange="run()" title="Filter by release milestone. 'EA1+EA2 committed' shows all features locked for the freeze window."><option value="">All Placements</option><option value="EA1+EA2">EA1 + EA2 (committed)</option><option>EA1</option><option>EA2</option><option>GA</option><option value="No" title="Confidence too low or incomplete FPDoR — not blocked permanently">Not planned for 3.6</option></select>
     <select id="f-outcome" onchange="run()"><option value="">All Outcomes</option></select>
     <select id="f-tv" onchange="run()"><option value="">All Target Versions</option></select>
     <select id="f-comp" onchange="run()" title="Filter by component. For multiple components, use the 👤 My Components selector to set your default."><option value="">All Components</option></select>
@@ -2819,7 +2819,8 @@ function run(){
     if(rel&&!((r['Target Versions']||'').includes(rel)||(r['Fix Version']||'').includes(rel))) return false;
     if(read==='committed'&&r['Confidence']!=='committed') return false;
     if(read==='not-ready'&&r['Confidence']==='committed') return false;
-    if(place&&r._place!==place) return false;
+    if(place==='EA1+EA2'){if(r._place!=='EA1'&&r._place!=='EA2') return false;}
+    else if(place&&r._place!==place) return false;
     if(out&&r['Outcome']!==out) return false;
     if(tv&&r['Target Versions']!==tv) return false;
     if(comp&&!(r['Components']||'').includes(comp)) return false;
@@ -2951,9 +2952,9 @@ function renderTbl(rows){
     let cutLine='';
     if(_prevPlace!==null && _prevPlace!==r._place){
       if(r._place==='No')
-        cutLine=`<tr><td colspan="18" style="padding:5px 12px;background:#ffebee;border-top:2px solid #e57373;border-bottom:1px solid #ffcdd2;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ BELOW CUT — features below do not qualify for 3.6 (fix inputs to re-qualify)</td></tr>`;
+        cutLine=`<tr><td colspan="18" style="padding:5px 12px;background:#ffebee;border-top:2px solid #e57373;border-bottom:1px solid #ffcdd2;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ NOT PLANNED FOR 3.6 — low confidence or incomplete readiness; address FPDoR items to re-qualify</td></tr>`;
       else if(r._place==='GA' && (_prevPlace==='EA1'||_prevPlace==='EA2'))
-        cutLine=`<tr><td colspan="18" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#2e7d32;text-align:center;letter-spacing:.04em">▼ GA PHASE — features below target General Availability (ship after EA2)</td></tr>`;
+        cutLine=`<tr><td colspan="18" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#1a6b3c;text-align:center;letter-spacing:.04em">▼ GA MILESTONE — committed for 3.6 GA (ships after EA2 freeze, Nov 2026)</td></tr>`;
     }
     _prevPlace=r._place;
     // Swing features: confidence 50–69% while in-plan — borderline, worth discussing Aug 24
