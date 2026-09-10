@@ -2751,7 +2751,8 @@ function renderRoadmapTimeline(data){
     const g=grid[br.name];
     const total=phases.reduce((s,p)=>s+g[p].c,0)+g.No.c;
     if(!total) return;
-    rows+=`<tr><td style="font-weight:600;white-space:nowrap">${br.name}</td>
+    const mtBadge=(br.externalDeps&&br.externalDeps.length>0)||br.sharedDep?'<span style="font-size:8px;font-weight:700;background:#e8eaf6;color:#3949ab;border-radius:3px;padding:1px 4px;margin-left:4px;vertical-align:middle" title="Multi-team coordination required">🤝</span>':'';
+    rows+=`<tr><td style="font-weight:600;white-space:nowrap">${br.name}${mtBadge}</td>
       <td style="text-align:center;font-size:11px;color:#777;white-space:nowrap">${br.pillar}</td>`;
     phases.forEach(p=>{
       const {c,s,done,wip,feats}=g[p];
@@ -2947,7 +2948,7 @@ function renderTbl(rows){
     const brGapHtml=brGapCount>0?`<span style="font-size:9px;font-weight:700;color:#c0392b;display:block" title="${brGapCount} feature(s) from this Big Rock not in plan — delivery chain at risk">⚠ ${brGapCount} BR gap${brGapCount>1?'s':''}</span>`:'';
     const pathHtml=r._path==='ai-first'
       ?`<span class="path-badge path-ai" title="${r._hasLabelData?'rp-qg1-pass or strat-creator label detected':'13/13 FPDoR — no Labels column in CSV, heuristic only'}">AI-First</span><span class="path-note">${r._hasLabelData?'label':'heuristic'}</span>`
-      :`<span class="path-badge path-legacy" title="${r._hasLabelData?'No pipeline labels detected':'Labels column not in CSV — assumed legacy'}">Legacy</span><span class="path-note">${r._hasLabelData?'confirmed':'assumed'}</span>`;
+      :`<span class="path-badge path-legacy" title="${r._hasLabelData?'Legacy: bypassed AISDLC pipeline — RICE score, QG1, and DoR criteria like Requirements Clarity and Acceptance Criteria are commonly missing. Check FPDoR column for what needs to be fixed to qualify.':'Labels column not in CSV — assumed legacy. Legacy = bypassed AISDLC pipeline; RICE and DoR items often missing.'}">Legacy</span><span class="path-note">${r._hasLabelData?'confirmed':'assumed'}</span>`;
     // Cut-line: insert freeze boundary row when placement bucket changes
     let cutLine='';
     if(_prevPlace!==null && _prevPlace!==r._place){
@@ -3243,11 +3244,13 @@ function renderBigRocks(data){
     const safeN=br.name.replace(/'/g,"\\'");
     const has35match=br.outcomeKeys&&br.outcomeKeys.some(k=>BR_35_MATCHES.has(k));
     const matchBadge=has35match?'<span class="br-35match" title="This outcome appeared in the 3.5 Big Rock set (similarity analysis, 2026-08-13)">↪ 3.5</span>':'';
+    const isMultiTeam=(br.externalDeps&&br.externalDeps.length>0)||!!br.sharedDep;
+    const multiTeamBadge=isMultiTeam?'<span style="font-size:9px;font-weight:700;background:#e8eaf6;color:#3949ab;border:1px solid #c5cae9;border-radius:4px;padding:1px 5px;margin-left:4px" title="Requires multi-team coordination — external dependencies or shared components involved">🤝 multi-team</span>':'';
     // Aha! OKR thresholds: 70%+ = Confident, 40-70% = Lagging, <40% = At Risk
     const brConfLabel=d.inPlan===0?'No features in plan':avg>=70?'✓ Confident':avg>=40?'⚠ Lagging':'✗ At Risk';
     const brConfColor=d.inPlan===0?'#bbb':avg>=70?'#2e7d32':avg>=40?'#f57f17':'#c62828';
     const rollupHtml=d.total>0?`<div style="font-size:13px;font-weight:700;color:${brConfColor};margin:4px 0 2px" title="AI Delivery Signal rollup — avg confidence of in-plan features for this outcome">${d.inPlan>0?avg+'%':'—'}</div><div style="font-size:10px;font-weight:600;color:${brConfColor};margin-bottom:3px">${brConfLabel}</div><div style="font-size:10px;color:#777">${d.inPlan}/${d.total} in-plan</div>`:'';
-    return `<div class="br-item br-clickable ${cls}${isSel?' br-selected':''}" onclick="filterToBigRock('${safeN}')" title="Click to filter table to ${br.name}">${ptag}${prioTag}<div class="br-name">${icon} ${br.name}${matchBadge}</div>${rollupHtml}${linkTag}${newChildTag}${extDepTag}${projTag}${sharedDepTag}${noHtml}${noLine}</div>`;
+    return `<div class="br-item br-clickable ${cls}${isSel?' br-selected':''}" onclick="filterToBigRock('${safeN}')" title="Click to filter table to ${br.name}">${ptag}${prioTag}<div class="br-name">${icon} ${br.name}${matchBadge}${multiTeamBadge}</div>${rollupHtml}${linkTag}${newChildTag}${extDepTag}${projTag}${sharedDepTag}${noHtml}${noLine}</div>`;
   }).join('');
   panel.style.display='';
   const filterBar=window._selectedBR?`<div class="br-filter-bar">Showing <strong>${window._selectedBR}</strong> only &nbsp;<button class="btn" style="padding:2px 8px;font-size:11px" onclick="clearBRFilter()">✕ Clear</button></div>`:'';
@@ -3268,7 +3271,8 @@ function renderBigRocks(data){
     <button onclick="(function(b){var d=b.nextElementSibling;var open=d.style.display!=='none';d.style.display=open?'none':'';b.textContent=open?'▼ Capacity &amp; similarity analysis':'▲ Hide analysis'})(this)" style="font-size:11px;color:#64748b;background:none;border:1px solid #e2e8f0;border-radius:6px;padding:3px 12px;cursor:pointer;width:100%;text-align:left">▼ Capacity &amp; similarity analysis</button>
     <div style="display:none">${capacityBannerInner}</div>
   </div>`;
-  panel.innerHTML=`<div class="br-title">🎯 Priority Outcomes — 3.6${gapped>0?` <span style="color:#ef4444;font-size:12px;font-weight:600">${gapped} with gaps</span>`:''} <span style="font-size:11px;color:#94a3b8;font-weight:400;margin-left:6px">click a tile to filter · P# = priority</span></div>${capacityBanner}${filterBar}<div class="br-grid">${items}</div>`;
+  const nainaDefn=`<div style="font-size:11px;color:#64748b;margin:4px 0 8px;padding:6px 10px;background:#f1f5f9;border-left:3px solid #3949ab;border-radius:0 4px 4px 0">Priority Outcomes = high-level objectives that explicitly require <strong>multi-team coordination</strong>. Outcomes with the 🤝 badge span engineering teams or have external dependencies outside RHOAI. <span style="color:#94a3b8">· Naming note: historical shipping data may be off for recently renamed components (e.g. Serving Orchestration) — Org Pulse mapping is being fixed.</span></div>`;
+  panel.innerHTML=`<div class="br-title">🎯 Priority Outcomes — 3.6${gapped>0?` <span style="color:#ef4444;font-size:12px;font-weight:600">${gapped} with gaps</span>`:''} <span style="font-size:11px;color:#94a3b8;font-weight:400;margin-left:6px">click a tile to filter · P# = priority</span></div>${nainaDefn}${capacityBanner}${filterBar}<div class="br-grid">${items}</div>`;
 }
 
 function filterToBigRock(name){
