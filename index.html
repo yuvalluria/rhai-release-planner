@@ -342,7 +342,7 @@ tr:hover td{background:#f8fafc}
     <div class="loop-box">
       <div class="loop-label">Iterative Planning Loop · Review ↔ Soft Freeze ↔ What-if (repeat until ready)</div>
       <div class="wf-row" style="margin-bottom:0">
-        <div class="wf-n loop"><div class="wf-num">④</div><div class="wf-title">Review / Red-pen</div><div class="wf-sub">PM · Delivery · Admin ACL<br>edits/.json → moves/descopes</div></div>
+        <div class="wf-n loop"><div class="wf-num">④</div><div class="wf-title">Review / Red-pen</div><div class="wf-sub">PM · Delivery · Admin ACL<br>edits/.json → moves items</div></div>
         <div class="wf-arr" style="color:#6a1b9a">↔</div>
         <div class="wf-n loop"><div class="wf-num">⑤</div><div class="wf-title">Soft Freeze</div><div class="wf-sub">PM agreed + Delivery agreed<br>pmAgreed/deliveryAgreed pins</div></div>
         <div class="wf-arr" style="color:#6a1b9a">↔</div>
@@ -410,7 +410,7 @@ tr:hover td{background:#f8fafc}
   </div>
 
   <div class="main-tab-bar" id="main-tab-bar">
-    <button class="main-tab active" data-tab="outcomes" onclick="switchTab('outcomes')">🎯 Priority Outcomes</button>
+    <button class="main-tab active" data-tab="outcomes" onclick="switchTab('outcomes')">🎯 Outcomes</button>
     <button class="main-tab" data-tab="features" onclick="switchTab('features')">📋 Features</button>
     <button class="main-tab" data-tab="roadmap" onclick="switchTab('roadmap')">📅 Roadmap</button>
     <button class="main-tab" data-tab="executive" onclick="switchTab('executive')">📊 Executive</button>
@@ -487,7 +487,7 @@ tr:hover td{background:#f8fafc}
     <select id="f-team" onchange="run()"><option value="">All Teams</option></select>
     <select id="f-assign" onchange="run()"><option value="">All Owners</option></select>
     <select id="f-pri" onchange="run()"><option value="">All Priorities</option><option>Blocker</option><option>Critical</option><option>Major</option><option>Normal</option></select>
-    <label style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="f-bigrock" onchange="run()"> 🎯 Priority Outcomes only</label>
+    <label style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap"><input type="checkbox" id="f-bigrock" onchange="run()"> 🎯 Outcomes only</label>
     <label title="Score column hidden by default — can be gamed. Shows raw FPDoR priority score." style="font-size:12px;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap;color:#888"><input type="checkbox" id="f-show-score" onchange="toggleScoreCol()"> Show Score</label>
     <select id="f-fail" onchange="run()">
       <option value="">Any Failed FPDoR</option>
@@ -501,6 +501,10 @@ tr:hover td{background:#f8fafc}
       <select id="f-pm-select" onchange="applyPmFilter()" style="font-size:11px;border:none;background:transparent;color:#1d4ed8;font-weight:600;cursor:pointer;max-width:160px">
         <option value="">All PMs</option>
       </select>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;white-space:nowrap">
+      <span id="approved-count-badge" style="background:#dcfce7;color:#166534;border:1px solid #86efac;border-radius:6px;padding:2px 8px;font-weight:700"></span>
+      <button id="export-draft-btn" onclick="exportDraftPlan()" style="display:none;background:#16a34a;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer">⬆ Push to Draft Plan</button>
     </div>
   </div>
   <div id="pm-tbl-wrap" class="tbl-wrap">
@@ -522,6 +526,8 @@ tr:hover td{background:#f8fafc}
         <th title="Target Version / Fix Version — the planned release milestone for this feature">VERSION</th>
         <th>COMPONENTS</th>
         <th title="Feature size from Arjay's capacity model: S=3pts(1 comp) M=5pts(1 comp) L=8pts(2 comps) XL=13pts(3+ comps). Ceiling: 140pts / release (90% CI, 41 releases)">SIZE ⓘ</th>
+        <th title="Product Manager approval — both PM and DO must approve before a feature can be pushed to the Draft Plan">PM ✓</th>
+        <th title="Delivery Owner approval — both PM and DO must approve before a feature can be pushed to the Draft Plan">DO ✓</th>
         <th>TEAM</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
@@ -1063,7 +1069,7 @@ const BR_35_MATCHES = new Set([
   'RHAISTRAT-188','RHAISTRAT-1066','RHAISTRAT-1669','RHAISTRAT-1446'
 ]);
 
-// Big Rocks — reconciled 2026-09-08 against Org Pulse official list (19 outcomes)
+// Outcomes — reconciled 2026-09-08 against Org Pulse official list (19 outcomes)
 // Keywords matched against Outcome column of Org Pulse CSV export.
 // outcomeKeys: actual RHAISTRAT Jira keys — enables live child fetch via org-pulse outcome-children-fetch.js
 //              JQL pattern: parent in (outcomeKeys) OR "Epic Link" in (outcomeKeys)
@@ -2637,6 +2643,7 @@ window.onload=()=>{
   populatePmSelect();
   applyUrlUserParam() || restoreMyComp();
   run();
+  renderApprovedBadge();
 };
 
 function loadCSV(e){
@@ -2705,6 +2712,44 @@ function setOpts(id,vals,ph){
   s.innerHTML=`<option value="">${ph}</option>`+vals.map(v=>`<option${v===cur?' selected':''}>${v}</option>`).join('');
 }
 
+function _loadApprovals(){try{return JSON.parse(localStorage.getItem('_feat_approvals')||'{}');}catch(e){return {};}}
+function _saveApprovals(a){localStorage.setItem('_feat_approvals',JSON.stringify(a));}
+function toggleApproval(key,role){
+  const a=_loadApprovals();
+  if(!a[key])a[key]={pm:false,do:false};
+  a[key][role]=!a[key][role];
+  _saveApprovals(a);
+  renderApprovedBadge();
+  const pmEl=document.getElementById('apv-pm-'+key);
+  const doEl=document.getElementById('apv-do-'+key);
+  if(pmEl)pmEl.checked=a[key].pm;
+  if(doEl)doEl.checked=a[key].do;
+  const row=document.getElementById('apv-row-'+key);
+  if(row){const both=a[key].pm&&a[key].do;row.style.background=both?'#f0fdf4':'';}
+}
+function renderApprovedBadge(){
+  const a=_loadApprovals();
+  const count=Object.values(a).filter(v=>v.pm&&v.do).length;
+  const badge=document.getElementById('approved-count-badge');
+  if(badge)badge.textContent=count>0?count+' approved':'';
+  const btn=document.getElementById('export-draft-btn');
+  if(btn)btn.style.display=count>0?'':'none';
+}
+function exportDraftPlan(){
+  const a=_loadApprovals();
+  const approvedKeys=new Set(Object.entries(a).filter(([k,v])=>v.pm&&v.do).map(([k])=>k));
+  const items=allData.filter(r=>approvedKeys.has(r['Key'])).map(r=>({
+    key:r['Key'],title:r['Title'],placement:r._place,confidence:r._conf,
+    pmApproved:true,doApproved:true,components:r['Components'],outcome:r['Outcome'],
+    exportedAt:new Date().toISOString()
+  }));
+  const blob=new Blob([JSON.stringify({draftPlan:items,count:items.length},null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  link.href=url;link.download='draft-plan-approved.json';link.click();
+  URL.revokeObjectURL(url);
+}
+
 function toggleScoreCol(){
   const show = document.getElementById('f-show-score').checked;
   document.querySelectorAll('.score-col').forEach(el => el.style.display = show ? '' : 'none');
@@ -2770,7 +2815,7 @@ function renderRoadmapTimeline(data){
   document.getElementById('roadmap-timeline-view').innerHTML=
     `<div style="padding:10px 0 8px;font-size:11px;color:#666">Outcome × Release Phase — shows only Priority Outcomes with ≥1 feature. Count + avg ML confidence per cell. <strong>Click any cell to see features.</strong> Color: <span style="background:#e8f5e9;padding:1px 6px;border-radius:3px">≥70% green</span> <span style="background:#fff8e1;padding:1px 6px;border-radius:3px">50–69% amber</span> <span style="background:#ffebee;padding:1px 6px;border-radius:3px">&lt;50% red</span></div>
     <div style="overflow-x:auto"><table class="rt-table"><thead><tr>
-      <th style="text-align:left">Outcome</th><th style="text-align:center">Pillar</th>
+      <th style="text-align:left">Outcome</th><th style="text-align:center">Team</th>
       <th style="text-align:center;color:#1565c0">EA1</th>
       <th style="text-align:center;color:#6a1b9a">EA2</th>
       <th style="text-align:center;color:#2e7d32">GA</th>
@@ -2960,7 +3005,7 @@ function renderTbl(rows){
     _prevPlace=r._place;
     // Swing features: confidence 50–69% while in-plan — borderline, worth discussing Aug 24
     const isSwing=r._place!=='No'&&conf>=50&&conf<70;
-    return cutLine+`<tr style="${isSwing?'background:#fffde7;':''}" title="${isSwing?'Swing feature — confidence borderline (50–69%), worth discussing at freeze':''}">
+    return cutLine+`<tr id="apv-row-${r['Key']}" style="${isSwing?'background:#fffde7;':''}" title="${isSwing?'Swing feature — confidence borderline (50–69%), worth discussing at freeze':''}">
       <td style="color:#bbb">${r['Rank']||'—'}</td>
       <td class="score-col" style="display:none"><span class="score">${r['Score']}</span></td>
       <td><div class="fpdor-cell"><span class="rp ${rCls}" title="${fpdorTooltip}">${r['FPDoR']||'—'}</span><span class="fpdor-w">w:${r._wFPDoR}</span>${breakdownHtml}</div></td>
@@ -2988,6 +3033,7 @@ function renderTbl(rows){
       <td style="white-space:nowrap;font-size:11px;color:#555">${(()=>{const tv=(r['Target Versions']||'').trim(),fv=(r['Fix Version']||'').trim();return tv===fv||!fv?tv||fv||'—':(tv&&fv?tv+' / '+fv:tv||fv);})()}</td>
       <td title="${r['Components']}" style="max-width:160px;color:#444">${compsStr||'—'}${r._complexityWarn?`<div style="font-size:9px;color:#e65100;font-weight:700;margin-top:1px" title="${r._comps.length} components — cross-team delivery risk (spec: 6+ = complexity flag)">⚠ ${r._comps.length} comps</div>`:''}</td>
       <td style="white-space:nowrap;text-align:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:${r._featureSize==='XL'?'#4a1a4a':r._featureSize==='L'?'#1a3a4a':r._featureSize==='M'?'#1a3a1a':'#2a2a1a'};color:${r._featureSize==='XL'?'#e040fb':r._featureSize==='L'?'#40c4ff':r._featureSize==='M'?'#69f0ae':'#ffee58'}">${r._featureSize}</span><span style="font-size:9px;color:#888;margin-left:3px">${r._featurePts}pt</span></td>
+      ${(()=>{const a=_loadApprovals();const apv=a[r['Key']]||{pm:false,do:false};return `<td style="text-align:center"><input id="apv-pm-${r['Key']}" type="checkbox" ${apv.pm?'checked':''} onchange="toggleApproval('${r['Key']}','pm')" title="PM approved"></td><td style="text-align:center"><input id="apv-do-${r['Key']}" type="checkbox" ${apv.do?'checked':''} onchange="toggleApproval('${r['Key']}','do')" title="Delivery Owner approved"></td>`;})()}
       <td style="font-size:11px;color:#555;white-space:nowrap">${r['Team']||'—'}</td>
     </tr>`;
   }).join('');
