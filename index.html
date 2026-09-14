@@ -255,7 +255,7 @@ tr:hover td{background:#f8fafc}
     onmouseleave="this.style.borderBottomColor='transparent'"
     oninput="saveBannerText()"
     onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
-  >EA1 skipped (holidays) — EA2 <em>and</em> GA scope locked in a <strong style="color:#b45309">single freeze on Dec 2</strong>. No warm-up window. First release where automated planning is not optional.</span>
+  >EA1 skipped — EA planning freeze moved to <strong style="color:#b45309">Oct 23 (RHOAI)</strong> · <strong style="color:#b45309">Nov 4 (AIPCC)</strong>. No warm-up window. First release where automated planning is not optional.</span>
   <span style="margin-left:auto;color:#92400e;font-style:italic">3.7 EA2: Jan 20 · GA: Feb 17</span>
 </div>
 
@@ -274,7 +274,7 @@ tr:hover td{background:#f8fafc}
       <div class="pipeline-col col-human" style="max-width:210px">
         <div class="col-label">Human Approved Inputs</div>
         <div class="chip"><span class="dot dot-gold"></span>Engineering Capacity Metrics</div>
-        <div class="chip"><span class="dot dot-gold"></span>Priority Outcomes</div>
+        <div class="chip"><span class="dot dot-gold"></span>Outcomes</div>
         <div class="chip"><span class="dot dot-gold"></span>Component Dependency Mapping</div>
         <div class="chip"><span class="dot dot-gold"></span>AI Product Strategy</div>
         <div class="chip"><span class="dot dot-gold"></span>Product Marketing Strategy</div>
@@ -297,7 +297,7 @@ tr:hover td{background:#f8fafc}
         <div class="step-box">
           <div class="snum">Steps ④–⑥</div>
           Roadmap Generation
-          <div class="ssub">Phase 1: Committed (bypass capacity) · Phase 2: Priority Outcomes first, then fill by score · EA1/EA2/GA/No</div>
+          <div class="ssub">Phase 1: Committed (bypass capacity) · Phase 2: Outcomes first, then fill by score · EA1/EA2/GA/No</div>
         </div>
         <div class="step-box loop-s" style="margin-top:6px">
           <div class="snum">Iterative loop</div>
@@ -822,7 +822,7 @@ tr:hover td{background:#f8fafc}
       <div style="display:flex;align-items:flex-start;gap:6px"><span style="color:#1565c0;font-weight:700;flex-shrink:0">⑥</span><span>Require AI Scheduler as first-draft for <strong>3.7 EA Planning Freeze Oct 23</strong> — PMs adjust inputs, not the output</span></div>
     </div>
     <div style="margin-top:10px;padding-top:8px;border-top:1px solid #e0e0e0;font-size:10px;color:#555">
-      <strong>📋 PM/DM feedback calls (Arjay + Yuval, this week):</strong> What data do you trust? What at a glance vs. click through? What can we drop? High-risk features with dependency count? Priority Outcomes % complete view? Priority Outcomes hierarchy (following up with Adam on definitions)?
+      <strong>📋 PM/DM feedback calls (Arjay + Yuval, this week):</strong> What data do you trust? What at a glance vs. click through? What can we drop? High-risk features with dependency count? Outcomes % complete view? Outcomes hierarchy (following up with Adam on definitions)?
     </div>
   </div>
 
@@ -2727,11 +2727,22 @@ function toggleApproval(key,role){
   const row=document.getElementById('apv-row-'+key);
   if(row){const both=a[key].pm&&a[key].do;row.style.background=both?'#f0fdf4':'';}
 }
+function markPendingRisk(key){
+  const a=_loadApprovals();
+  if(!a[key])a[key]={pm:false,do:false};
+  a[key].pendingRisk=true;
+  _saveApprovals(a);
+  const row=document.getElementById('apv-row-'+key);
+  if(row)row.style.background='#fff8e1';
+  renderApprovedBadge();
+  run();
+}
 function renderApprovedBadge(){
   const a=_loadApprovals();
   const count=Object.values(a).filter(v=>v.pm&&v.do).length;
+  const riskCount=Object.values(a).filter(v=>v.pendingRisk).length;
   const badge=document.getElementById('approved-count-badge');
-  if(badge)badge.textContent=count>0?count+' approved':'';
+  if(badge)badge.textContent=count>0?(riskCount>0?count+' approved · '+riskCount+' ⚠ risk review':count+' approved'):'';
   const btn=document.getElementById('export-draft-btn');
   if(btn)btn.style.display=count>0?'':'none';
 }
@@ -2813,7 +2824,7 @@ function renderRoadmapTimeline(data){
     rows+=`<td style="text-align:center;background:${nc?'#ffebee':'#fafafa'}${nc?';cursor:pointer':''}"${noClick}>${cell(nc,ns,nd,nw)}</td></tr>`;
   });
   document.getElementById('roadmap-timeline-view').innerHTML=
-    `<div style="padding:10px 0 8px;font-size:11px;color:#666">Outcome × Release Phase — shows only Priority Outcomes with ≥1 feature. Count + avg ML confidence per cell. <strong>Click any cell to see features.</strong> Color: <span style="background:#e8f5e9;padding:1px 6px;border-radius:3px">≥70% green</span> <span style="background:#fff8e1;padding:1px 6px;border-radius:3px">50–69% amber</span> <span style="background:#ffebee;padding:1px 6px;border-radius:3px">&lt;50% red</span></div>
+    `<div style="padding:10px 0 8px;font-size:11px;color:#666">Outcome × Release Phase — shows only Outcomes with ≥1 feature. Count + avg ML confidence per cell. <strong>Click any cell to see features.</strong> Color: <span style="background:#e8f5e9;padding:1px 6px;border-radius:3px">≥70% green</span> <span style="background:#fff8e1;padding:1px 6px;border-radius:3px">50–69% amber</span> <span style="background:#ffebee;padding:1px 6px;border-radius:3px">&lt;50% red</span></div>
     <div style="overflow-x:auto"><table class="rt-table"><thead><tr>
       <th style="text-align:left">Outcome</th><th style="text-align:center">Team</th>
       <th style="text-align:center;color:#1565c0">EA1</th>
@@ -3033,7 +3044,7 @@ function renderTbl(rows){
       <td style="white-space:nowrap;font-size:11px;color:#555">${(()=>{const tv=(r['Target Versions']||'').trim(),fv=(r['Fix Version']||'').trim();return tv===fv||!fv?tv||fv||'—':(tv&&fv?tv+' / '+fv:tv||fv);})()}</td>
       <td title="${r['Components']}" style="max-width:160px;color:#444">${compsStr||'—'}${r._complexityWarn?`<div style="font-size:9px;color:#e65100;font-weight:700;margin-top:1px" title="${r._comps.length} components — cross-team delivery risk (spec: 6+ = complexity flag)">⚠ ${r._comps.length} comps</div>`:''}</td>
       <td style="white-space:nowrap;text-align:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:${r._featureSize==='XL'?'#4a1a4a':r._featureSize==='L'?'#1a3a4a':r._featureSize==='M'?'#1a3a1a':'#2a2a1a'};color:${r._featureSize==='XL'?'#e040fb':r._featureSize==='L'?'#40c4ff':r._featureSize==='M'?'#69f0ae':'#ffee58'}">${r._featureSize}</span><span style="font-size:9px;color:#888;margin-left:3px">${r._featurePts}pt</span></td>
-      ${(()=>{const a=_loadApprovals();const apv=a[r['Key']]||{pm:false,do:false};return `<td style="text-align:center"><input id="apv-pm-${r['Key']}" type="checkbox" ${apv.pm?'checked':''} onchange="toggleApproval('${r['Key']}','pm')" title="PM approved"></td><td style="text-align:center"><input id="apv-do-${r['Key']}" type="checkbox" ${apv.do?'checked':''} onchange="toggleApproval('${r['Key']}','do')" title="Delivery Owner approved"></td>`;})()}
+      ${(()=>{const a=_loadApprovals();const apv=a[r['Key']]||{pm:false,do:false};const showRisk=apv.pm&&apv.do&&r._riskLevel==='HIGH'&&!apv.pendingRisk;const riskDone=apv.pendingRisk;return `<td style="text-align:center"><input id="apv-pm-${r['Key']}" type="checkbox" ${apv.pm?'checked':''} onchange="toggleApproval('${r['Key']}','pm')" title="PM approved"></td><td style="text-align:center"><input id="apv-do-${r['Key']}" type="checkbox" ${apv.do?'checked':''} onchange="toggleApproval('${r['Key']}','do')" title="Delivery Owner approved"></td><td style="text-align:center">${showRisk?`<button onclick="markPendingRisk('${r['Key']}')" style="font-size:10px;padding:2px 6px;background:#fff3e0;border:1px solid #ef6c00;color:#e65100;border-radius:3px;cursor:pointer;white-space:nowrap">⚠ Risk Review</button>`:riskDone?'<span style="font-size:10px;color:#e65100;font-weight:600" title="Flagged for risk review">⚠ Pending</span>':''}</td>`;})()}
       <td style="font-size:11px;color:#555;white-space:nowrap">${r['Team']||'—'}</td>
     </tr>`;
   }).join('');
@@ -3303,7 +3314,7 @@ function renderBigRocks(data){
   const poorlyDefinedRocks=BIG_ROCKS.filter(br=>br.links!==null&&br.links<3).map(br=>br.name);
   const sharedDepRocks=BIG_ROCKS.filter(br=>br.sharedDep);
   const capacityBannerInner=`<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin:6px 0;font-size:11px;color:#78350f">
-    <strong>⚠ Capacity Overrun Risk</strong> — 3.6 has <strong>19 Priority Outcomes vs 3.4's 13 (46% more work)</strong>. Similarity analysis projects
+    <strong>⚠ Capacity Overrun Risk</strong> — 3.6 has <strong>19 Outcomes vs 3.4's 13 (46% more work)</strong>. Similarity analysis projects
     <strong>1,400–2,800 child issues</strong> (3.4 delivered ~2,300 across 13 rocks). Current Jira: 147 first-level links — <strong>10x–19x growth projected</strong> as teams decompose.
     ${poorlyDefinedRocks.length?`<br><strong style="color:#c0392b">⚠ Poorly defined (&lt;3 Jira links):</strong> ${poorlyDefinedRocks.join(', ')} — these outcomes haven't been decomposed yet.`:''}
     ${sharedDepRocks.length?`<br><strong style="color:#8e44ad">⚑ Shared dependencies:</strong> MCP Connectivity (RHAISTRAT-932) is shared between BYOA and AI Hub — slippage here risks two outcomes simultaneously. AutoRAG ↔ AutoML share architectural pattern.`:''}
@@ -3318,7 +3329,7 @@ function renderBigRocks(data){
     <div style="display:none">${capacityBannerInner}</div>
   </div>`;
   const nainaDefn=`<div style="font-size:11px;color:#64748b;margin:4px 0 8px;padding:6px 10px;background:#f1f5f9;border-left:3px solid #3949ab;border-radius:0 4px 4px 0">Priority Outcomes = high-level objectives that explicitly require <strong>multi-team coordination</strong>. Outcomes with the 🤝 badge span engineering teams or have external dependencies outside RHOAI. <span style="color:#94a3b8">· Naming note: historical shipping data may be off for recently renamed components (e.g. Serving Orchestration) — Org Pulse mapping is being fixed.</span></div>`;
-  panel.innerHTML=`<div class="br-title">🎯 Priority Outcomes — 3.6${gapped>0?` <span style="color:#ef4444;font-size:12px;font-weight:600">${gapped} with gaps</span>`:''} <span style="font-size:11px;color:#94a3b8;font-weight:400;margin-left:6px">click a tile to filter · P# = priority</span></div>${nainaDefn}${capacityBanner}${filterBar}<div class="br-grid">${items}</div>`;
+  panel.innerHTML=`<div class="br-title">🎯 Outcomes — 3.6${gapped>0?` <span style="color:#ef4444;font-size:12px;font-weight:600">${gapped} with gaps</span>`:''} <span style="font-size:11px;color:#94a3b8;font-weight:400;margin-left:6px">click a tile to filter · P# = priority</span></div>${nainaDefn}${capacityBanner}${filterBar}<div class="br-grid">${items}</div>`;
 }
 
 function filterToBigRock(name){
@@ -3440,7 +3451,7 @@ function renderExecView(){
       <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:14px 16px;text-align:center">
         <div style="font-size:30px;font-weight:800;color:#7ec8e3">${coveredOutcomes}<span style="font-size:15px;color:#aaa">/${BIG_ROCKS.length}</span></div>
         <div style="font-size:11px;font-weight:700;color:${gappedOutcomes>0?'#f57f17':'#7ec8e3'};margin:2px 0">${gappedOutcomes>0?gappedOutcomes+' gapped':'All covered'}</div>
-        <div style="font-size:10px;color:#aaa">Priority Outcomes</div>
+        <div style="font-size:10px;color:#aaa">Outcomes</div>
       </div>
       <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:14px 16px;text-align:center">
         <div style="font-size:30px;font-weight:800;color:#fff">${totalInPlan}<span style="font-size:15px;color:#aaa">/${total}</span></div>
@@ -3457,7 +3468,7 @@ function renderExecView(){
 
   <div style="display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:18px">
     <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:16px">
-      <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">🎯 Priority Outcomes Coverage</div>
+      <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">🎯 Outcomes Coverage</div>
       <table style="width:100%;border-collapse:collapse">
         <thead><tr style="border-bottom:2px solid #f0f0f0">
           <th style="text-align:left;padding:4px 10px;font-size:10px;color:#888;font-weight:600"></th>
@@ -3568,8 +3579,9 @@ function renderScheduleStrip(){
     {lbl:'3.6 GA Release',date:'2026-11-18',badge:'Informational launch',badgeColor:'#2e7d32'},
     // 3.7 (EA1 skipped)
     {lbl:'3.7 Planning',date:'2026-11-17',sep:true},
-    {lbl:'3.7 EA2+GA Freeze',date:'2026-12-02'},
-    {lbl:'3.7 EA2 Release',date:'2027-01-20',badge:'Mandatory from here',badgeColor:'#e65100'},
+    {lbl:'3.7 EA Freeze · RHOAI',date:'2026-10-23',badge:'Mandatory from here',badgeColor:'#e65100'},
+    {lbl:'3.7 EA Freeze · AIPCC',date:'2026-11-04'},
+    {lbl:'3.7 EA2 Release',date:'2027-01-20'},
     {lbl:'3.7 GA Release',date:'2027-02-17'},
     // 3.8
     {lbl:'3.8 GA Summit',date:'2027-05-27',sep38:true},
