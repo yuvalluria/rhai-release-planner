@@ -482,7 +482,10 @@ tr:hover td{background:#f8fafc}
     <select id="f-read" onchange="run()"><option value="">All Readiness</option><option value="committed">Ready</option><option value="not-ready">Not Ready</option></select>
     <select id="f-place" onchange="run()" title="Filter by release milestone. 'EA1+EA2 committed' shows all features locked for the freeze window."><option value="">All Placements</option><option value="EA1+EA2">EA1 + EA2 (committed)</option><option>EA1</option><option>EA2</option><option>GA</option><option value="No" title="Confidence too low or incomplete FPDoR — not blocked permanently">Not planned for 3.6</option></select>
     <select id="f-outcome" onchange="run()"><option value="">All Outcomes</option></select>
-    <select id="f-tv" onchange="run()"><option value="">All Target Versions</option></select>
+    <div style="display:flex;align-items:flex-start;gap:2px">
+      <select id="f-tv" multiple size="3" onchange="run()" style="font-size:11px;min-width:130px;border:1px solid #cbd5e1;border-radius:4px" title="Hold Ctrl/Cmd to select multiple versions"></select>
+      <button onclick="Array.from(document.getElementById('f-tv').options).forEach(o=>o.selected=false);run()" style="font-size:10px;padding:1px 5px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569;align-self:flex-start;margin-top:1px" title="Clear version filter">✕</button>
+    </div>
     <select id="f-comp" onchange="run()" title="Filter by component. For multiple components, use the 👤 My Components selector to set your default."><option value="">All Components</option></select>
     <select id="f-team" onchange="run()"><option value="">All Teams</option></select>
     <select id="f-assign" onchange="run()"><option value="">All Owners</option></select>
@@ -506,6 +509,11 @@ tr:hover td{background:#f8fafc}
       <span id="approved-count-badge" style="background:#dcfce7;color:#166534;border:1px solid #86efac;border-radius:6px;padding:2px 8px;font-weight:700"></span>
       <button id="export-draft-btn" onclick="exportDraftPlan()" style="display:none;background:#16a34a;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer">⬆ Push to Draft Plan</button>
     </div>
+  </div>
+  <div id="tbl-scroll-bar" style="display:flex;gap:6px;align-items:center;padding:4px 0 2px">
+    <button onclick="document.getElementById('pm-tbl-wrap').scrollLeft-=300" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">← scroll</button>
+    <span style="font-size:11px;color:#94a3b8">scroll table left / right</span>
+    <button onclick="document.getElementById('pm-tbl-wrap').scrollLeft+=300" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">scroll →</button>
   </div>
   <div id="pm-tbl-wrap" class="tbl-wrap">
     <table>
@@ -2866,7 +2874,8 @@ function showRoadmapDrilldown(e){
 
 function run(){
   const rel   = v('f-rel'), read  = v('f-read'), place = v('f-place');
-  const out   = v('f-outcome'), tv = v('f-tv'),   comp  = v('f-comp');
+  const out   = v('f-outcome'), comp  = v('f-comp');
+  const tv = Array.from(document.getElementById('f-tv').selectedOptions).map(o=>o.value).filter(Boolean);
   const team  = v('f-team'), pri  = v('f-pri'),   fail  = v('f-fail');
   const assign = v('f-assign');
   const bigRockOnly = document.getElementById('f-bigrock').checked;
@@ -2879,7 +2888,7 @@ function run(){
     if(place==='EA1+EA2'){if(r._place!=='EA1'&&r._place!=='EA2') return false;}
     else if(place&&r._place!==place) return false;
     if(out&&r['Outcome']!==out) return false;
-    if(tv&&r['Target Versions']!==tv) return false;
+    if(tv.length&&!tv.some(v=>(r['Target Versions']||'').includes(v)||(r['Fix Version']||'').includes(v))) return false;
     if(comp&&!(r['Components']||'').includes(comp)) return false;
     if(pmComps.length&&!pmComps.some(c=>(r['Components']||'').includes(c))) return false;
     if(team&&r['Team']!==team) return false;
@@ -2961,6 +2970,7 @@ function renderTbl(rows){
   const tb=document.getElementById('tbody');
   if(!rows.length){tb.innerHTML='<tr><td colspan="18" class="empty-row">No features match the current filters</td></tr>';return;}
   let _prevPlace=null;
+  let gaLineShown=false, notPlannedLineShown=false;
   tb.innerHTML=rows.map(r=>{
     const fNum=r._fNum;
     const rCls=r._committed?'r-committed':r._wFPDoR>=85?'r-high':r._wFPDoR>=60?'r-med':'r-low';
@@ -3008,10 +3018,13 @@ function renderTbl(rows){
     // Cut-line: insert freeze boundary row when placement bucket changes
     let cutLine='';
     if(_prevPlace!==null && _prevPlace!==r._place){
-      if(r._place==='No')
+      if(r._place==='No' && !notPlannedLineShown){
         cutLine=`<tr><td colspan="18" style="padding:5px 12px;background:#ffebee;border-top:2px solid #e57373;border-bottom:1px solid #ffcdd2;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ NOT PLANNED FOR 3.6 — low confidence or incomplete readiness; address FPDoR items to re-qualify</td></tr>`;
-      else if(r._place==='GA' && (_prevPlace==='EA1'||_prevPlace==='EA2'))
+        notPlannedLineShown=true;
+      } else if(r._place==='GA' && !gaLineShown){
         cutLine=`<tr><td colspan="18" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#1a6b3c;text-align:center;letter-spacing:.04em">▼ GA MILESTONE — committed for 3.6 GA (ships after EA2 freeze, Nov 2026)</td></tr>`;
+        gaLineShown=true;
+      }
     }
     _prevPlace=r._place;
     // Swing features: confidence 50–69% while in-plan — borderline, worth discussing Aug 24
@@ -3033,7 +3046,7 @@ function renderTbl(rows){
         return `<span class="risk-badge risk-${rl.toLowerCase()}" title="${tipParts.join('\n')}">${icon} ${rl}</span>`;
       })()}</td>
       <td>${pathHtml}</td>
-      <td style="max-width:160px;font-size:10px;color:#555;white-space:normal;line-height:1.4">${[...r._labels].join('<br>') || '—'}</td>
+      <td style="text-align:center">${r._labels&&r._labels.size>0?`<span title="${[...r._labels].join('\n')}" style="font-size:13px;cursor:help;color:#64748b">ⓘ</span>`:'<span style="color:#ddd">—</span>'}</td>
       <td><span class="pp ${pCls}">${r._place}</span></td>
       <td>${r._releaseType?`<span class="rt-badge rt-${r._releaseType.toLowerCase()}">${r._releaseType}</span>`:'<span class="rt-badge rt-none">—</span>'}</td>
       <td><div class="cbar-wrap" title="${isPrecomp?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nTrained on RHOAI 3.4+3.5 history (134 committed · 122 shipped / 12 slipped). Includes prior slip record.`:isMl?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nApprox — no prior slip record available. Based on FPDoR completeness + priority + RICE.`:`Readiness estimate: ${conf}%\nBased on FPDoR completeness, labels, and component capacity.`}"><div class="cbar"><div class="cfill ${cCls}" style="width:${Math.min(conf,100)}%"></div></div><span class="cnum" style="font-weight:700">${confBand}</span><span class="cnum" style="color:#999;font-size:10px;margin-left:3px">${conf}%</span>${isPrecomp?'<span style="font-size:9px;font-weight:700;color:#7b1fa2;margin-left:4px" title="AI Delivery Signal — trained on 3.4+3.5 historical outcomes (includes slip record)">🤖</span>':isMl?'<span style="font-size:9px;font-weight:700;color:#9c27b0;margin-left:4px" title="AI Delivery Signal (approx) — FPDoR+priority+RICE only, no slip record">~🤖</span>':''}</div></td>
