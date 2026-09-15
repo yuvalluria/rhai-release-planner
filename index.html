@@ -510,7 +510,7 @@ tr:hover td{background:#f8fafc}
       <button id="add-to-plan-btn" onclick="addToPlan()" style="display:none;background:#16a34a;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer">⬆ Add to Plan</button>
     </div>
   </div>
-  <div id="tbl-scroll-bar" style="display:flex;gap:6px;align-items:center;padding:4px 0 2px">
+  <div id="tbl-scroll-bar" style="display:flex;gap:6px;align-items:center;padding:4px 0 2px;position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #f1f5f9">
     <button onclick="document.getElementById('pm-tbl-wrap').scrollBy({left:-300,behavior:'smooth'})" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">← scroll</button>
     <span style="font-size:11px;color:#94a3b8">scroll table left / right</span>
     <button onclick="document.getElementById('pm-tbl-wrap').scrollBy({left:300,behavior:'smooth'})" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">scroll →</button>
@@ -523,15 +523,14 @@ tr:hover td{background:#f8fafc}
         <th onclick="sort('FPDoR')">FPDOR ↕</th>
         <th title="FPDoR risk tier (Erle's system, Aug 2026)&#10;🔴 HIGH: any CRITICAL fail (Components, Target Version, Delivery Owner), or 2+ HIGH fails (Release Type, Priority, Docs Impact, RICE)&#10;🟡 MEDIUM: exactly 1 HIGH fail, or any MEDIUM fail (Feature Sign-Off) — no critical fails&#10;🟢 LOW: all critical/high/medium items pass (only soft gaps remain)&#10;Hover each badge for the specific failing items.">RISK ⓘ</th>
         <th title="How likely this feature ships as planned.&#10;High = 8-9 of 10 similar past features shipped on time.&#10;Medium = 5-7 of 10. Low = 3-5 of 10.&#10;&#10;Based on: prior shipping history, FPDoR completeness, component delivery record, RICE priority.&#10;Trained on 134 RHOAI 3.4+3.5 features (122 shipped, 12 slipped).">CONFIDENCE ⓘ</th>
-        <th>REASON</th>
         <th>KEY</th>
         <th>TITLE</th>
         <th>OUTCOME</th>
         <th title="Target Version / Fix Version — the planned release milestone for this feature">VERSION</th>
         <th>COMPONENTS</th>
         <th title="Feature size from Arjay's capacity model: S=3pts(1 comp) M=5pts(1 comp) L=8pts(2 comps) XL=13pts(3+ comps). Ceiling: 140pts / release (90% CI, 41 releases)">SIZE ⓘ</th>
-        <th title="Product Manager recommendation — when both PM and DO recommend, the feature can be added to the Plan">PM Rec</th>
-        <th title="Delivery Owner recommendation — when both PM and DO recommend, the feature can be added to the Plan">DO Rec</th>
+        <th>PM Rec <span style="cursor:help;color:#94a3b8" title="Product Manager recommendation. Both PM Rec and DO Rec must be checked before the feature can be added to the Plan.">ⓘ</span></th>
+        <th>DO Rec <span style="cursor:help;color:#94a3b8" title="Delivery Owner recommendation. Both PM Rec and DO Rec must be checked before the feature can be added to the Plan.">ⓘ</span></th>
         <th></th>
         <th>TEAM</th>
       </tr></thead>
@@ -2742,6 +2741,23 @@ function markPendingRisk(key){
   renderApprovedBadge();
   run();
 }
+function acceptRiskAndAdd(key){
+  const a=_loadApprovals();
+  if(!a[key]) return;
+  a[key].riskAccepted=true;
+  _saveApprovals(a);
+  const r=allData.find(d=>d['Key']===key);
+  if(r){
+    window.parent.postMessage({type:'add-to-draft-plan',features:[{
+      key:r['Key'],summary:r['Title']||r['Summary']||'',score:r._conf,
+      placement:r._place,riskLevel:r._riskLevel,riskAccepted:true,
+      outcome:r['Outcome']||'',components:r['Components']||'',version:r['Target Versions']||'',
+    }]},'*');
+  }
+  const cell=document.getElementById('apv-risk-cell-'+key);
+  if(cell) cell.innerHTML='<span style="font-size:10px;color:#15803d;font-weight:600">✓ Risk accepted</span>';
+  renderApprovedBadge();
+}
 function renderApprovedBadge(){
   const a=_loadApprovals();
   const count=Object.values(a).filter(v=>v.pm&&v.do).length;
@@ -2906,6 +2922,13 @@ function run(){
     else if(sortCol==='FPDoR'){va=parseInt((va||'0').split('/')[0]);vb=parseInt((vb||'0').split('/')[0]);}
     return sortAsc?(va>vb?1:-1):(va<vb?1:-1);
   });
+  // Always group by placement first (EA1→EA2→GA→No), then by confidence within each group
+  const PLACE_ORDER={'EA1':0,'EA2':1,'GA':2,'No':3};
+  rows.sort((a,b)=>{
+    const pg=(PLACE_ORDER[a._place]??3)-(PLACE_ORDER[b._place]??3);
+    if(pg!==0) return pg;
+    return (b._conf||0)-(a._conf||0);
+  });
 
   window._brGapMap={};
   BIG_ROCKS.forEach(br=>{window._brGapMap[br.name]=0;});
@@ -3019,10 +3042,10 @@ function renderTbl(rows){
     let cutLine='';
     if(_prevPlace!==null && _prevPlace!==r._place){
       if(r._place==='No' && !notPlannedLineShown){
-        cutLine=`<tr><td colspan="16" style="padding:5px 12px;background:#ffebee;border-top:2px solid #e57373;border-bottom:1px solid #ffcdd2;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ NOT PLANNED FOR 3.6 — low confidence or incomplete readiness; address FPDoR items to re-qualify</td></tr>`;
+        cutLine=`<tr><td colspan="15" style="padding:5px 12px;background:#ffebee;border-top:2px solid #e57373;border-bottom:1px solid #ffcdd2;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ NOT PLANNED FOR 3.6 — low confidence or incomplete readiness; address FPDoR items to re-qualify</td></tr>`;
         notPlannedLineShown=true;
       } else if(r._place==='GA' && !gaLineShown){
-        cutLine=`<tr><td colspan="16" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#1a6b3c;text-align:center;letter-spacing:.04em">▼ GA MILESTONE — committed for 3.6 GA (ships after EA2 freeze, Nov 2026)</td></tr>`;
+        cutLine=`<tr><td colspan="15" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#1a6b3c;text-align:center;letter-spacing:.04em">▼ GA MILESTONE — committed for 3.6 GA (ships after EA2 freeze, Nov 2026)</td></tr>`;
         gaLineShown=true;
       }
     }
@@ -3045,15 +3068,14 @@ function renderTbl(rows){
         const icon=rl==='HIGH'?'🔴':rl==='MEDIUM'?'🟡':'🟢';
         return `<span class="risk-badge risk-${rl.toLowerCase()}" title="${tipParts.join('\n')}">${icon} ${rl}</span>`;
       })()}</td>
-      <td><div class="cbar-wrap" title="${isPrecomp?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nTrained on RHOAI 3.4+3.5 history (134 committed · 122 shipped / 12 slipped). Includes prior slip record.`:isMl?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nApprox — no prior slip record available. Based on FPDoR completeness + priority + RICE.`:`Readiness estimate: ${conf}%\nBased on FPDoR completeness, labels, and component capacity.`}"><div class="cbar"><div class="cfill ${cCls}" style="width:${Math.min(conf,100)}%"></div></div><span class="cnum" style="font-weight:700">${confBand}</span><span class="cnum" style="color:#999;font-size:10px;margin-left:3px">${conf}%</span>${isPrecomp?'<span style="font-size:9px;font-weight:700;color:#7b1fa2;margin-left:4px" title="AI Delivery Signal — trained on 3.4+3.5 historical outcomes (includes slip record)">🤖</span>':isMl?'<span style="font-size:9px;font-weight:700;color:#9c27b0;margin-left:4px" title="AI Delivery Signal (approx) — FPDoR+priority+RICE only, no slip record">~🤖</span>':''}</div></td>
-      <td><span class="reason">${cleanReason}</span>${isMl?`<div style="font-size:9px;color:${isPrecomp?'#7b1fa2':'#9c27b0'};margin-top:2px;font-weight:600">${isPrecomp?'🤖 AI Signal - ML training (Random Forest)':`~🤖 No shipping history (new feature) — confidence capped at 85%`}</div>`:''}${counterfactual?`<div style="font-size:9px;color:#e65100;margin-top:2px;font-weight:600">→ ${counterfactual}</div>`:''}${r._teams?`<div style="font-size:9px;color:#7b68ee;margin-top:3px" title="Jira Team field — release-capacity-dataset">👥 ${r._teams.join(' · ')}</div>`:''}${r._place==='No'?`<div style="font-size:9px;color:#1565c0;margin-top:3px">${(()=>{const h=[];if(!(r['Fix Version']||'').trim())h.push('Set Fix Version');if(!(r['Target Versions']||'').trim())h.push('Set Target Version');if(!(r['Release Type']||'').trim()&&!(r['Labels']||'').toLowerCase().includes('release-type'))h.push('Add Release Type');return h.length?'→ To qualify: '+h.join(' · '):'';})()}</div>`:''}</td>
+      ${(()=>{const reasonTooltip=[isPrecomp?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nTrained on RHOAI 3.4+3.5 history (134 committed · 122 shipped / 12 slipped). Includes prior slip record.`:isMl?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nApprox — no prior slip record available. Based on FPDoR completeness + priority + RICE.`:`Readiness estimate: ${conf}%\nBased on FPDoR completeness, labels, and component capacity.`,cleanReason,counterfactual?`→ ${counterfactual}`:'',isMl?(isPrecomp?'🤖 AI Signal — ML training (Random Forest)':'~🤖 No shipping history — capped at 85%'):'',r._teams?`Teams: ${r._teams.join(', ')}`:''].filter(Boolean).join('\n\n');return `<td><div class="cbar-wrap" title="${reasonTooltip.replace(/"/g,"'")}"><div class="cbar"><div class="cfill ${cCls}" style="width:${Math.min(conf,100)}%"></div></div><span class="cnum" style="font-weight:700">${confBand}</span><span class="cnum" style="color:#999;font-size:10px;margin-left:3px">${conf}%</span>${isPrecomp?'<span style="font-size:9px;font-weight:700;color:#7b1fa2;margin-left:4px" title="AI Delivery Signal — trained on 3.4+3.5 historical outcomes (includes slip record)">🤖</span>':isMl?'<span style="font-size:9px;font-weight:700;color:#9c27b0;margin-left:4px" title="AI Delivery Signal (approx) — FPDoR+priority+RICE only, no slip record">~🤖</span>':''}</div>${r._place==='No'?`<div style="font-size:9px;color:#1565c0;margin-top:3px">${(()=>{const h=[];if(!(r['Fix Version']||'').trim())h.push('Set Fix Version');if(!(r['Target Versions']||'').trim())h.push('Set Target Version');if(!(r['Release Type']||'').trim()&&!(r['Labels']||'').toLowerCase().includes('release-type'))h.push('Add Release Type');return h.length?'→ To qualify: '+h.join(' · '):'';})()}</div>`:''}</td>`;})()}
       <td><a class="klink" href="https://redhat.atlassian.net/browse/${r['Key']}" target="_blank">${r['Key']}</a></td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r['Title']}">${r['Title']}</td>
       <td style="max-width:140px;white-space:normal;line-height:1.4">${r._isBigRock?'<span class="br-badge">🪨 BR</span>':''}${brGapHtml}<span style="color:#555" title="${r['Outcome']||''}">${r['Outcome']||'—'}</span></td>
       <td style="white-space:nowrap;font-size:11px;color:#555">${(()=>{const tv=(r['Target Versions']||'').trim(),fv=(r['Fix Version']||'').trim();return tv===fv||!fv?tv||fv||'—':(tv&&fv?tv+' / '+fv:tv||fv);})()}</td>
       <td title="${r['Components']}" style="max-width:160px;color:#444">${compsStr||'—'}${r._complexityWarn?`<div style="font-size:9px;color:#e65100;font-weight:700;margin-top:1px" title="${r._comps.length} components — cross-team delivery risk (spec: 6+ = complexity flag)">⚠ ${r._comps.length} comps</div>`:''}</td>
       <td style="white-space:nowrap;text-align:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:${r._featureSize==='XL'?'#4a1a4a':r._featureSize==='L'?'#1a3a4a':r._featureSize==='M'?'#1a3a1a':'#2a2a1a'};color:${r._featureSize==='XL'?'#e040fb':r._featureSize==='L'?'#40c4ff':r._featureSize==='M'?'#69f0ae':'#ffee58'}">${r._featureSize}</span><span style="font-size:9px;color:#888;margin-left:3px">${r._featurePts}pt</span></td>
-      ${(()=>{const a=_loadApprovals();const apv=a[r['Key']]||{pm:false,do:false};const isBelowCut=r._place==='No';const showRisk=apv.pm&&apv.do&&(r._riskLevel==='HIGH'||isBelowCut)&&!apv.pendingRisk;const riskDone=apv.pendingRisk;return `<td style="text-align:center"><input id="apv-pm-${r['Key']}" type="checkbox" ${apv.pm?'checked':''} onchange="toggleApproval('${r['Key']}','pm')" title="PM recommendation"></td><td style="text-align:center"><input id="apv-do-${r['Key']}" type="checkbox" ${apv.do?'checked':''} onchange="toggleApproval('${r['Key']}','do')" title="Delivery Owner recommendation"></td><td style="text-align:center">${showRisk?`<button onclick="markPendingRisk('${r['Key']}')" style="font-size:10px;padding:2px 6px;background:#fff3e0;border:1px solid #ef6c00;color:#e65100;border-radius:3px;cursor:pointer;white-space:nowrap">⚠ Risk Review</button>`:riskDone?'<span style="font-size:10px;color:#e65100;font-weight:600" title="Flagged for risk review">⚠ Pending</span>':''}</td>`;})()}
+      ${(()=>{const a=_loadApprovals();const apv=a[r['Key']]||{pm:false,do:false};const isBelowCut=r._place==='No';const showRisk=apv.pm&&apv.do&&(r._riskLevel==='HIGH'||isBelowCut)&&!apv.pendingRisk;const riskPending=apv.pendingRisk&&!apv.riskAccepted;const riskAccepted=apv.riskAccepted;return `<td style="text-align:center"><input id="apv-pm-${r['Key']}" type="checkbox" ${apv.pm?'checked':''} onchange="toggleApproval('${r['Key']}','pm')" title="PM Recommendation — check when you recommend this feature for the plan"></td><td style="text-align:center"><input id="apv-do-${r['Key']}" type="checkbox" ${apv.do?'checked':''} onchange="toggleApproval('${r['Key']}','do')" title="Delivery Owner Recommendation — both PM and DO must recommend before the feature can be added to the plan"></td><td id="apv-risk-cell-${r['Key']}" style="text-align:center">${showRisk?`<button onclick="markPendingRisk('${r['Key']}')" style="font-size:10px;padding:2px 6px;background:#fff3e0;border:1px solid #ef6c00;color:#e65100;border-radius:3px;cursor:pointer;white-space:nowrap">⚠ Risk Review</button>`:riskPending?`<span style="font-size:10px;color:#e65100;font-weight:600">⚠ Pending</span><br><button onclick="acceptRiskAndAdd('${r['Key']}')" style="font-size:10px;padding:2px 5px;background:#f0fdf4;border:1px solid #86efac;color:#15803d;border-radius:3px;cursor:pointer;margin-top:2px;white-space:nowrap">✓ Accept → Add to Plan</button>`:riskAccepted?'<span style="font-size:10px;color:#15803d;font-weight:600">✓ Risk accepted</span>':''}</td>`;})()}
       <td style="font-size:11px;color:#555;white-space:nowrap">${r['Team']||'—'}</td>
     </tr>`;
   }).join('');
