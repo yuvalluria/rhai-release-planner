@@ -521,6 +521,7 @@ tr:hover td{background:#f8fafc}
       <button id="add-to-plan-btn" onclick="addToPlan()" style="display:none;background:#16a34a;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer">⬆ Add to Plan</button>
     </div>
   </div>
+  <div id="scroll-sentinel" style="height:1px;margin-bottom:-1px;pointer-events:none"></div>
   <div id="tbl-scroll-bar" style="display:flex;gap:6px;align-items:center;padding:4px 0 2px;position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #f1f5f9">
     <button onclick="document.getElementById('pm-tbl-wrap').scrollBy({left:-300,behavior:'smooth'})" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">← scroll</button>
     <span style="font-size:11px;color:#94a3b8">scroll table left / right</span>
@@ -4887,13 +4888,13 @@ const SAMPLE=`Rank,Key,Title,Score,FPDoR,Failed FPDoR Items,Outcome,Target Versi
 (function(){
   /* floating scroll bar */
   function initFloatScroll(){
-    var bar=document.getElementById('tbl-scroll-bar');
+    var sentinel=document.getElementById('scroll-sentinel');
     var float=document.getElementById('tbl-scroll-float');
-    if(!bar||!float) return;
+    if(!sentinel||!float) return;
     var obs=new IntersectionObserver(function(entries){
       float.style.display=entries[0].isIntersecting?'none':'flex';
     },{threshold:0,rootMargin:'0px'});
-    obs.observe(bar);
+    obs.observe(sentinel);
   }
   if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded',initFloatScroll);
