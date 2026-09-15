@@ -2765,7 +2765,10 @@ function renderApprovedBadge(){
   const badge=document.getElementById('recommended-count-badge');
   if(badge)badge.textContent=count>0?(riskCount>0?count+' recommended · '+riskCount+' ⚠ risk review':count+' recommended'):'';
   const btn=document.getElementById('add-to-plan-btn');
-  if(btn)btn.style.display=count>0?'':'none';
+  if(btn){
+    btn.style.display=count>0?'':'none';
+    if(btn.textContent!=='⬆ Add to Plan'){btn.textContent='⬆ Add to Plan';btn.style.background='#16a34a';}
+  }
 }
 function addToPlan(){
   const a=_loadApprovals();
@@ -4791,6 +4794,30 @@ const SAMPLE=`Rank,Key,Title,Score,FPDoR,Failed FPDoR Items,Outcome,Target Versi
 1146,RHAISTRAT-248,Rebellions AI Accelerators vLLM support,6,5/17,Target Version; PM; Priority; Docs impact; Source RFE / AI SDLC; Requirements clarity; Acceptance criteria; Risks & assumptions; Cross-team deps,,,RHAII-3.4 EA1,INFERENG Midstream,INFERENG Midstream,New,Undefined,not-ready,INFERSTRAT_251116; needs-tech-review; needs_doc
 1147,RHAISTRAT-194,[Feat] CrewAI Llama Stack Integration,6,3/17,Target Version; Release Type; Delivery Owner; RICE; Docs impact; Source RFE / AI SDLC; Requirements clarity; Acceptance criteria; Risks & assumptions; Cross-team deps; Child epics,,,,RAG,,New,Normal,not-ready,3.Next-candidate; tech-reviewed
 1148,RHAISTRAT-548,Custom UI Branding,4,5/17,Target Version; Release Type; Docs impact; Source RFE / AI SDLC; Requirements clarity; Acceptance criteria; Risks & assumptions; Cross-team deps; Child epics,,,,AI Core Dashboard,,New,Minor,not-ready,branding; customization; dashboard; field-request`;
+</script>
+<div id="tbl-scroll-float" style="display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9999;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:4px 10px;box-shadow:0 2px 8px rgba(0,0,0,.12);gap:8px;align-items:center">
+  <button onclick="document.getElementById('pm-tbl-wrap').scrollBy({left:-300,behavior:'smooth'})" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">← scroll</button>
+  <span style="font-size:11px;color:#94a3b8">scroll</span>
+  <button onclick="document.getElementById('pm-tbl-wrap').scrollBy({left:300,behavior:'smooth'})" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">scroll →</button>
+</div>
+<script>
+(function(){
+  var bar=null,float=null,ticking=false;
+  function onScroll(){
+    if(ticking)return;
+    ticking=true;
+    requestAnimationFrame(function(){
+      if(!bar)bar=document.getElementById('tbl-scroll-bar');
+      if(!float)float=document.getElementById('tbl-scroll-float');
+      if(!bar||!float){ticking=false;return;}
+      var rect=bar.getBoundingClientRect();
+      float.style.display=rect.bottom<0?'flex':'none';
+      ticking=false;
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  document.addEventListener('scroll',onScroll,{passive:true});
+})();
 </script>
 </body>
 </html>
