@@ -4886,21 +4886,20 @@ const SAMPLE=`Rank,Key,Title,Score,FPDoR,Failed FPDoR Items,Outcome,Target Versi
 </div>
 <script>
 (function(){
-  var bar=null,float=null,ticking=false;
-  function onScroll(){
-    if(ticking)return;
-    ticking=true;
-    requestAnimationFrame(function(){
-      if(!bar)bar=document.getElementById('tbl-scroll-bar');
-      if(!float)float=document.getElementById('tbl-scroll-float');
-      if(!bar||!float){ticking=false;return;}
-      var rect=bar.getBoundingClientRect();
-      float.style.display=rect.bottom<0?'flex':'none';
-      ticking=false;
-    });
+  function initFloatScroll(){
+    var bar=document.getElementById('tbl-scroll-bar');
+    var float=document.getElementById('tbl-scroll-float');
+    if(!bar||!float) return;
+    var obs=new IntersectionObserver(function(entries){
+      float.style.display=entries[0].isIntersecting?'none':'flex';
+    },{threshold:0,rootMargin:'0px'});
+    obs.observe(bar);
   }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  document.addEventListener('scroll',onScroll,{passive:true});
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',initFloatScroll);
+  } else {
+    initFloatScroll();
+  }
 })();
 </script>
 </body>
