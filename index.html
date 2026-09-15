@@ -96,6 +96,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
 .filters select{border:1px solid #e2e8f0;border-radius:6px;padding:5px 8px;font-size:12px;background:#fff;cursor:pointer;min-width:110px;color:#374151}
 .filters select:focus{outline:none;border-color:#93c5fd}
 .ms-wrap{position:relative;display:inline-block}
+.tip{position:relative;cursor:help;display:inline-block}
+.tip:hover .tip-box{display:block}
+.tip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1e293b;color:#f1f5f9;font-size:11px;padding:7px 10px;border-radius:5px;z-index:9999;pointer-events:none;line-height:1.5;max-width:260px;white-space:normal;box-shadow:0 2px 8px rgba(0,0,0,.25);min-width:160px}
+.tip-box:after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1e293b}
 .ms-btn{font-size:11px;padding:4px 8px;border:1px solid #e2e8f0;border-radius:6px;background:#fff;cursor:pointer;min-width:120px;text-align:left;white-space:nowrap;color:#374151;line-height:1.4}
 .ms-btn:after{content:'▾';float:right;margin-left:6px;color:#9ca3af}
 .ms-drop{display:none;position:absolute;top:calc(100% + 2px);left:0;z-index:500;background:#fff;border:1px solid #cbd5e1;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.1);min-width:190px;max-height:220px;overflow-y:auto;padding:4px 0}
@@ -514,6 +518,7 @@ tr:hover td{background:#f8fafc}
     </div>
     <div style="display:flex;align-items:center;gap:6px;font-size:11px;white-space:nowrap">
       <span id="recommended-count-badge" style="background:#dcfce7;color:#166534;border:1px solid #86efac;border-radius:6px;padding:2px 8px;font-weight:700"></span>
+      <button id="clear-rec-btn" onclick="localStorage.removeItem('_feat_approvals');renderRecommendedBadge();run();" style="display:none;font-size:10px;padding:2px 6px;background:#fff;border:1px solid #fca5a5;border-radius:4px;color:#ef4444;cursor:pointer">✕ Clear</button>
       <button id="add-to-plan-btn" onclick="addToPlan()" style="display:none;background:#16a34a;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer">⬆ Add to Plan</button>
     </div>
   </div>
@@ -528,16 +533,16 @@ tr:hover td{background:#f8fafc}
         <th onclick="sort('Rank')"># ↕</th>
         <th onclick="sort('Score')" id="th-score" class="score-col" style="display:none">SCORE ↕</th>
         <th onclick="sort('FPDoR')">FPDOR ↕</th>
-        <th title="FPDoR risk tier (Erle's system, Aug 2026)&#10;🔴 HIGH: any CRITICAL fail (Components, Target Version, Delivery Owner), or 2+ HIGH fails (Release Type, Priority, Docs Impact, RICE)&#10;🟡 MEDIUM: exactly 1 HIGH fail, or any MEDIUM fail (Feature Sign-Off) — no critical fails&#10;🟢 LOW: all critical/high/medium items pass (only soft gaps remain)&#10;Hover each badge for the specific failing items.">RISK ⓘ</th>
-        <th title="How likely this feature ships as planned.&#10;High = 8-9 of 10 similar past features shipped on time.&#10;Medium = 5-7 of 10. Low = 3-5 of 10.&#10;&#10;Based on: prior shipping history, FPDoR completeness, component delivery record, RICE priority.&#10;Trained on 134 RHOAI 3.4+3.5 features (122 shipped, 12 slipped).">CONFIDENCE ⓘ</th>
+        <th><span class="tip">RISK ⓘ<span class="tip-box">🔴 HIGH: any Critical field missing (Components, Target Version, Delivery Owner) or 2+ High fields missing.<br>🟡 MEDIUM: exactly 1 High field missing, or Feature Sign-Off absent.<br>🟢 LOW: all Critical/High/Medium items pass.</span></span></th>
+        <th><span class="tip">CONFIDENCE ⓘ<span class="tip-box">How likely this feature ships as planned. High = 8–9 of 10 similar features shipped on time. Medium = 5–7 of 10. Low = 3–5 of 10.<br><br>Based on: shipping history, FPDoR completeness, component velocity, RICE. Hover the confidence bar for feature-specific detail.</span></span></th>
         <th>KEY</th>
         <th>TITLE</th>
         <th>OUTCOME</th>
         <th title="Target Version / Fix Version — the planned release milestone for this feature">VERSION</th>
         <th>COMPONENTS</th>
-        <th title="Feature size from Arjay's capacity model: S=3pts(1 comp) M=5pts(1 comp) L=8pts(2 comps) XL=13pts(3+ comps). Ceiling: 140pts / release (90% CI, 41 releases)">SIZE ⓘ</th>
-        <th>PM Rec <span style="cursor:help;color:#94a3b8" title="Product Manager recommendation. Both PM Rec and DO Rec must be checked before the feature can be added to the Plan.">ⓘ</span></th>
-        <th>DO Rec <span style="cursor:help;color:#94a3b8" title="Delivery Owner recommendation. Both PM Rec and DO Rec must be checked before the feature can be added to the Plan.">ⓘ</span></th>
+        <th><span class="tip">SIZE ⓘ<span class="tip-box">Feature size from Arjay's capacity model:<br>S=3pts (1 comp) · M=5pts (1 comp) · L=8pts (2 comps) · XL=13pts (3+ comps)<br>Ceiling: 140pts / release (90% CI, 41 releases)</span></span></th>
+        <th><span class="tip">PM Rec ⓘ<span class="tip-box">Product Manager recommendation. Both PM Rec and DO Rec must be checked before the feature can be added to the Plan.</span></span></th>
+        <th><span class="tip">DO Rec ⓘ<span class="tip-box">Delivery Owner recommendation. Both PM Rec and DO Rec must be checked before the feature can be added to the Plan.</span></span></th>
         <th></th>
         <th>TEAM</th>
       </tr></thead>
@@ -2844,6 +2849,8 @@ function renderApprovedBadge(){
     btn.style.display=count>0?'':'none';
     if(btn.textContent!=='⬆ Add to Plan'){btn.textContent='⬆ Add to Plan';btn.style.background='#16a34a';}
   }
+  const clearBtn=document.getElementById('clear-rec-btn');
+  if(clearBtn)clearBtn.style.display=count>0?'':'none';
 }
 function addToPlan(){
   const a=_loadApprovals();
