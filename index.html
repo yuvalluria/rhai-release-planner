@@ -529,6 +529,7 @@ tr:hover td{background:#f8fafc}
     </div>
   </div>
   <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:6px;padding:5px 14px;font-size:11px;font-weight:600;color:#166534;margin-bottom:6px">✅ Items above the line are recommended for the listed release</div>
+  <div id="pm-action-banner" style="display:none;margin-bottom:8px"></div>
   <div id="scroll-sentinel" style="height:1px;margin-bottom:-1px;pointer-events:none"></div>
   <div id="tbl-scroll-bar" style="display:flex;gap:6px;align-items:center;padding:4px 0 2px;position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #f1f5f9">
     <button onclick="document.getElementById('pm-tbl-wrap').scrollBy({left:-300,behavior:'smooth'})" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">← scroll</button>
@@ -3046,7 +3047,7 @@ function run(){
     if(!r._bigRocks) return;
     r._bigRocks.forEach(name=>{if(r._place==='No') window._brGapMap[name]=(window._brGapMap[name]||0)+1;});
   });
-  renderTbl(rows); renderCards(rows); renderCapacityMix(allData); renderBigRocks(allData); renderAppendix(allData);
+  renderTbl(rows); renderPmBanner(rows); renderCards(rows); renderCapacityMix(allData); renderBigRocks(allData); renderAppendix(allData);
   if(document.getElementById('tab-roadmap')?.classList.contains('active')) renderRoadmapTimeline(allData);
   if(document.getElementById('tab-executive')?.classList.contains('active')) renderExecView();
 }
@@ -3103,17 +3104,52 @@ function renderCards(rows){
   }
 }
 
+function scrollToFirstUnchecked(){
+  const inputs=document.querySelectorAll('#tbody input[id^="apv-pm-"]');
+  for(const inp of inputs){
+    if(!inp.checked){inp.closest('tr').scrollIntoView({behavior:'smooth',block:'center'});return;}
+  }
+}
+
+function renderPmBanner(rows){
+  const banner=document.getElementById('pm-action-banner');
+  if(!banner) return;
+  const sel=document.getElementById('f-pm-select');
+  const pmVal=sel?sel.value:'';
+  if(!pmVal){banner.style.display='none';return;}
+  const pmName=PM_ACTORS[pmVal]||pmVal;
+  const allApv=_loadApprovals();
+  const inPlan=rows.filter(r=>r._place!=='No');
+  if(!inPlan.length){banner.style.display='none';return;}
+  const needReview=inPlan.filter(r=>!(allApv[r['Key']]||{}).pm);
+  const highRisk=needReview.filter(r=>r._riskLevel==='HIGH'||r._riskLevel==='CRITICAL');
+  const pct=Math.round((inPlan.length-needReview.length)/inPlan.length*100);
+  const pctColor=pct>=80?'#16a34a':pct>=40?'#f57f17':'#c62828';
+  banner.style.display='';
+  banner.innerHTML=`<div style="background:#eff6ff;border:1px solid #bfdbfe;border-left:4px solid #3b82f6;border-radius:6px;padding:10px 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+    <span style="font-size:15px">👤</span>
+    <div style="flex:1;min-width:180px">
+      <div style="font-size:12px;font-weight:700;color:#1e40af">${pmName} · ${inPlan.length} features in plan</div>
+      <div style="font-size:11px;color:#374151;margin-top:3px">${needReview.length>0?`<span style="color:${pctColor};font-weight:600">${needReview.length} still need your PM Rec</span>${highRisk.length?` · <span style="color:#c62828;font-weight:600">⚠ ${highRisk.length} are HIGH risk</span>`:''}`:' <span style="color:#16a34a;font-weight:600">✓ All reviewed — ready to add to plan</span>'}</div>
+    </div>
+    ${needReview.length>0?'<button onclick="scrollToFirstUnchecked()" style="background:#3b82f6;color:#fff;border:none;border-radius:6px;padding:6px 16px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">Review next →</button>':''}
+    <div style="font-size:11px;font-weight:700;color:${pctColor}">${pct}% done</div>
+  </div>`;
+}
+
 function renderTbl(rows){
   const tb=document.getElementById('tbody');
   if(!rows.length){tb.innerHTML='<tr><td colspan="16" class="empty-row">No features match the current filters</td></tr>';return;}
   let _prevPlace=null, _prevNoTier=null;
   let gaLineShown=false, noLine1=false, noLine2=false, noLine3=false;
+  const _allApv=_loadApprovals();
   tb.innerHTML=rows.map(r=>{
     const fNum=r._fNum;
     const rCls=r._committed?'r-committed':r._wFPDoR>=85?'r-high':r._wFPDoR>=60?'r-med':'r-low';
     // FPDoR breakdown: tooltip with full tier breakdown, inline for Critical/High fails only
     const failedSet=new Set(r._failedItems);
     const hasCrossTeamDep=failedSet.has('Cross-team deps');
+    const rowApv=_allApv[r['Key']]||{pm:false,do:false};
     const hasFpdorData=r['FPDoR']&&r['FPDoR']!=='—';
     const tooltipLines=['Weighted FPDoR: '+r._wFPDoR+'/100 (Erle\'s tier weights)',''];
     FPDOR_TIERS_DISPLAY.forEach(t=>{
@@ -3176,7 +3212,12 @@ function renderTbl(rows){
     _prevPlace=r._place; _prevNoTier=r._noTier||null;
     // Swing features: confidence 50–69% while in-plan — borderline, worth discussing Aug 24
     const isSwing=r._place!=='No'&&conf>=50&&conf<70;
-    return cutLine+`<tr id="apv-row-${r['Key']}" style="${isSwing?'background:#fffde7;':''}" title="${isSwing?'Swing feature — confidence borderline (50–69%), worth discussing at freeze':''}">
+    // Visual state: needs-action (amber left border) or done (dimmed)
+    const _isAbove=r._place!=='No';
+    const _needsAction=_isAbove&&!rowApv.pm;
+    const _bothDone=rowApv.pm&&rowApv.do;
+    const trStyle=_bothDone?'opacity:0.55;background:#f9fafb;':_needsAction?'border-left:3px solid #f59e0b;background:'+(isSwing?'#fffde7':'#fffbeb')+';':isSwing?'background:#fffde7;':'';
+    return cutLine+`<tr id="apv-row-${r['Key']}" style="${trStyle}" title="${isSwing?'Swing feature — confidence borderline (50–69%), worth discussing at freeze':''}">
       <td style="color:#bbb">${r['Rank']||'—'}</td>
       <td class="score-col" style="display:none"><span class="score">${r['Score']}</span></td>
       <td><div class="fpdor-cell"><span class="rp ${rCls}" title="${fpdorTooltip}">${r['FPDoR']||'—'}</span><span class="fpdor-w">w:${r._wFPDoR}</span>${breakdownHtml}</div></td>
@@ -3200,7 +3241,7 @@ function renderTbl(rows){
       <td style="white-space:nowrap;font-size:11px;color:#555">${(r['Target Versions']||'').trim()||'—'}</td>
       <td title="${r['Components']}" style="max-width:160px;color:#444">${compsStr||'—'}${r._complexityWarn?`<div style="font-size:9px;color:#e65100;font-weight:700;margin-top:1px" title="${r._comps.length} components — cross-team delivery risk (spec: 6+ = complexity flag)">⚠ ${r._comps.length} comps</div>`:''}</td>
       <td style="white-space:nowrap;text-align:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:${r._featureSize==='XL'?'#4a1a4a':r._featureSize==='L'?'#1a3a4a':r._featureSize==='M'?'#1a3a1a':'#2a2a1a'};color:${r._featureSize==='XL'?'#e040fb':r._featureSize==='L'?'#40c4ff':r._featureSize==='M'?'#69f0ae':'#ffee58'}">${r._featureSize}</span><span style="font-size:9px;color:#888;margin-left:3px">${r._featurePts}pt</span></td>
-      ${(()=>{const a=_loadApprovals();const apv=a[r['Key']]||{pm:false,do:false};const isBelowCut=r._place==='No';const showRisk=apv.pm&&apv.do&&(r._riskLevel==='HIGH'||isBelowCut)&&!apv.pendingRisk;const riskPending=apv.pendingRisk&&!apv.riskAccepted;const riskAccepted=apv.riskAccepted;return `<td style="text-align:center"><input id="apv-pm-${r['Key']}" type="checkbox" ${apv.pm?'checked':''} onchange="toggleApproval('${r['Key']}','pm')" title="PM Recommendation — check when you recommend this feature for the plan"></td><td style="text-align:center"><input id="apv-do-${r['Key']}" type="checkbox" ${apv.do?'checked':''} onchange="toggleApproval('${r['Key']}','do')" title="Delivery Owner Recommendation — both PM and DO must recommend before the feature can be added to the plan"></td><td id="apv-risk-cell-${r['Key']}" style="text-align:center">${showRisk?`<button onclick="markPendingRisk('${r['Key']}')" style="font-size:10px;padding:2px 6px;background:#fff3e0;border:1px solid #ef6c00;color:#e65100;border-radius:3px;cursor:pointer;white-space:nowrap">⚠ Risk Review</button>`:riskPending?`<span style="font-size:10px;color:#e65100;font-weight:600">⚠ Pending</span><br><button onclick="acceptRiskAndAdd('${r['Key']}')" style="font-size:10px;padding:2px 5px;background:#f0fdf4;border:1px solid #86efac;color:#15803d;border-radius:3px;cursor:pointer;margin-top:2px;white-space:nowrap">✓ Accept → Add to Plan</button>`:riskAccepted?'<span style="font-size:10px;color:#15803d;font-weight:600">✓ Risk accepted</span>':''}</td>`;})()}
+      ${(()=>{const apv=rowApv;const isBelowCut=r._place==='No';const showRisk=apv.pm&&apv.do&&(r._riskLevel==='HIGH'||isBelowCut)&&!apv.pendingRisk;const riskPending=apv.pendingRisk&&!apv.riskAccepted;const riskAccepted=apv.riskAccepted;return `<td style="text-align:center"><input id="apv-pm-${r['Key']}" type="checkbox" ${apv.pm?'checked':''} onchange="toggleApproval('${r['Key']}','pm')" title="PM Recommendation — check when you recommend this feature for the plan"></td><td style="text-align:center"><input id="apv-do-${r['Key']}" type="checkbox" ${apv.do?'checked':''} onchange="toggleApproval('${r['Key']}','do')" title="Delivery Owner Recommendation — both PM and DO must recommend before the feature can be added to the plan"></td><td id="apv-risk-cell-${r['Key']}" style="text-align:center">${showRisk?`<button onclick="markPendingRisk('${r['Key']}')" style="font-size:10px;padding:2px 6px;background:#fff3e0;border:1px solid #ef6c00;color:#e65100;border-radius:3px;cursor:pointer;white-space:nowrap">⚠ Risk Review</button>`:riskPending?`<span style="font-size:10px;color:#e65100;font-weight:600">⚠ Pending</span><br><button onclick="acceptRiskAndAdd('${r['Key']}')" style="font-size:10px;padding:2px 5px;background:#f0fdf4;border:1px solid #86efac;color:#15803d;border-radius:3px;cursor:pointer;margin-top:2px;white-space:nowrap">✓ Accept → Add to Plan</button>`:riskAccepted?'<span style="font-size:10px;color:#15803d;font-weight:600">✓ Risk accepted</span>':''}</td>`;})()}
       <td style="font-size:11px;color:#555;white-space:nowrap">${r['Team']||'—'}</td>
     </tr>`;
   }).join('');
