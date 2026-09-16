@@ -517,10 +517,11 @@ tr:hover td{background:#f8fafc}
     </div>
     <div style="display:flex;align-items:center;gap:6px;font-size:11px;white-space:nowrap">
       <span id="recommended-count-badge" style="background:#dcfce7;color:#166534;border:1px solid #86efac;border-radius:6px;padding:2px 8px;font-weight:700"></span>
-      <button id="clear-rec-btn" onclick="localStorage.removeItem('_feat_approvals');renderRecommendedBadge();run();" style="display:none;font-size:10px;padding:2px 6px;background:#fff;border:1px solid #fca5a5;border-radius:4px;color:#ef4444;cursor:pointer">✕ Clear</button>
+      <button id="clear-rec-btn" onclick="localStorage.removeItem('_feat_approvals');renderApprovedBadge();run();" style="display:none;font-size:10px;padding:2px 6px;background:#fff;border:1px solid #fca5a5;border-radius:4px;color:#ef4444;cursor:pointer">✕ Clear</button>
       <button id="add-to-plan-btn" onclick="addToPlan()" style="display:none;background:#16a34a;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer">⬆ Add to Plan</button>
     </div>
   </div>
+  <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:6px;padding:5px 14px;font-size:11px;font-weight:600;color:#166534;margin-bottom:6px">✅ Items above the line are recommended for the listed release</div>
   <div id="scroll-sentinel" style="height:1px;margin-bottom:-1px;pointer-events:none"></div>
   <div id="tbl-scroll-bar" style="display:flex;gap:6px;align-items:center;padding:4px 0 2px;position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #f1f5f9">
     <button onclick="document.getElementById('pm-tbl-wrap').scrollBy({left:-300,behavior:'smooth'})" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">← scroll</button>
@@ -539,7 +540,7 @@ tr:hover td{background:#f8fafc}
         <th>KEY</th>
         <th>TITLE</th>
         <th>OUTCOME</th>
-        <th title="Target Version / Fix Version — the planned release milestone for this feature">VERSION</th>
+        <th title="Target Version — the planned release milestone for this feature">TARGET VERSION</th>
         <th>COMPONENTS</th>
         <th><span class="tip">SIZE ⓘ<span class="tip-box">Feature size from Arjay's capacity model:<br>S=3pts (1 comp) · M=5pts (1 comp) · L=8pts (2 comps) · XL=13pts (3+ comps)<br>Ceiling: 140pts / release (90% CI, 41 releases)</span></span></th>
         <th><span class="tip">PM Rec ⓘ<span class="tip-box">Product Manager recommendation. Both PM Rec and DO Rec must be checked before the feature can be added to the Plan.</span></span></th>
@@ -3011,10 +3012,24 @@ function run(){
     return sortAsc?(va>vb?1:-1):(va<vb?1:-1);
   });
   // Always group by placement first (EA1→EA2→GA→No), then by confidence within each group
+  // Assign no-tier for 3-tier below-the-line display (Arjay Sep 16 confirmed structure)
+  rows.filter(r=>r._place==='No').forEach(r=>{
+    const hasTv=!!(r._tv);
+    const hasComps=!!(r['Components']||'').trim();
+    const wFP=r._wFPDoR||0;
+    if(!hasTv||!hasComps||wFP<20){r._noTier=3;return;}  // insufficient info — can't analyze
+    if(wFP>=55){r._noTier=2;return;}                      // has data but capacity/risk keeps below cut
+    r._noTier=1;                                           // missing some analysis fields, PM can fix
+  });
+
   const PLACE_ORDER={'EA1':0,'EA2':1,'GA':2,'No':3};
   rows.sort((a,b)=>{
     const pg=(PLACE_ORDER[a._place]??3)-(PLACE_ORDER[b._place]??3);
     if(pg!==0) return pg;
+    if(a._place==='No'&&b._place==='No'){
+      const tg=(a._noTier||1)-(b._noTier||1);
+      if(tg!==0) return tg;
+    }
     return (b._conf||0)-(a._conf||0);
   });
 
@@ -3080,8 +3095,8 @@ function renderCards(rows){
 function renderTbl(rows){
   const tb=document.getElementById('tbody');
   if(!rows.length){tb.innerHTML='<tr><td colspan="16" class="empty-row">No features match the current filters</td></tr>';return;}
-  let _prevPlace=null;
-  let gaLineShown=false, notPlannedLineShown=false;
+  let _prevPlace=null, _prevNoTier=null;
+  let gaLineShown=false, noLine1=false, noLine2=false, noLine3=false;
   tb.innerHTML=rows.map(r=>{
     const fNum=r._fNum;
     const rCls=r._committed?'r-committed':r._wFPDoR>=85?'r-high':r._wFPDoR>=60?'r-med':'r-low';
@@ -3126,18 +3141,27 @@ function renderTbl(rows){
     const pathHtml=r._path==='ai-first'
       ?`<span class="path-badge path-ai" title="${r._hasLabelData?'rp-qg1-pass or strat-creator label detected':'13/13 FPDoR — no Labels column in CSV, heuristic only'}">AI-First</span><span class="path-note">${r._hasLabelData?'label':'heuristic'}</span>`
       :`<span class="path-badge path-legacy" title="${r._hasLabelData?'Legacy: bypassed AISDLC pipeline — RICE score, QG1, and DoR criteria like Requirements Clarity and Acceptance Criteria are commonly missing. Check FPDoR column for what needs to be fixed to qualify.':'Labels column not in CSV — assumed legacy. Legacy = bypassed AISDLC pipeline; RICE and DoR items often missing.'}">Legacy</span><span class="path-note">${r._hasLabelData?'confirmed':'assumed'}</span>`;
-    // Cut-line: insert freeze boundary row when placement bucket changes
+    // Cut-line: insert freeze boundary rows — GA milestone + 3-tier below-cut (Arjay Sep 16)
     let cutLine='';
-    if(_prevPlace!==null && _prevPlace!==r._place){
-      if(r._place==='No' && !notPlannedLineShown){
-        cutLine=`<tr><td colspan="16" style="padding:5px 12px;background:#ffebee;border-top:2px solid #e57373;border-bottom:1px solid #ffcdd2;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ Not planned for 3.6 GA — Planning Freeze Sept 23 · address FPDoR items to re-qualify</td></tr>`;
-        notPlannedLineShown=true;
-      } else if(r._place==='GA' && !gaLineShown){
+    if(_prevPlace!==null){
+      if(r._place==='GA'&&!gaLineShown&&_prevPlace!=='GA'){
         cutLine=`<tr><td colspan="16" style="padding:5px 12px;background:#e8f5e9;border-top:2px solid #81c784;border-bottom:1px solid #c8e6c9;font-size:10px;font-weight:700;color:#1a6b3c;text-align:center;letter-spacing:.04em">▼ Committed for 3.6 GA · Nov 19 — Planning Freeze Sept 23</td></tr>`;
         gaLineShown=true;
+      } else if(r._place==='No'){
+        const t=r._noTier||1;
+        if(t===1&&!noLine1){
+          cutLine=`<tr><td colspan="16" style="padding:6px 12px;background:#fffde7;border-top:2px solid #fbbf24;border-bottom:1px solid #fde68a;font-size:10px;font-weight:700;color:#92400e;text-align:center;letter-spacing:.04em">▼ Items below this line may be good release candidates but are missing information for a full analysis</td></tr>`;
+          noLine1=true;
+        } else if(t===2&&!noLine2){
+          cutLine=`<tr><td colspan="16" style="padding:6px 12px;background:#ffebee;border-top:2px solid #f87171;border-bottom:1px solid #fecaca;font-size:10px;font-weight:700;color:#c62828;text-align:center;letter-spacing:.04em">▼ Items below this line pose significant capacity, dependency, or historical release risks</td></tr>`;
+          noLine2=true;
+        } else if(t===3&&!noLine3){
+          cutLine=`<tr><td colspan="16" style="padding:6px 12px;background:#f1f5f9;border-top:2px solid #94a3b8;border-bottom:1px solid #e2e8f0;font-size:10px;font-weight:700;color:#475569;text-align:center;letter-spacing:.04em">▼ Items below this line lack sufficient information to be analyzed and cannot be considered for a release</td></tr>`;
+          noLine3=true;
+        }
       }
     }
-    _prevPlace=r._place;
+    _prevPlace=r._place; _prevNoTier=r._noTier||null;
     // Swing features: confidence 50–69% while in-plan — borderline, worth discussing Aug 24
     const isSwing=r._place!=='No'&&conf>=50&&conf<70;
     return cutLine+`<tr id="apv-row-${r['Key']}" style="${isSwing?'background:#fffde7;':''}" title="${isSwing?'Swing feature — confidence borderline (50–69%), worth discussing at freeze':''}">
@@ -3161,7 +3185,7 @@ function renderTbl(rows){
       <td><a class="klink" href="https://redhat.atlassian.net/browse/${r['Key']}" target="_blank">${r['Key']}</a></td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r['Title']}">${r['Title']}</td>
       <td style="max-width:140px;white-space:normal;line-height:1.4">${r._isBigRock?'<span class="br-badge">🪨 BR</span>':''}${brGapHtml}<span style="color:#555" title="${r['Outcome']||''}">${r['Outcome']||'—'}</span></td>
-      <td style="white-space:nowrap;font-size:11px;color:#555">${(()=>{const tv=(r['Target Versions']||'').trim(),fv=(r['Fix Version']||'').trim();return tv===fv||!fv?tv||fv||'—':(tv&&fv?tv+' / '+fv:tv||fv);})()}</td>
+      <td style="white-space:nowrap;font-size:11px;color:#555">${(r['Target Versions']||'').trim()||'—'}</td>
       <td title="${r['Components']}" style="max-width:160px;color:#444">${compsStr||'—'}${r._complexityWarn?`<div style="font-size:9px;color:#e65100;font-weight:700;margin-top:1px" title="${r._comps.length} components — cross-team delivery risk (spec: 6+ = complexity flag)">⚠ ${r._comps.length} comps</div>`:''}</td>
       <td style="white-space:nowrap;text-align:center"><span style="font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;background:${r._featureSize==='XL'?'#4a1a4a':r._featureSize==='L'?'#1a3a4a':r._featureSize==='M'?'#1a3a1a':'#2a2a1a'};color:${r._featureSize==='XL'?'#e040fb':r._featureSize==='L'?'#40c4ff':r._featureSize==='M'?'#69f0ae':'#ffee58'}">${r._featureSize}</span><span style="font-size:9px;color:#888;margin-left:3px">${r._featurePts}pt</span></td>
       ${(()=>{const a=_loadApprovals();const apv=a[r['Key']]||{pm:false,do:false};const isBelowCut=r._place==='No';const showRisk=apv.pm&&apv.do&&(r._riskLevel==='HIGH'||isBelowCut)&&!apv.pendingRisk;const riskPending=apv.pendingRisk&&!apv.riskAccepted;const riskAccepted=apv.riskAccepted;return `<td style="text-align:center"><input id="apv-pm-${r['Key']}" type="checkbox" ${apv.pm?'checked':''} onchange="toggleApproval('${r['Key']}','pm')" title="PM Recommendation — check when you recommend this feature for the plan"></td><td style="text-align:center"><input id="apv-do-${r['Key']}" type="checkbox" ${apv.do?'checked':''} onchange="toggleApproval('${r['Key']}','do')" title="Delivery Owner Recommendation — both PM and DO must recommend before the feature can be added to the plan"></td><td id="apv-risk-cell-${r['Key']}" style="text-align:center">${showRisk?`<button onclick="markPendingRisk('${r['Key']}')" style="font-size:10px;padding:2px 6px;background:#fff3e0;border:1px solid #ef6c00;color:#e65100;border-radius:3px;cursor:pointer;white-space:nowrap">⚠ Risk Review</button>`:riskPending?`<span style="font-size:10px;color:#e65100;font-weight:600">⚠ Pending</span><br><button onclick="acceptRiskAndAdd('${r['Key']}')" style="font-size:10px;padding:2px 5px;background:#f0fdf4;border:1px solid #86efac;color:#15803d;border-radius:3px;cursor:pointer;margin-top:2px;white-space:nowrap">✓ Accept → Add to Plan</button>`:riskAccepted?'<span style="font-size:10px;color:#15803d;font-weight:600">✓ Risk accepted</span>':''}</td>`;})()}
