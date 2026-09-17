@@ -111,6 +111,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
 .tbl-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow-x:auto;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 table{width:100%;border-collapse:collapse;font-size:12px}
 #pm-tbl-wrap table{min-width:1400px;width:auto}
+#pm-tbl-wrap.cols-compact table{min-width:600px!important}
+#pm-tbl-wrap.cols-compact table tr>*:nth-child(1),
+#pm-tbl-wrap.cols-compact table tr>*:nth-child(3),
+#pm-tbl-wrap.cols-compact table tr>*:nth-child(6),
+#pm-tbl-wrap.cols-compact table tr>*:nth-child(7),
+#pm-tbl-wrap.cols-compact table tr>*:nth-child(9),
+#pm-tbl-wrap.cols-compact table tr>*:nth-child(11),
+#pm-tbl-wrap.cols-compact table tr>*:nth-child(12),
+#pm-tbl-wrap.cols-compact table tr>*:nth-child(14),
+#pm-tbl-wrap.cols-compact table tr>*:nth-child(15),
+#pm-tbl-wrap.cols-compact table tr>*:nth-child(16){display:none!important}
+#pm-tbl-wrap.cols-compact .compact-key-link{display:block!important}
+.compact-key-link{display:none;font-size:9px;margin-top:2px}
 thead{background:#f8fafc;position:sticky;top:0;z-index:1}
 th{padding:8px 10px;text-align:left;font-weight:600;color:#64748b;font-size:10px;letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid #e2e8f0;white-space:nowrap;cursor:pointer;user-select:none}
 th:hover{background:#f1f5f9}
@@ -535,6 +548,9 @@ tr:hover td{background:#f8fafc}
     <button onclick="document.getElementById('pm-tbl-wrap').scrollBy({left:-300,behavior:'smooth'})" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">← scroll</button>
     <span style="font-size:11px;color:#94a3b8">scroll table left / right</span>
     <button onclick="document.getElementById('pm-tbl-wrap').scrollBy({left:300,behavior:'smooth'})" style="font-size:11px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569">scroll →</button>
+    <span style="margin-left:auto">
+      <button id="col-compact-btn" onclick="toggleColCompact()" style="font-size:11px;padding:2px 10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;color:#475569" title="Switch between compact (5 columns) and full view">⊟ Compact</button>
+    </span>
   </div>
   <div id="pm-tbl-wrap" class="tbl-wrap">
     <table>
@@ -2670,6 +2686,12 @@ window.onload=()=>{
   applyUrlUserParam() || restoreMyComp();
   run();
   renderApprovedBadge();
+  // Restore compact column preference
+  if(localStorage.getItem('_col_compact')){
+    document.getElementById('pm-tbl-wrap')?.classList.add('cols-compact');
+    const b=document.getElementById('col-compact-btn');
+    if(b) b.textContent='⊞ Full view';
+  }
 };
 
 function loadCSV(e){
@@ -3104,6 +3126,14 @@ function renderCards(rows){
   }
 }
 
+function toggleColCompact(){
+  const wrap=document.getElementById('pm-tbl-wrap');
+  const btn=document.getElementById('col-compact-btn');
+  const isCompact=wrap.classList.toggle('cols-compact');
+  if(btn) btn.textContent=isCompact?'⊞ Full view':'⊟ Compact';
+  localStorage.setItem('_col_compact',isCompact?'1':'');
+}
+
 function scrollToFirstUnchecked(){
   const inputs=document.querySelectorAll('#tbody input[id^="apv-pm-"]');
   for(const inp of inputs){
@@ -3236,7 +3266,7 @@ function renderTbl(rows){
       ${(()=>{const reasonTooltip=[isPrecomp?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nTrained on RHOAI 3.4+3.5 history (134 committed · 122 shipped / 12 slipped). Includes prior slip record.`:isMl?`AI Delivery Signal: ${conf}% · ${freqOf10} similar features shipped on time\nApprox — no prior slip record available. Based on FPDoR completeness + priority + RICE.`:`Readiness estimate: ${conf}%\nBased on FPDoR completeness, labels, and component capacity.`,cleanReason,counterfactual?`→ ${counterfactual}`:'',isMl?(isPrecomp?'🤖 AI Signal — ML training (Random Forest)':'~🤖 No shipping history — capped at 85%'):'',r._teams?`Teams: ${r._teams.join(', ')}`:''].filter(Boolean).join('\n\n');return `<td><div class="cbar-wrap" title="${reasonTooltip.replace(/"/g,"'")}"><div class="cbar"><div class="cfill ${cCls}" style="width:${Math.min(conf,100)}%"></div></div><span class="cnum" style="font-weight:700">${confBand}</span><span class="cnum" style="color:#999;font-size:10px;margin-left:3px">${conf}%</span>${isPrecomp?'<span style="font-size:9px;font-weight:700;color:#7b1fa2;margin-left:4px" title="AI Delivery Signal — trained on 3.4+3.5 historical outcomes (includes slip record)">🤖</span>':isMl?'<span style="font-size:9px;font-weight:700;color:#9c27b0;margin-left:4px" title="AI Delivery Signal (approx) — FPDoR+priority+RICE only, no slip record">~🤖</span>':''}</div>${r._place==='No'?`<div style="font-size:9px;color:#1565c0;margin-top:3px">${(()=>{const h=[];if(!(r['Fix Version']||'').trim())h.push('Set Fix Version');if(!(r['Target Versions']||'').trim())h.push('Set Target Version');if(!(r['Release Type']||'').trim()&&!(r['Labels']||'').toLowerCase().includes('release-type'))h.push('Add Release Type');return h.length?'→ To qualify: '+h.join(' · '):'';})()}</div>`:''}</td>`;})()}
       <td style="white-space:nowrap;text-align:center">${(()=>{const p=(r['Priority']||'').trim();if(!p)return '<span style="color:#bbb">—</span>';const pc={'Blocker':'#c62828','Critical':'#c62828','Major':'#e65100','Normal':'#1565c0','Minor':'#4caf50','Undefined':'#9e9e9e'};const color=pc[p]||'#555';return '<span style="font-size:10px;font-weight:700;color:'+color+'">'+p+'</span>';})()}</td>
       <td><a class="klink" href="https://redhat.atlassian.net/browse/${r['Key']}" target="_blank">${r['Key']}</a></td>
-      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r['Title']}">${hasCrossTeamDep?'<span style="font-size:9px;font-weight:700;color:#7c3aed;background:#f3e8ff;border:1px solid #c4b5fd;border-radius:3px;padding:1px 4px;margin-right:3px;white-space:nowrap" title="Cross-team dependency flagged — external teams involved; slippage risk outside RHOAI control">⚑ deps</span>':''}${r['Title']}</td>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis" title="${r['Title']}">${hasCrossTeamDep?'<span style="font-size:9px;font-weight:700;color:#7c3aed;background:#f3e8ff;border:1px solid #c4b5fd;border-radius:3px;padding:1px 4px;margin-right:3px;white-space:nowrap" title="Cross-team dependency flagged — external teams involved; slippage risk outside RHOAI control">⚑ deps</span>':''}${r['Title']}<div class="compact-key-link"><a href="https://redhat.atlassian.net/browse/${r['Key']}" target="_blank" style="color:#94a3b8;text-decoration:none">${r['Key']}</a></div></td>
       <td style="max-width:140px;white-space:normal;line-height:1.4">${r._isBigRock?'<span class="br-badge">🪨 BR</span>':''}${brGapHtml}<span style="color:#555" title="${r['Outcome']||''}">${r['Outcome']||'—'}</span></td>
       <td style="white-space:nowrap;font-size:11px;color:#555">${(r['Target Versions']||'').trim()||'—'}</td>
       <td title="${r['Components']}" style="max-width:160px;color:#444">${compsStr||'—'}${r._complexityWarn?`<div style="font-size:9px;color:#e65100;font-weight:700;margin-top:1px" title="${r._comps.length} components — cross-team delivery risk (spec: 6+ = complexity flag)">⚠ ${r._comps.length} comps</div>`:''}</td>
